@@ -1,0 +1,86 @@
+{
+  "project_info": {
+    "project_number": "566998185266",
+    "firebase_url": "https://soscasa-ff2ab.firebaseio.com",
+    "project_id": "soscasa-ff2ab",
+    "storage_bucket": "soscasa-ff2ab.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:566998185266:android:29724f6d318d2363",
+        "android_client_info": {
+          "package_name": "br.com.magicbox"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "566998185266-ivgesa549u0o5e32j8sm00rarcqq8fpk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB5wH63VngsITr4Uv1CHj323SLUU6QLZ68"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:566998185266:android:1847cd35fc1817ef",
+        "android_client_info": {
+          "package_name": "br.com.magicbox.soscasa"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "566998185266-p6pcpg1pqlr4ldprb745d92rskdk9urq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "br.com.magicbox.soscasa",
+            "certificate_hash": "a793dfc4e6d25877b47e2661f2c84b52f01c49e9"
+          }
+        },
+        {
+          "client_id": "566998185266-ivgesa549u0o5e32j8sm00rarcqq8fpk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB5wH63VngsITr4Uv1CHj323SLUU6QLZ68"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "566998185266-ivgesa549u0o5e32j8sm00rarcqq8fpk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
