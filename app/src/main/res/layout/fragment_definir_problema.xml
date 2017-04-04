@@ -1,0 +1,31 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="br.com.magicbox.soscasa.fragment.DefinirProblemaFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <Spinner
+            android:id="@+id/areaSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            android:entries="@array/areasFake"
+        </Spinner>
+
+        <EditText
+            android:id="@+id/problemaEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+
+        <Button
+            android:id="@+id/okButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="OK"/>
+    </LinearLayout>
+</FrameLayout>

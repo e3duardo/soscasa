@@ -7,11 +7,11 @@ import java.util.Date;
  */
 
 public class Entidade  {
-    private Long id;
-    private Date cadastradoEm;
-    private Date alteradoEm;
-    private Date excluidoEm;
-    private Date excluido;
+    protected Long id;
+    protected Date cadastradoEm;
+    protected Date alteradoEm;
+    protected Date excluidoEm;
+    protected Boolean excluido;
 
     public Long getId() {
         return id;
@@ -45,11 +45,11 @@ public class Entidade  {
         this.excluidoEm = excluidoEm;
     }
 
-    public Date getExcluido() {
+    public Boolean getExcluido() {
         return excluido;
     }
 
-    public void setExcluido(Date excluido) {
+    public void setExcluido(Boolean excluido) {
         this.excluido = excluido;
     }
 

@@ -56,9 +56,9 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
         super.onStart();
 
         // Check auth on Activity start
-        if (mAuth.getCurrentUser() != null) {
-            onAuthSuccess(mAuth.getCurrentUser());
-        }
+       // if (mAuth.getCurrentUser() != null) {
+       //     onAuthSuccess(mAuth.getCurrentUser());
+      //e3duardo  }
     }
 
     private void signIn() {
@@ -122,7 +122,7 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
         writeNewUser(user.getUid(), username, user.getEmail());
 
         // Go to MainActivity
-        startActivity(new Intent(SignInActivity.this, MainActivity.class));
+        startActivity(new Intent(SignInActivity.this, ClienteActivity.class));
         finish();
     }
 

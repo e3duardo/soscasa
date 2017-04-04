@@ -27,8 +27,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".PostDetailActivity"></activity>
-    </application>
+        <activity android:name=".PostDetailActivity" />
+        <activity
+            android:name=".ClienteActivity"
+            android:label="@string/title_activity_cliente">
 
+
+
+        </activity>
+    </application>
 
 </manifest>
