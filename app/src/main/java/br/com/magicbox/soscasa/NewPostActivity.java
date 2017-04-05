@@ -18,7 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import br.com.magicbox.soscasa.models.Post;
-import br.com.magicbox.soscasa.models.User;
+import br.com.magicbox.soscasa.models.Usuario;
 
 public class NewPostActivity extends BaseActivity {
 
@@ -80,19 +80,19 @@ public class NewPostActivity extends BaseActivity {
                 new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        // Get user value
-                        User user = dataSnapshot.getValue(User.class);
+                        // Get usuario value
+                        Usuario usuario = dataSnapshot.getValue(Usuario.class);
 
                         // [START_EXCLUDE]
-                        if (user == null) {
-                            // User is null, error out
-                            Log.e(TAG, "User " + userId + " is unexpectedly null");
+                        if (usuario == null) {
+                            // Usuario is null, error out
+                            Log.e(TAG, "Usuario " + userId + " is unexpectedly null");
                             Toast.makeText(NewPostActivity.this,
-                                    "Error: could not fetch user.",
+                                    "Error: could not fetch usuario.",
                                     Toast.LENGTH_SHORT).show();
                         } else {
                             // Write new post
-                            writeNewPost(userId, user.username, title, body);
+                           /* writeNewPost(userId, usuario.username, title, body);*/
                         }
 
                         // Finish this Activity, back to the stream

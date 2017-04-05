@@ -1,7 +1,5 @@
 package br.com.magicbox.soscasa.fragment;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -11,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -24,11 +21,11 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import br.com.magicbox.soscasa.NewPostActivity;
 import br.com.magicbox.soscasa.R;
+import br.com.magicbox.soscasa.models.Area;
 import br.com.magicbox.soscasa.models.Problema;
 import br.com.magicbox.soscasa.models.StatusProblema;
-import br.com.magicbox.soscasa.models.User;
+import br.com.magicbox.soscasa.models.Usuario;
 
 import static android.content.ContentValues.TAG;
 
@@ -60,15 +57,15 @@ public class DefinirProblemaFragment extends Fragment {
                         new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
-                                // Get user value
-                                User user = dataSnapshot.getValue(User.class);
+                                // Get usuario value
+                                Usuario usuario = dataSnapshot.getValue(Usuario.class);
 
                                 // [START_EXCLUDE]
-                                if (user == null) {
-                                    // User is null, error out
-                                    Log.e(TAG, "User " + userId + " is unexpectedly null");
+                                if (usuario == null) {
+                                    // Usuario is null, error out
+                                    Log.e(TAG, "Usuario " + userId + " is unexpectedly null");
 //                                    Toast.makeText(NewPostActivity.this,
-//                                            "Error: could not fetch user.",
+//                                            "Error: could not fetch usuario.",
 //                                            Toast.LENGTH_SHORT).show();
                                 } else {
                                     // Write new post
@@ -101,18 +98,21 @@ public class DefinirProblemaFragment extends Fragment {
     }
 
     private void writeNewPost(String userId, String descricao) {
-        String key = mDatabase.child("posts").push().getKey();
+        String key = mDatabase.child("areas").push().getKey();
 
-        Problema problema = new Problema();
-        problema.setStatus(StatusProblema.PENDENTE);
-        problema.setDescricao(descricao);
-        problema.setCadastradoEm(new Date());
-        problema.setExcluido(false);
+//        Problema problema = new Problema();
+//        problema.setStatus(StatusProblema.PENDENTE);
+//        problema.setDescricao(descricao);
+//        problema.setCadastradoEm(new Date());
+//        problema.setExcluido(false);
+
+        Area problema = new Area();
+        problema.setNome(descricao);
 
         Map<String, Object> postValues = problema.toMap();
 
         Map<String, Object> childUpdates = new HashMap<>();
-        childUpdates.put("/problemas/" + key, postValues);
+        childUpdates.put("/areas/" + key, postValues);
         //childUpdates.put("/user-posts/" + userId + "/" + key, postValues);
 
         mDatabase.updateChildren(childUpdates);

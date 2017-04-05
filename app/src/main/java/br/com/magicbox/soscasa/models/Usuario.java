@@ -1,16 +1,21 @@
 package br.com.magicbox.soscasa.models;
 
-/**
- * Created by pedro on 31/03/17.
- */
+import com.google.firebase.database.IgnoreExtraProperties;
 
-public class Usuario extends Entidade {
+// [START blog_user_class]
+@IgnoreExtraProperties
+public class Usuario {
+
     private String nome;
     private String senha;
     private String email;
     private String celular;
     private String cpf;
     private Sexo sexo;
+
+    public Usuario() {
+        // Default constructor required for calls to DataSnapshot.getValue(Usuario.class)
+    }
 
     public String getNome() {
         return nome;
@@ -60,3 +65,4 @@ public class Usuario extends Entidade {
         this.sexo = sexo;
     }
 }
+

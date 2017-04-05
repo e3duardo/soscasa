@@ -25,7 +25,7 @@ import java.util.List;
 
 import br.com.magicbox.soscasa.models.Comment;
 import br.com.magicbox.soscasa.models.Post;
-import br.com.magicbox.soscasa.models.User;
+import br.com.magicbox.soscasa.models.Usuario;
 
 public class PostDetailActivity extends BaseActivity implements View.OnClickListener {
 
@@ -142,16 +142,16 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        // Get user information
-                        User user = dataSnapshot.getValue(User.class);
-                        String authorName = user.username;
+                        // Get usuario information
+                        Usuario usuario = dataSnapshot.getValue(Usuario.class);
+                        /*String authorName = usuario.username;*/
 
                         // Create new comment object
                         String commentText = mCommentField.getText().toString();
-                        Comment comment = new Comment(uid, authorName, commentText);
+                        /*Comment comment = new Comment(uid, authorName, commentText);*/
 
                         // Push the comment, it will appear in the list
-                        mCommentsReference.push().setValue(comment);
+                       /* mCommentsReference.push().setValue(comment);*/
 
                         // Clear the field
                         mCommentField.setText(null);

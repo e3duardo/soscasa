@@ -18,7 +18,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import br.com.magicbox.soscasa.models.User;
+import br.com.magicbox.soscasa.models.Usuario;
 
 public class SignInActivity extends BaseActivity implements View.OnClickListener {
 
@@ -102,7 +102,7 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        Log.d(TAG, "createUser:onComplete:" + task.isSuccessful());
+                        Log.d(TAG, "createUsuario:onComplete:" + task.isSuccessful());
                         hideProgressDialog();
 
                         if (task.isSuccessful()) {
@@ -154,10 +154,13 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
     }
 
     // [START basic_write]
-    private void writeNewUser(String userId, String name, String email) {
-        User user = new User(name, email);
+    private void writeNewUser(String usuarioID, String nome, String email) {
+        Usuario usuario = new Usuario();
 
-        mDatabase.child("users").child(userId).setValue(user);
+        usuario.setNome(nome);
+        usuario.setEmail(email);
+
+        mDatabase.child("usuarios").child(usuarioID).setValue(usuario);
     }
     // [END basic_write]
 
