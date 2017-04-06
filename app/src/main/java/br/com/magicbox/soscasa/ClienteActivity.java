@@ -7,13 +7,10 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v4.app.Fragment;
 import android.view.MenuItem;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Spinner;
 
 import br.com.magicbox.soscasa.fragment.DefinirProblemaFragment;
 import br.com.magicbox.soscasa.fragment.MeuPerfilFragment;
-import br.com.magicbox.soscasa.fragment.ProblemaFragment;
+import br.com.magicbox.soscasa.fragment.MeusProblemasFragment;
 
 public class ClienteActivity extends AppCompatActivity {
 
@@ -42,7 +39,7 @@ public class ClienteActivity extends AppCompatActivity {
                                 fragment = new DefinirProblemaFragment();
                                 break;
                             case R.id.meus_problemas:
-                                fragment = new ProblemaFragment();
+                                fragment = new MeusProblemasFragment();
                                 break;
                             case R.id.meu_perfil:
                                 fragment = new MeuPerfilFragment();

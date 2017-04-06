@@ -9,7 +9,7 @@ import java.util.Map;
  * Created by pedro on 31/03/17.
  */
 
-public class Area extends Entidade{
+public class Area {
     private String nome;
 
     public String getNome() {
@@ -26,5 +26,10 @@ public class Area extends Entidade{
         result.put("nome", nome);
 
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return nome;
     }
 }

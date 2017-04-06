@@ -9,7 +9,7 @@ import java.util.Map;
  * Created by pedro on 31/03/17.
  */
 
-public class Problema extends Entidade {
+public class Problema  {
     private String descricao;
 
     private Area area;
@@ -58,12 +58,6 @@ public class Problema extends Entidade {
         result.put("area", area);
         result.put("status", status);
         result.put("cliente", cliente);
-
-        result.put("id", id);
-        result.put("cadastradoEm", cadastradoEm);
-        result.put("alteradoEm", alteradoEm);
-        result.put("excluidoEm", excluidoEm);
-        result.put("excluido", excluido);
 
         return result;
     }

@@ -6,7 +6,7 @@ import java.math.BigDecimal;
  * Created by pedro on 31/03/17.
  */
 
-public class Negociacao extends Entidade {
+public class Negociacao  {
     private Problema problema;
     private Profissional profissional;
 

@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="16dp"
     tools:context="br.com.magicbox.soscasa.fragment.DefinirProblemaFragment">
 
     <LinearLayout
@@ -9,23 +10,30 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Area" />
+
         <Spinner
             android:id="@+id/areaSpinner"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            android:entries="@array/areasFake"
-        </Spinner>
+            android:layout_height="wrap_content"></Spinner>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Problema" />
 
         <EditText
             android:id="@+id/problemaEditText"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            />
+            android:layout_height="wrap_content" />
 
         <Button
             android:id="@+id/okButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="OK"/>
+            android:text="OK" />
     </LinearLayout>
 </FrameLayout>
