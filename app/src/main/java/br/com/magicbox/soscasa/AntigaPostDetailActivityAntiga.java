@@ -27,9 +27,9 @@ import br.com.magicbox.soscasa.models.Comment;
 import br.com.magicbox.soscasa.models.Post;
 import br.com.magicbox.soscasa.models.Usuario;
 
-public class PostDetailActivity extends BaseActivity implements View.OnClickListener {
+public class AntigaPostDetailActivityAntiga extends AntigaBaseActivity implements View.OnClickListener {
 
-    private static final String TAG = "PostDetailActivity";
+    private static final String TAG = "AntigaPostDetailActivityAntiga";
 
     public static final String EXTRA_POST_KEY = "post_key";
 
@@ -49,7 +49,7 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_post_detail);
+        setContentView(R.layout.activity_antiga_post_detail);
 
         // Get post key from intent
         mPostKey = getIntent().getStringExtra(EXTRA_POST_KEY);
@@ -99,7 +99,7 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
                 // Getting Post failed, log a message
                 Log.w(TAG, "loadPost:onCancelled", databaseError.toException());
                 // [START_EXCLUDE]
-                Toast.makeText(PostDetailActivity.this, "Failed to load post.",
+                Toast.makeText(AntigaPostDetailActivityAntiga.this, "Failed to load post.",
                         Toast.LENGTH_SHORT).show();
                 // [END_EXCLUDE]
             }

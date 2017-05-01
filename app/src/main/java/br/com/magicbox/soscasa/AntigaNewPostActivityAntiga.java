@@ -20,9 +20,9 @@ import java.util.Map;
 import br.com.magicbox.soscasa.models.Post;
 import br.com.magicbox.soscasa.models.Usuario;
 
-public class NewPostActivity extends BaseActivity {
+public class AntigaNewPostActivityAntiga extends AntigaBaseActivity {
 
-    private static final String TAG = "NewPostActivity";
+    private static final String TAG = "AntigaNewPostActivityAntiga";
     private static final String REQUIRED = "Required";
 
     // [START declare_database_ref]
@@ -36,7 +36,7 @@ public class NewPostActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_post);
+        setContentView(R.layout.activity_antiga_new_post);
 
         // [START initialize_database_ref]
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -87,7 +87,7 @@ public class NewPostActivity extends BaseActivity {
                         if (usuario == null) {
                             // Usuario is null, error out
                             Log.e(TAG, "Usuario " + userId + " is unexpectedly null");
-                            Toast.makeText(NewPostActivity.this,
+                            Toast.makeText(AntigaNewPostActivityAntiga.this,
                                     "Error: could not fetch usuario.",
                                     Toast.LENGTH_SHORT).show();
                         } else {

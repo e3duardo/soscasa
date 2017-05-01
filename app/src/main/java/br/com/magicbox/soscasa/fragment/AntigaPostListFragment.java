@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
@@ -20,16 +19,15 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.Transaction;
-import com.google.firebase.database.ValueEventListener;
 
-import br.com.magicbox.soscasa.PostDetailActivity;
+import br.com.magicbox.soscasa.AntigaPostDetailActivityAntiga;
 import br.com.magicbox.soscasa.R;
 import br.com.magicbox.soscasa.models.Post;
 import br.com.magicbox.soscasa.viewholder.PostViewHolder;
 
-public abstract class PostListFragment extends Fragment {
+public abstract class AntigaPostListFragment extends Fragment {
 
-    private static final String TAG = "PostListFragment";
+    private static final String TAG = "AntigaPostListFragment";
 
     // [START define_database_reference]
     private DatabaseReference mDatabase;
@@ -39,13 +37,13 @@ public abstract class PostListFragment extends Fragment {
     private RecyclerView mRecycler;
     private LinearLayoutManager mManager;
 
-    public PostListFragment() {}
+    public AntigaPostListFragment() {}
 
     @Override
     public View onCreateView (LayoutInflater inflater, ViewGroup container,
                               Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        View rootView = inflater.inflate(R.layout.fragment_all_posts, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_antiga_all_posts, container, false);
 
         // [START create_database_reference]
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -80,9 +78,9 @@ public abstract class PostListFragment extends Fragment {
                 viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        // Launch PostDetailActivity
-                        Intent intent = new Intent(getActivity(), PostDetailActivity.class);
-                        intent.putExtra(PostDetailActivity.EXTRA_POST_KEY, postKey);
+                        // Launch AntigaPostDetailActivityAntiga
+                        Intent intent = new Intent(getActivity(), AntigaPostDetailActivityAntiga.class);
+                        intent.putExtra(AntigaPostDetailActivityAntiga.EXTRA_POST_KEY, postKey);
                         startActivity(intent);
                     }
                 });

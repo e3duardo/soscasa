@@ -3,9 +3,9 @@ package br.com.magicbox.soscasa.fragment;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;
 
-public class RecentPostsFragment extends PostListFragment {
+public class AntigaRecentPostsFragment extends AntigaPostListFragment {
 
-    public RecentPostsFragment() {}
+    public AntigaRecentPostsFragment() {}
 
     @Override
     public Query getQuery(DatabaseReference databaseReference) {

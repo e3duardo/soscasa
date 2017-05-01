@@ -1,0 +1,65 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16sp"
+    tools:context="br.com.magicbox.soscasa.fragment.LoginFragment">
+
+
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30sp"
+        android:src="@drawable/logo"
+        android:layout_gravity="center_horizontal"/>
+
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnCount="2"
+        android:rowCount="2"
+        android:layout_gravity="bottom"
+        android:layout_centerHorizontal="true">
+
+        <com.facebook.login.widget.LoginButton
+            android:id="@+id/button_entrar_facebook"
+            android:layout_column="0"
+            android:layout_row="0"
+            android:layout_gravity="fill"
+            android:paddingTop="15sp"
+            android:paddingBottom="15sp"
+            android:layout_margin="3sp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"/>
+
+        <com.google.android.gms.common.SignInButton
+            android:id="@+id/button_entrar_google"
+            android:layout_column="1"
+            android:layout_row="0"
+            android:layout_gravity="fill"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"/>
+
+        <Button
+            android:id="@+id/button_entrar_email"
+            android:layout_gravity="fill"
+            android:text="Entrar com email"
+            android:layout_column="0"
+            android:layout_row="1"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"/>
+
+        <Button
+            android:id="@+id/button_cadastrar"
+            android:layout_gravity="fill"
+            android:text="Cadastrar"
+            android:layout_column="1"
+            android:layout_row="1"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"/>
+    </GridLayout>
+
+</FrameLayout>

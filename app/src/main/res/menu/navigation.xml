@@ -4,16 +4,16 @@
     <item
         android:id="@+id/definir_problema"
         android:icon="@drawable/ic_home_black_24dp"
-        android:title="@string/title_home" />
+        android:title="Definir problemas" />
 
     <item
         android:id="@+id/meus_problemas"
         android:icon="@drawable/ic_dashboard_black_24dp"
-        android:title="@string/title_dashboard" />
+        android:title="Meus problemas" />
 
     <item
         android:id="@+id/meu_perfil"
         android:icon="@drawable/ic_notifications_black_24dp"
-        android:title="@string/title_notifications" />
+        android:title="Meu perfil" />
 
 </menu>
