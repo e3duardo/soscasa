@@ -1,6 +1,5 @@
 package br.com.magicbox.soscasa.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,7 +7,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
@@ -16,11 +14,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
-import br.com.magicbox.soscasa.AntigaPostDetailActivityAntiga;
 import br.com.magicbox.soscasa.R;
-import br.com.magicbox.soscasa.models.Post;
 import br.com.magicbox.soscasa.models.Problema;
-import br.com.magicbox.soscasa.viewholder.PostViewHolder;
 import br.com.magicbox.soscasa.viewholder.ProblemaViewHolder;
 
 public class MeusProblemasFragment extends Fragment {

@@ -2,11 +2,9 @@ package br.com.magicbox.soscasa.viewholder;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import br.com.magicbox.soscasa.R;
-import br.com.magicbox.soscasa.models.Post;
 import br.com.magicbox.soscasa.models.Problema;
 
 
