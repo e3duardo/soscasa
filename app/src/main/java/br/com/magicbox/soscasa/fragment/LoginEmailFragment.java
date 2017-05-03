@@ -23,6 +23,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import br.com.magicbox.soscasa.R;
 import br.com.magicbox.soscasa.Util;
+import br.com.magicbox.soscasa.models.Usuario;
 
 import static android.content.ContentValues.TAG;
 

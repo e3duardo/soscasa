@@ -4,7 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import br.com.magicbox.soscasa.models.Usuario;
 
@@ -13,31 +17,35 @@ import br.com.magicbox.soscasa.models.Usuario;
  */
 
 public class Util {
-    public static void onAuthSuccess(Context context, DatabaseReference mDatabase, FirebaseUser user) {
-        String username = usernameFromEmail(user.getEmail());
+    public static void onAuthSuccess(Context context, DatabaseReference mDatabase, FirebaseUser user, Usuario usuario) {
+        writeNewUser(mDatabase, user.getUid(), usuario);
 
-        // Write new user
-        writeNewUser(mDatabase, user.getUid(), username, user.getEmail());
-
-        // Go to AntigaMainActivityAntiga
-        context.startActivity(new Intent(context, ClienteActivity.class));
+        if(usuario.getEhProfissional())
+            context.startActivity(new Intent(context, ProfissionalActivity.class));
+        else
+            context.startActivity(new Intent(context, ClienteActivity.class));
         //context.finish();
     }
+    public static void onAuthSuccess(final Context context, final DatabaseReference mDatabase, final FirebaseUser user) {
 
-    private static String usernameFromEmail(String email) {
-        if (email.contains("@")) {
-            return email.split("@")[0];
-        } else {
-            return email;
-        }
+        mDatabase.child("usuarios")
+                .child(user.getUid()).addListenerForSingleValueEvent(
+                new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        onAuthSuccess(context, mDatabase, user, dataSnapshot.getValue(Usuario.class));
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
     }
 
-    private static void writeNewUser(DatabaseReference mDatabase, String usuarioID, String nome, String email) {
-        Usuario usuario = new Usuario();
 
-        usuario.setNome(nome);
-        usuario.setEmail(email);
 
+    public static void writeNewUser(DatabaseReference mDatabase, String usuarioID, Usuario usuario) {
         mDatabase.child("usuarios").child(usuarioID).setValue(usuario);
     }
 }

@@ -15,16 +15,23 @@
         android:layout_height="wrap_content"
         android:hint="Nome completo"/>
 
-    <EditText
-        android:id="@+id/editText_registrar_email"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="E-mail"/>
+        <EditText
+            android:id="@+id/editText_registrar_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="E-mail"/>
+
+        <EditText
+            android:id="@+id/editText_registrar_celular"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Celular"/>
 
     <EditText
         android:id="@+id/editText_registrar_senha"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:inputType="textPassword"
         android:hint="Senha"/>
     </LinearLayout>
 

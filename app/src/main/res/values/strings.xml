@@ -1,5 +1,6 @@
 <resources>
     <string name="facebook_app_id">1376182409108734</string>
+    <string name="maps_app_id">AIzaSyDeOnyvpvqE-rcP_uD_FXICkdFxm-TMfaw</string>
 
 
     <string name="app_name">SoSCasa</string>
@@ -24,4 +25,5 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_profissional">ProfissionalActivity</string>
 </resources>

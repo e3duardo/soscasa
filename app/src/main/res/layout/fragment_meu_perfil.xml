@@ -24,23 +24,49 @@
             android:text="Email" />
         <EditText
             android:id="@+id/editText_perfil_email"
+            android:enabled="false"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
-
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Senha" />
+            android:text="Celular" />
         <EditText
-            android:id="@+id/editText_perfil_senha"
+            android:id="@+id/editText_perfil_celular"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <LinearLayout
+            android:id="@+id/campos_profissional"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPassword"/>
+            android:orientation="vertical"
+            android:visibility="gone"
+            >
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Área" />
+            <Spinner
+                android:id="@+id/areaSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"></Spinner>
+        </LinearLayout>
+
         <Button
-            android:id="@+id/button_perfil_ok"
+            android:id="@+id/button_perfil_profissional"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="OK" />
+            android:text="Sou um profissional"
+            android:layout_marginTop="20sp"/>
+
     </LinearLayout>
+
+    <Button
+        android:id="@+id/button_perfil_ok"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="OK"
+        android:layout_gravity="bottom"/>
 
 </FrameLayout>

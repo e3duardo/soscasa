@@ -1,5 +1,7 @@
 package br.com.magicbox.soscasa.models;
 
+import android.widget.EditText;
+
 import com.google.firebase.database.IgnoreExtraProperties;
 
 // [START blog_user_class]
@@ -7,14 +9,22 @@ import com.google.firebase.database.IgnoreExtraProperties;
 public class Usuario {
 
     private String nome;
-    private String senha;
     private String email;
     private String celular;
-    private String cpf;
-    private Sexo sexo;
+
+    private Area area;
+    private Boolean ehProfissional;
 
     public Usuario() {
         // Default constructor required for calls to DataSnapshot.getValue(Usuario.class)
+    }
+
+    public Usuario(String nome, String email, String celular) {
+        this.area = null;
+        this.ehProfissional = false;
+        this.nome = nome;
+        this.email = email;
+        this.celular = celular;
     }
 
     public String getNome() {
@@ -23,14 +33,6 @@ public class Usuario {
 
     public void setNome(String nome) {
         this.nome = nome;
-    }
-
-    public String getSenha() {
-        return senha;
-    }
-
-    public void setSenha(String senha) {
-        this.senha = senha;
     }
 
     public String getEmail() {
@@ -49,20 +51,21 @@ public class Usuario {
         this.celular = celular;
     }
 
-    public String getCpf() {
-        return cpf;
+
+    public Area getArea() {
+        return area;
     }
 
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
+    public void setArea(Area area) {
+        this.area = area;
     }
 
-    public Sexo getSexo() {
-        return sexo;
+    public Boolean getEhProfissional() {
+        return ehProfissional;
     }
 
-    public void setSexo(Sexo sexo) {
-        this.sexo = sexo;
+    public void setEhProfissional(Boolean ehProfissional) {
+        this.ehProfissional = ehProfissional;
     }
 }
 

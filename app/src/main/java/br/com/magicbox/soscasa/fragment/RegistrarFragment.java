@@ -24,6 +24,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import br.com.magicbox.soscasa.EntrarActivity;
 import br.com.magicbox.soscasa.R;
 import br.com.magicbox.soscasa.Util;
+import br.com.magicbox.soscasa.models.Usuario;
 
 import static android.content.ContentValues.TAG;
 
@@ -31,11 +32,14 @@ public class RegistrarFragment extends Fragment {
 
     private EditText nome;
     private EditText email;
+    private EditText celular;
     private EditText senha;
     private Button registrar;
 
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
+
+    private Usuario usuario;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -44,6 +48,7 @@ public class RegistrarFragment extends Fragment {
 
         nome = (EditText) view.findViewById(R.id.editText_registrar_nome);
         email = (EditText) view.findViewById(R.id.editText_registrar_email);
+        celular = (EditText) view.findViewById(R.id.editText_registrar_celular);
         senha = (EditText) view.findViewById(R.id.editText_registrar_senha);
         registrar = (Button) view.findViewById(R.id.button_registrar);
 
@@ -57,16 +62,17 @@ public class RegistrarFragment extends Fragment {
                     return;
                 }
 
+                usuario = new Usuario(nome.getText().toString(), email.getText().toString(), celular.getText().toString());
+
                 mAuth.createUserWithEmailAndPassword(email.getText().toString(), senha.getText().toString())
                         .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
-                                Log.d(TAG, "createUsuario:onComplete:" + task.isSuccessful());
 
                                 if (task.isSuccessful()) {
-                                    Util.onAuthSuccess(getActivity(), mDatabase, task.getResult().getUser());
+                                    Util.onAuthSuccess(getActivity(), mDatabase, task.getResult().getUser(), usuario);
                                 } else {
-                                    Toast.makeText(getActivity(), "Sign Up Failed",
+                                    Toast.makeText(getActivity(), "Falha no login",
                                             Toast.LENGTH_SHORT).show();
                                 }
                             }
