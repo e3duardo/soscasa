@@ -16,7 +16,10 @@ public class Problema  {
 
     private StatusProblema status;
 
-    private Cliente cliente;
+    private Usuario cliente;
+
+    public Problema() {
+    }
 
 
     public String getDescricao() {
@@ -43,14 +46,6 @@ public class Problema  {
         this.status = status;
     }
 
-    public Cliente getCliente() {
-        return cliente;
-    }
-
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
-    }
-
     @Exclude
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
@@ -60,5 +55,11 @@ public class Problema  {
         result.put("cliente", cliente);
 
         return result;
+    }
+    public Usuario getCliente() {
+        return cliente;
+    }
+    public void setCliente(Usuario cliente) {
+        this.cliente = cliente;
     }
 }

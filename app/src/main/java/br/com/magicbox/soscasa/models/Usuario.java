@@ -8,6 +8,8 @@ import com.google.firebase.database.IgnoreExtraProperties;
 @IgnoreExtraProperties
 public class Usuario {
 
+    private String gui;
+
     private String nome;
     private String email;
     private String celular;
@@ -66,6 +68,14 @@ public class Usuario {
 
     public void setEhProfissional(Boolean ehProfissional) {
         this.ehProfissional = ehProfissional;
+    }
+
+    public String getGui() {
+        return gui;
+    }
+
+    public void setGui(String gui) {
+        this.gui = gui;
     }
 }
 

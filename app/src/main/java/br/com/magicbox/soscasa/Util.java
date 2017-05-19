@@ -34,6 +34,7 @@ public class Util {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         onAuthSuccess(context, mDatabase, user, dataSnapshot.getValue(Usuario.class));
+
                     }
 
                     @Override
@@ -46,6 +47,7 @@ public class Util {
 
 
     public static void writeNewUser(DatabaseReference mDatabase, String usuarioID, Usuario usuario) {
+        usuario.setGui(usuarioID);
         mDatabase.child("usuarios").child(usuarioID).setValue(usuario);
     }
 }

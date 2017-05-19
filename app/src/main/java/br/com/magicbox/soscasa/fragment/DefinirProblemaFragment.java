@@ -64,7 +64,7 @@ public class DefinirProblemaFragment extends Fragment {
                             Log.e(TAG, "Usuario " + userId + " is unexpectedly null");
                             Toast.makeText(getActivity(), "Error: could not fetch usuario.", Toast.LENGTH_SHORT).show();
                         } else {
-                            writeNewProblema(problemaEditText.getText().toString(), (Area) areaSpinner.getSelectedItem());
+                            writeNewProblema(problemaEditText.getText().toString(), (Area) areaSpinner.getSelectedItem(), usuario);
                         }
                     }
 
@@ -101,19 +101,22 @@ public class DefinirProblemaFragment extends Fragment {
         return view;
     }
 
-    private void writeNewProblema(String descricao, Area area) {
+    private void writeNewProblema(String descricao, Area area, Usuario cliente) {
         String key = mDatabase.child("problemas").push().getKey();
 
         Problema problema = new Problema();
         problema.setStatus(StatusProblema.PENDENTE);
         problema.setDescricao(descricao);
         problema.setArea(area);
+        problema.setCliente(cliente);
+
+        mDatabase.child("problemas").child(key).setValue(problema);
 
         Toast.makeText(getActivity(), "novo problema: " + problema.getDescricao() + " " + problema.getArea().getNome(), Toast.LENGTH_SHORT).show();
 
-        Map<String, Object> childUpdates = new HashMap<>();
-        childUpdates.put("/problemas/" + key, problema.toMap());
+//        Map<String, Object> childUpdates = new HashMap<>();
+//        childUpdates.put("/problemas/" + key, problema.toMap());
 
-        mDatabase.updateChildren(childUpdates);
+//        mDatabase.updateChildren(childUpdates);
     }
 }
