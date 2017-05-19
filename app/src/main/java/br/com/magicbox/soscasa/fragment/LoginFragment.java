@@ -5,16 +5,21 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
+import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -22,8 +27,22 @@ import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FacebookAuthProvider;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.concurrent.Executor;
 
 import br.com.magicbox.soscasa.R;
+import br.com.magicbox.soscasa.Util;
+
+import static android.content.ContentValues.TAG;
 
 
 public class LoginFragment extends Fragment {
@@ -40,6 +59,15 @@ public class LoginFragment extends Fragment {
     private FragmentManager fragmentManager;
     private CallbackManager callbackManager;
 
+    private EditText email;
+    private EditText senha;
+    private Button continuar;
+
+    private DatabaseReference mDatabase;
+    private FirebaseAuth mAuth;
+
+    private FirebaseAuth.AuthStateListener mAuthStateListener;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -50,13 +78,24 @@ public class LoginFragment extends Fragment {
         fragmentManager = myContext.getSupportFragmentManager();
         callbackManager = CallbackManager.Factory.create();
 
+
+        email = (EditText) view.findViewById(R.id.editText_login_email);
+        senha = (EditText) view.findViewById(R.id.editText_login_senha);
+        continuar = (Button) view.findViewById(R.id.button_login_email);
+
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mAuth = FirebaseAuth.getInstance();
+
         entrarFacebook = (LoginButton) view.findViewById(R.id.button_entrar_facebook);
         entrarFacebook.setReadPermissions("email");
         entrarFacebook.setFragment(this);
+        entrarFacebook.setReadPermissions("email","public_profile");
         entrarFacebook.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 Toast.makeText(getContext(), "facebook login", Toast.LENGTH_LONG).show();
+
+               handleFacebookAccessToken (loginResult.getAccessToken());
             }
 
             @Override
@@ -81,16 +120,29 @@ public class LoginFragment extends Fragment {
                                           }
         );
 
-        entrarEmail = (Button) view.findViewById(R.id.button_entrar_email);
+        entrarEmail = (Button) view.findViewById(R.id.button_login_email);
         entrarEmail.setOnClickListener(new View.OnClickListener() {
                                               @Override
                                               public void onClick(View v) {
-                                                  fragment = new LoginEmailFragment();
+                                                  if (!validateForm()) {
+                                                      return;
+                                                  }
 
-                                                  final FragmentTransaction transaction = fragmentManager.beginTransaction();
-                                                  transaction.replace(R.id.entrar_container, fragment);
-                                                  transaction.addToBackStack(fragment.getClass().getName());
-                                                  transaction.commit();
+                                                  mAuth.signInWithEmailAndPassword(email.getText().toString(), senha.getText().toString())
+                                                          .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
+                                                              @Override
+                                                              public void onComplete(@NonNull Task<AuthResult> task) {
+                                                                  Log.d(TAG, "signIn:onComplete:" + task.isSuccessful());
+
+                                                                  if (task.isSuccessful()) {
+                                                                      Util.onAuthSuccess(getActivity(), mDatabase, task.getResult().getUser());
+                                                                  } else {
+                                                                      Toast.makeText(getActivity(), "Sign In Failed",
+                                                                              Toast.LENGTH_SHORT).show();
+                                                                  }
+                                                              }
+                                                          });
+
                                               }
                                           }
         );
@@ -109,7 +161,36 @@ public class LoginFragment extends Fragment {
                                           }
         );
 
+        mAuthStateListener = new FirebaseAuth.AuthStateListener(){
+
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+
+                    Util.onAuthSuccess(getActivity(), mDatabase, user);
+
+            }
+        };
+
+
         return view;
+    }
+
+    private void handleFacebookAccessToken(AccessToken token){
+        AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
+        mAuth.signInWithCredential(credential).addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
+
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()) {
+                    Util.onAuthSuccess(getActivity(), mDatabase, task.getResult().getUser());
+                } else {
+                    Toast.makeText(getActivity(), "Sign In Failed",
+                            Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
     }
 
     @Override
@@ -118,6 +199,24 @@ public class LoginFragment extends Fragment {
         super.onAttach(activity);
     }
 
+    private boolean validateForm() {
+        boolean result = true;
+        if (TextUtils.isEmpty(email.getText().toString())) {
+            email.setError("Required");
+            result = false;
+        } else {
+            email.setError(null);
+        }
+
+        if (TextUtils.isEmpty(senha.getText().toString())) {
+            senha.setError("Required");
+            result = false;
+        } else {
+            senha.setError(null);
+        }
+
+        return result;
+    }
 
 
 }
