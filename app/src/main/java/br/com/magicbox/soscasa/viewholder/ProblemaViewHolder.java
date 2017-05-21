@@ -27,7 +27,7 @@ public class ProblemaViewHolder extends RecyclerView.ViewHolder {
         authorView = (TextView) itemView.findViewById(R.id.problema_text);
     }
 
-    public void bindToPost(DatabaseReference mDatabase,Problema problema) {
+    public void bindToPost(DatabaseReference mDatabase, Problema problema) {
 
         mDatabase.child("areas").child(problema.getAreaUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

@@ -10,18 +10,15 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;
 
-import br.com.magicbox.soscasa.ClienteActivity;
 import br.com.magicbox.soscasa.NegociacaoActivity;
-import br.com.magicbox.soscasa.ProblemaActivity;
 import br.com.magicbox.soscasa.ProfissionalActivity;
 import br.com.magicbox.soscasa.R;
 import br.com.magicbox.soscasa.models.Negociacao;
-import br.com.magicbox.soscasa.models.Problema;
 import br.com.magicbox.soscasa.viewholder.NegociacaoViewHolder;
-import br.com.magicbox.soscasa.viewholder.ProblemaViewHolder;
 
 public class MinhasNegociacoesFragment extends Fragment {
 
@@ -58,6 +55,13 @@ public class MinhasNegociacoesFragment extends Fragment {
 
         mAdapter = new FirebaseRecyclerAdapter<Negociacao, NegociacaoViewHolder>(Negociacao.class, R.layout.item_negociacao,
                 NegociacaoViewHolder.class, postsQuery) {
+
+            @Override
+            protected Negociacao parseSnapshot(DataSnapshot snapshot) {
+                Negociacao negociacao = super.parseSnapshot(snapshot);
+                negociacao.setUid(snapshot.getKey());
+                return negociacao;
+            }
 
             @Override
             protected void populateViewHolder(final NegociacaoViewHolder viewHolder, final Negociacao model, final int position) {

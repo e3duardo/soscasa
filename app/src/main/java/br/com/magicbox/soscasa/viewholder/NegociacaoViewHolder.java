@@ -10,7 +10,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
 import br.com.magicbox.soscasa.R;
-import br.com.magicbox.soscasa.models.Area;
 import br.com.magicbox.soscasa.models.Negociacao;
 import br.com.magicbox.soscasa.models.Problema;
 import br.com.magicbox.soscasa.models.Usuario;

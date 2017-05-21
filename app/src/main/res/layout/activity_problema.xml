@@ -9,51 +9,84 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="8sp">
+        android:padding="10dp">
 
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Área: "
+            android:textStyle="bold" />
         <TextView
             android:id="@+id/problema_detail_area"
-            style="@style/TextAppearance.AppCompat.Medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="1"
-            android:textStyle="bold"
-            tools:text="My First Post" />
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            tools:text="..." />
+
 
         <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Status: "
+            android:textStyle="bold" />
+        <TextView
+            android:id="@+id/problema_detail_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            tools:text="..." />
+
+       <!-- <TextView
             android:id="@+id/problema_detail_cliente"
-            style="@style/TextAppearance.AppCompat.Medium"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:textStyle="bold"
-            tools:text="Usuario" />
-
-        <TextView
-            android:id="@+id/problema_detail_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textStyle="bold"
+            tools:text="Cliente" /> -->
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Descrição: "
+            android:textStyle="bold" />
+        <TextView
+            android:id="@+id/problema_detail_descricao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
             tools:text="@string/lorem" />
+
+
 
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:textStyle="bold"
-            android:text="Negociações"/>
+            android:layout_marginTop="10dp"
+            android:text="Negociações: "
+            android:textStyle="bold" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/negociacoes_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_alignParentTop="true"
             android:clipToPadding="false"
-            android:padding="5dp"
             android:scrollbars="vertical"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
             tools:listitem="@layout/item_negociacao" />
 
     </LinearLayout>

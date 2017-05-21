@@ -21,6 +21,7 @@ import com.google.firebase.database.ValueEventListener;
 import br.com.magicbox.soscasa.ClienteActivity;
 import br.com.magicbox.soscasa.ProblemaActivity;
 import br.com.magicbox.soscasa.R;
+import br.com.magicbox.soscasa.models.Negociacao;
 import br.com.magicbox.soscasa.models.Problema;
 import br.com.magicbox.soscasa.models.Usuario;
 import br.com.magicbox.soscasa.viewholder.ProblemaViewHolder;
@@ -56,10 +57,17 @@ public class MeusProblemasFragment extends Fragment {
         mManager.setStackFromEnd(true);
         mRecycler.setLayoutManager(mManager);
 
-        Query postsQuery = getQuery(activity.getDatabase());
+        final Query postsQuery = getQuery(activity.getDatabase());
 
         mAdapter = new FirebaseRecyclerAdapter<Problema, ProblemaViewHolder>(Problema.class, R.layout.item_problema,
                 ProblemaViewHolder.class, postsQuery) {
+
+            @Override
+            protected Problema parseSnapshot(DataSnapshot snapshot) {
+                Problema problema = super.parseSnapshot(snapshot);
+                problema.setUid(snapshot.getKey());
+                return problema;
+            }
 
             @Override
             protected void populateViewHolder(final ProblemaViewHolder viewHolder, final Problema model, final int position) {

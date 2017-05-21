@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
+    android:padding="10dp"
     tools:context="br.com.magicbox.soscasa.fragment.DefinirProblemaFragment">
 
     <LinearLayout
@@ -13,22 +13,32 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Area" />
+            android:layout_marginLeft="4sp"
+            android:text="Selecione uma área"
+            android:textSize="12sp"/>
 
         <Spinner
             android:id="@+id/areaSpinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"></Spinner>
 
-        <TextView
+
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/to_text_input_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Problema" />
+            android:layout_marginTop="20dp">
 
-        <EditText
-            android:id="@+id/problemaEditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            <AutoCompleteTextView
+                android:id="@+id/problemaEditText"
+                android:layout_width="fill_parent"
+                android:layout_height="100sp"
+                android:gravity="top"
+                android:hint="Informe seu problema"
+                android:maxLines="5" />
+        </android.support.design.widget.TextInputLayout>
+
 
         <Button
             android:id="@+id/okButton"

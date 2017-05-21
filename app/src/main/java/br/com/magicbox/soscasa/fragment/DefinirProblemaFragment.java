@@ -18,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -49,7 +50,7 @@ import static android.content.Context.LOCATION_SERVICE;
 public class DefinirProblemaFragment extends Fragment  {
 
     private Spinner areaSpinner;
-    private EditText problemaEditText;
+    private AutoCompleteTextView problemaEditText;
     private Button okButton;
 
     private ClienteActivity activity;
@@ -67,7 +68,7 @@ public class DefinirProblemaFragment extends Fragment  {
         View view = inflater.inflate(R.layout.fragment_definir_problema, container, false);
 
         areaSpinner = (Spinner) view.findViewById(R.id.areaSpinner);
-        problemaEditText = (EditText) view.findViewById(R.id.problemaEditText);
+        problemaEditText = (AutoCompleteTextView) view.findViewById(R.id.problemaEditText);
         okButton = (Button) view.findViewById(R.id.okButton);
 
         okButton.setOnClickListener(new View.OnClickListener() {
