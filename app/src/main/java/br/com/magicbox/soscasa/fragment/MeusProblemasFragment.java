@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.Query;
@@ -29,30 +30,31 @@ public class MeusProblemasFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        View view = inflater.inflate(R.layout.fragment_meus_problemas, container, false);
+
         activity = (ClienteActivity) getActivity();
 
-        View view = inflater.inflate(R.layout.fragment_meus_problemas, container, false);
+        mManager = new LinearLayoutManager(activity);
+        mManager.setReverseLayout(true);
+        mManager.setStackFromEnd(true);
 
         mRecycler = (RecyclerView) view.findViewById(R.id.problemas_list);
         mRecycler.setHasFixedSize(true);
+        mRecycler.setLayoutManager(mManager);
 
         return view;
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-        mManager = new LinearLayoutManager(activity);
-        mManager.setReverseLayout(true);
-        mManager.setStackFromEnd(true);
-        mRecycler.setLayoutManager(mManager);
+    public void onStart() {
+        super.onStart();
 
         final Query query = activity.getDatabase().child("problemas")
                 .orderByChild("cliente").equalTo(activity.getUsuario().getUid());
 
-
         mRecycler.setAdapter(new ProblemaAdapter(activity, query, activity.getUsuario()));
+
+//        Toast.makeText(getActivity(), "sequence1", Toast.LENGTH_SHORT).show();
     }
 
     @Override

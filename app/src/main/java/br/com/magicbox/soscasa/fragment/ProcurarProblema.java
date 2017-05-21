@@ -35,21 +35,26 @@ import br.com.magicbox.soscasa.models.StatusProblema;
 public class ProcurarProblema extends Fragment implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
     private ProfissionalActivity activity;
-
     private GoogleMap mMap;
-
     private List<String> problemasEnvolvidosUid = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        activity = (ProfissionalActivity) getActivity();
-
         View view = inflater.inflate(R.layout.fragment_procurar_problema, container, false);
+
+        activity = (ProfissionalActivity) getActivity();
 
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
 
         activity.getDatabase().child("negociacoes")
                 .orderByChild("profissional").equalTo(FirebaseAuth.getInstance().getCurrentUser().getUid()).addChildEventListener(new ChildEventListener() {
@@ -78,10 +83,7 @@ public class ProcurarProblema extends Fragment implements OnMapReadyCallback, Go
 
             }
         });
-
-        return view;
     }
-
 
 
     @Override
@@ -90,52 +92,48 @@ public class ProcurarProblema extends Fragment implements OnMapReadyCallback, Go
 
         mMap.setOnMarkerClickListener(this);
 
-
         activity.getDatabase().child("problemas")
                 //.equalTo(activity.getUsuario().getAreaUid(),"area")
                 //.orderByChild("status").equalTo(StatusProblema.SOLICITADO.toString())
 
                 .orderByChild("area").equalTo(activity.getUsuario().getAreaUid())
                 .addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                Problema problema = dataSnapshot.getValue(Problema.class);
-                problema.setUid(dataSnapshot.getKey());
+                    @Override
+                    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                        Problema problema = dataSnapshot.getValue(Problema.class);
+                        problema.setUid(dataSnapshot.getKey());
 
-                if(StatusProblema.SOLICITADO.equals(problema.getStatus()) && !problemasEnvolvidosUid.contains(problema.getUid())){
-                    LatLng mark = new LatLng(problema.getLatitude(), problema.getLongitude());
-                    MarkerOptions marker = new MarkerOptions().position(mark).title(problema.getDescricao());
-                    mMap.addMarker(marker).setTag(problema);
-                }
-            }
+                        if (StatusProblema.SOLICITADO.equals(problema.getStatus()) && !problemasEnvolvidosUid.contains(problema.getUid())) {
+                            LatLng mark = new LatLng(problema.getLatitude(), problema.getLongitude());
+                            MarkerOptions marker = new MarkerOptions().position(mark).title(problema.getDescricao());
+                            mMap.addMarker(marker).setTag(problema);
+                        }
+                    }
 
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                Toast.makeText(getActivity(),"change", Toast.LENGTH_LONG).show();
-            }
+                    @Override
+                    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                        Toast.makeText(getActivity(), "change", Toast.LENGTH_LONG).show();
+                    }
 
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-                Toast.makeText(getActivity(),"removed", Toast.LENGTH_LONG).show();
-            }
+                    @Override
+                    public void onChildRemoved(DataSnapshot dataSnapshot) {
+                        Toast.makeText(getActivity(), "removed", Toast.LENGTH_LONG).show();
+                    }
 
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-                Toast.makeText(getActivity(),"moved", Toast.LENGTH_LONG).show();
-            }
+                    @Override
+                    public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+                        Toast.makeText(getActivity(), "moved", Toast.LENGTH_LONG).show();
+                    }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(getActivity(),"canceled", Toast.LENGTH_LONG).show();
-            }
-        });
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Toast.makeText(getActivity(), "canceled", Toast.LENGTH_LONG).show();
+                    }
+                });
 
-
-        // Add a marker in Sydney, Australia, and move the camera.
         LatLng atual = new LatLng(activity.latitude, activity.longitude);
-        //mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(atual));
-        mMap.animateCamera( CameraUpdateFactory.zoomTo( 15.0f ) );
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(15.0f));
     }
 
     @Override

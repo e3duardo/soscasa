@@ -3,6 +3,7 @@ package br.com.magicbox.soscasa.viewholder;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -29,6 +30,8 @@ public class NegociacaoViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void bindToView(Negociacao negociacao, final boolean ehProfissional) {
+
+        Toast.makeText(itemView.getContext(), "sequence10", Toast.LENGTH_SHORT).show();
 
         final DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
 

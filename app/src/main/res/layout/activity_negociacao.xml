@@ -1,62 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/layout2"
+    android:id="@+id/item1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="16dp"
     tools:context="br.com.magicbox.soscasa.NegociacaoActivity">
 
 
-    <LinearLayout
-        android:id="@+id/layout1"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/tv_negociacao_cliente"
+        style="@style/TextAppearance.AppCompat.Medium"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="8sp">
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textStyle="bold"
+        tools:text="Cliente" />
 
-        <TextView
-            android:id="@+id/negociacao_detail_cliente"
-            style="@style/TextAppearance.AppCompat.Medium"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:textStyle="bold"
-            tools:text="My First Post" />
-
-        <TextView
-            android:id="@+id/negociacao_detail_more"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            tools:text="@string/lorem" />
+    <TextView
+        android:id="@+id/tv_negociacao_descricao_problema"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_negociacao_cliente"
+        android:layout_marginTop="5dp"
+        tools:text="@string/lorem" />
 
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="Mensagem: "
-            android:textStyle="bold" />
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/mensagem_list"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_marginLeft="2dp"
-            android:layout_marginRight="2dp"
-            android:clipToPadding="false"
-            android:scrollbars="vertical"
-            tools:listitem="@layout/item_mensagem" />
-
-
-    </LinearLayout>
+    <TextView
+        android:id="@+id/negociacoes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_negociacao_descricao_problema"
+        android:layout_marginTop="10dp"
+        android:text="Mensagem: "
+        android:textStyle="bold" />
 
     <EditText
-        android:id="@+id/inserir_mensagem"
+        android:id="@+id/tv_negociacao_nova_mensagem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/layout1"
+        android:layout_alignParentBottom="true" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/mensagem_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/tv_negociacao_nova_mensagem"
+        android:layout_below="@+id/negociacoes"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
+        android:clipToPadding="false"
+        android:scrollbars="vertical"
+        tools:listitem="@layout/item_mensagem"
+
         />
+
+
 </RelativeLayout>

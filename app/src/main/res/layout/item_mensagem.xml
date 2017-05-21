@@ -5,22 +5,58 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
+    <LinearLayout
+        android:id="@+id/l_mensagem_destinatatio"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/chat_destinatario"
+        android:padding="5dp"
+        android:layout_marginRight="20dp">
 
-    <TextView
-        android:id="@+id/tv_mensavem_usuario"
-        style="@style/TextAppearance.AppCompat.Medium"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ellipsize="end"
-        android:maxLines="1"
-        android:textStyle="bold"
-        tools:text="My First Post" />
+       <!-- <TextView
+            android:id="@+id/tv_mensavem_usuario_destinatario"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textStyle="bold"
+            tools:text="My First Post" /> -->
 
-    <TextView
-        android:id="@+id/tv_mensagem_texto"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        tools:text="@string/lorem" />
+        <TextView
+            android:id="@+id/tv_mensagem_texto_destinatario"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="@string/lorem" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/l_mensagem_remetente"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/chat_remetente"
+        android:padding="5sp"
+        android:layout_marginLeft="20dp">
+
+       <!-- <TextView
+            android:id="@+id/tv_mensavem_usuario_remetente"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:gravity="right"
+            android:maxLines="1"
+            android:textStyle="bold"
+            tools:text="My First Post" /> -->
+
+        <TextView
+            android:id="@+id/tv_mensagem_texto_remetente"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            tools:text="@string/lorem" />
+    </LinearLayout>
 
 </LinearLayout>

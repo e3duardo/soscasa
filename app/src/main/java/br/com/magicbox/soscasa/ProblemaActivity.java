@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.DataSnapshot;
@@ -61,8 +62,10 @@ public class ProblemaActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
+    protected void onStart() {
+        super.onStart();
+
+        Toast.makeText(ProblemaActivity.this, "sequence1", Toast.LENGTH_SHORT).show();
 
         tvStatus.setText(problema.getStatus().getI18n());
         tvDescricao.setText(problema.getDescricao());
@@ -78,22 +81,13 @@ public class ProblemaActivity extends AppCompatActivity {
 
             }
         });
-//        mDatabase.child("usuarios").child(problema.getClienteUid()).addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                tvCliente.setText(dataSnapshot.getValue(Usuario.class).getNome());
-//            }
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
-
 
         Query negociacoes = mDatabase.child("negociacoes")
                 .orderByChild("problema").equalTo(problema.getUid());
 
         rvNegociacoes.setAdapter(new NegociacaoAdapter(this, negociacoes, usuario));
+
+        Toast.makeText(ProblemaActivity.this, "sequence2", Toast.LENGTH_SHORT).show();
     }
 
 

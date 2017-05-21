@@ -3,6 +3,7 @@ package br.com.magicbox.soscasa.adapter;
 import android.app.Activity;
 import android.content.Intent;
 import android.view.View;
+import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.DataSnapshot;
@@ -10,6 +11,7 @@ import com.google.firebase.database.Query;
 
 import br.com.magicbox.soscasa.BaseActivity;
 import br.com.magicbox.soscasa.NegociacaoActivity;
+import br.com.magicbox.soscasa.ProblemaActivity;
 import br.com.magicbox.soscasa.R;
 import br.com.magicbox.soscasa.models.Negociacao;
 import br.com.magicbox.soscasa.models.Usuario;
@@ -29,12 +31,14 @@ public class NegociacaoAdapter extends FirebaseRecyclerAdapter<Negociacao, Negoc
         super(Negociacao.class, R.layout.item_negociacao, NegociacaoViewHolder.class, ref);
         this.activity = activity;
         this.usuario = usuario;
+        Toast.makeText(activity, "sequence4", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     protected Negociacao parseSnapshot(DataSnapshot snapshot) {
         Negociacao negociacao = super.parseSnapshot(snapshot);
         negociacao.setUid(snapshot.getKey());
+        Toast.makeText(activity, "sequence5", Toast.LENGTH_SHORT).show();
         return negociacao;
     }
 
@@ -43,6 +47,8 @@ public class NegociacaoAdapter extends FirebaseRecyclerAdapter<Negociacao, Negoc
             (final NegociacaoViewHolder viewHolder, final Negociacao model, final int position) {
 
         viewHolder.bindToView(model, usuario.getEhProfissional());
+
+        Toast.makeText(activity, "sequence6", Toast.LENGTH_SHORT).show();
 
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

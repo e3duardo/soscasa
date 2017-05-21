@@ -1,8 +1,10 @@
 package br.com.magicbox.soscasa.adapter;
 
 import android.app.Activity;
+import android.support.v7.widget.RecyclerView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.Query;
 
@@ -21,10 +23,9 @@ public class MensagemAdapter extends FirebaseRecyclerAdapter<Mensagem, MensagemV
     private final Activity activity;
     private Usuario usuario;
 
-    public MensagemAdapter(Activity activity, Query ref, Usuario usuario) {
+    public MensagemAdapter(Activity activity, Query ref) {
         super(Mensagem.class, R.layout.item_mensagem, MensagemViewHolder.class, ref);
         this.activity = activity;
-        this.usuario = usuario;
     }
 
     @Override
@@ -38,8 +39,6 @@ public class MensagemAdapter extends FirebaseRecyclerAdapter<Mensagem, MensagemV
     protected void populateViewHolder
             (final MensagemViewHolder viewHolder, final Mensagem model, final int position) {
 
-        viewHolder.bindToView(model.getMensagem(), "eu");
-
-
+        viewHolder.bindToView(model);
     }
 }

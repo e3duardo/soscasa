@@ -20,6 +20,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.Date;
 
+import br.com.magicbox.soscasa.adapter.MensagemAdapter;
 import br.com.magicbox.soscasa.models.Mensagem;
 import br.com.magicbox.soscasa.models.Negociacao;
 import br.com.magicbox.soscasa.models.Problema;
@@ -32,11 +33,10 @@ public class NegociacaoActivity extends AppCompatActivity {
 
     private Negociacao negociacao;
 
-    private TextView text1;
-    private TextView text2;
-    private TextView inserir;
+    private TextView tvCliente;
+    private TextView tvDescricaoProblema;
+    private TextView tvNovaMensagem;
 
-    private FirebaseRecyclerAdapter<Mensagem, MensagemViewHolder> mAdapter;
     private RecyclerView mRecycler;
     private LinearLayoutManager mManager;
 
@@ -45,35 +45,51 @@ public class NegociacaoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_negociacao);
 
-        text1 = (TextView) findViewById(R.id.negociacao_detail_cliente);
-        text2 = (TextView) findViewById(R.id.negociacao_detail_more);
-        inserir = (TextView) findViewById(R.id.inserir_mensagem);
-        inserir.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        negociacao = (Negociacao) getIntent().getSerializableExtra("negociacao");
+
+        tvCliente = (TextView) findViewById(R.id.tv_negociacao_cliente);
+        tvDescricaoProblema = (TextView) findViewById(R.id.tv_negociacao_descricao_problema);
+        tvNovaMensagem = (TextView) findViewById(R.id.tv_negociacao_nova_mensagem);
+
+        tvNovaMensagem.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_NULL  && event.getAction() == KeyEvent.ACTION_DOWN) {
-                    writeNewMensagem(inserir.getText().toString());
+                    cadastrarMensagem(tvNovaMensagem.getText().toString());
+                    tvNovaMensagem.setText("");
                 }
                 return true;
             }
         });
 
-        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mManager = new LinearLayoutManager(this);
+        //mManager.set
+        //mManager.setReverseLayout(true);
+        mManager.setStackFromEnd(true);
 
-        negociacao = (Negociacao) getIntent().getSerializableExtra("negociacao");
+        mRecycler = (RecyclerView) findViewById(R.id.mensagem_list);
+        mRecycler.setHasFixedSize(true);
+        mRecycler.setLayoutManager(mManager);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
 
         mDatabase.child("problemas").child(negociacao.getProblemaUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                 Problema problema = dataSnapshot.getValue(Problema.class);
-                text2.setText(problema.getDescricao());
+                tvDescricaoProblema.setText(problema.getDescricao());
 
                 mDatabase.child("usuarios").child(problema.getClienteUid()).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         Usuario cliente = dataSnapshot.getValue(Usuario.class);
-                        text1.setText(cliente.getNome());
+                        tvCliente.setText(cliente.getNome());
                     }
 
                     @Override
@@ -89,58 +105,24 @@ public class NegociacaoActivity extends AppCompatActivity {
             }
         });
 
+        final Query query = mDatabase.child("negociacoes").child(negociacao.getUid()).child("mensagens");
 
-
-        mRecycler = (RecyclerView) findViewById(R.id.mensagem_list);
-        mRecycler.setHasFixedSize(true);
-
-        mManager = new LinearLayoutManager(this);
-        mManager.setReverseLayout(true);
-        mManager.setStackFromEnd(true);
-        mRecycler.setLayoutManager(mManager);
-
-        final Query postsQuery = mDatabase.child("negociacoes").child(negociacao.getUid()).child("mensagens");
-
-        mAdapter = new FirebaseRecyclerAdapter<Mensagem, MensagemViewHolder>(Mensagem.class, R.layout.item_mensagem,
-                MensagemViewHolder.class, postsQuery) {
-
-            @Override
-            protected Mensagem parseSnapshot(DataSnapshot snapshot) {
-                Mensagem mensagem = super.parseSnapshot(snapshot);
-                mensagem.setUid(snapshot.getKey());
-                return mensagem;
-            }
-
-            @Override
-            protected void populateViewHolder(final MensagemViewHolder viewHolder, final Mensagem model, final int position) {
-                viewHolder.bindToView("eu", model.getMensagem());
-            }
-        };
-        mRecycler.setAdapter(mAdapter);
-
+        mRecycler.setAdapter(new MensagemAdapter(this, query));
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (mAdapter != null) {
-            mAdapter.cleanup();
-        }
-    }
-
-    private void writeNewMensagem(String texto) {
+    private void cadastrarMensagem(String texto) {
         String key = mDatabase.child("negociacoes").child(negociacao.getUid()).child("mensagens").push().getKey();
 
         Mensagem mensagem = new Mensagem();
-        //mensagem.setNegociacaoUid(negociacao.getUid());
         mensagem.setUsuarioUid(FirebaseAuth.getInstance().getCurrentUser().getUid());
         mensagem.setData(new Date());
         mensagem.setMensagem(texto);
 
-
         mDatabase.child("negociacoes").child(negociacao.getUid()).child("mensagens").child(key).setValue(mensagem);
 
-        Toast.makeText(NegociacaoActivity.this, "nova mensagem: " , Toast.LENGTH_SHORT).show();
+        Toast.makeText(NegociacaoActivity.this, "nova mensagem" , Toast.LENGTH_SHORT).show();
+
+        mRecycler.smoothScrollToPosition(mRecycler.getAdapter().getItemCount());
     }
 
 }

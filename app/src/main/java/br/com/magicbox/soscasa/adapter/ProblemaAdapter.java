@@ -3,6 +3,7 @@ package br.com.magicbox.soscasa.adapter;
 import android.app.Activity;
 import android.content.Intent;
 import android.view.View;
+import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.DataSnapshot;
@@ -29,12 +30,15 @@ public class ProblemaAdapter extends FirebaseRecyclerAdapter<Problema, ProblemaV
         super(Problema.class, R.layout.item_problema, ProblemaViewHolder.class, ref);
         this.activity = activity;
         this.usuario = usuario;
+
+//        Toast.makeText(activity, "sequence2", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     protected Problema parseSnapshot(DataSnapshot snapshot) {
         Problema problema = super.parseSnapshot(snapshot);
         problema.setUid(snapshot.getKey());
+//        Toast.makeText(activity, "sequence3", Toast.LENGTH_SHORT).show();
         return problema;
     }
 
@@ -45,10 +49,13 @@ public class ProblemaAdapter extends FirebaseRecyclerAdapter<Problema, ProblemaV
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+//                Toast.makeText(activity, "sequence4", Toast.LENGTH_SHORT).show();
+
                 Intent intent = new Intent(activity, ProblemaActivity.class);
                 intent.putExtra("problema", model);
                 intent.putExtra("usuario", usuario);
                 activity.startActivity(intent);
+
             }
         });
     }
