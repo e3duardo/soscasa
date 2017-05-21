@@ -7,8 +7,8 @@
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission
-        android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -20,10 +20,9 @@
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
-
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/maps_app_id"/>
+            android:value="@string/maps_app_id" />
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
@@ -37,10 +36,22 @@
         </activity>
         <activity
             android:name=".ClienteActivity"
-            android:label="@string/title_activity_cliente"></activity>
+            android:label="@string/title_activity_cliente" />
         <activity
             android:name=".ProfissionalActivity"
             android:label="@string/title_activity_profissional"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ProblemaActivity"
+            android:label="@string/title_activity_problema"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ProblemaProfissionalActivity"
+            android:label="@string/title_activity_problema"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".NegociacaoActivity"
+            android:label="@string/title_activity_negociacao"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

@@ -11,7 +11,7 @@
     <string name="email_label">Email</string>
     <string name="password_label">Senha</string>
     <string name="send_text">Send</string>
-    <string name="lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean nec condimentum ante, quis mattis mi. Proin ut rhoncus libero, ac euismod neque. Ut suscipit, enim a facilisis consequat, orci lacus venenatis orci, at ultricies orci nulla sed ex. In condimentum viverra velit, eget feugiat libero imperdiet vel. Aenean pretium, lectus vitae bibendum bibendum, diam turpis convallis eros, quis tristique leo sapien at ipsum. Praesent eu odio id nulla lobortis auctor. Donec eget dolor eget nisl euismod commodo vel a lacus. Quisque ut justo vitae urna pharetra accumsan. Etiam dignissim neque iaculis mauris viverra, blandit rhoncus odio porttitor. Phasellus nibh arcu.</string>
+    <string name="lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean nec condimentum ante.</string>
     <string name="title_sign_in">Welcome</string>
     <string name="sign_up">Cadastre-se</string>
     <string name="hint_password">password</string>
@@ -26,4 +26,9 @@
     <string name="title_notifications">Notifications</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_profissional">ProfissionalActivity</string>
+    <string name="title_activity_problema">ProblemaActivity</string>
+    <string name="title_location_permission">Ei, preciso saber onde vc tá</string>
+    <string name="text_location_permission">Me ajude a te ajudar, onde vc tá?</string>
+    <string name="ok">Ok</string>
+    <string name="title_activity_negociacao">NegociacaoActivity</string>
 </resources>

@@ -26,12 +26,7 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
-
-
-
-
-
-
+    //compile 'com.google.android.gms:play-services:10.2.0'
     compile 'com.android.support:appcompat-v7:25.3.0'
     compile 'com.android.support:recyclerview-v7:25.3.0'
     compile 'com.android.support:cardview-v7:25.3.0'
@@ -42,26 +37,33 @@ dependencies {
     compile 'com.google.firebase:firebase-core:10.2.0'
     compile 'com.google.firebase:firebase-auth:10.2.0'
     compile 'com.google.firebase:firebase-database:10.2.0'
-    compile 'com.google.android.gms:play-services:10.2.0'
     compile 'com.google.android.gms:play-services-auth:10.2.0'
+    compile 'com.google.android.gms:play-services-maps:10.2.0'
     compile 'com.facebook.android:facebook-android-sdk:[4,5)'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'junit:junit:4.12'
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 apply plugin: 'com.google.gms.google-services'
+
+//Google+	                                com.google.android.gms:play-services-plus:10.2.6
+//Google Account Login	                    com.google.android.gms:play-services-auth:10.2.6
+//Google Actions, Base Client Library	    com.google.android.gms:play-services-base:10.2.6
+//Google Address API	                    com.google.android.gms:play-services-identity:10.2.6
+//Google Analytics	                        com.google.android.gms:play-services-analytics:10.2.6
+//Google Awareness	                        com.google.android.gms:play-services-awareness:10.2.6
+//Google Cast	                            com.google.android.gms:play-services-cast:10.2.6
+//Google Cloud Messaging	                com.google.android.gms:play-services-gcm:10.2.6
+//Google Drive	                            com.google.android.gms:play-services-drive:10.2.6
+//Google Fit	                            com.google.android.gms:play-services-fitness:10.2.6
+//Google Location and Activity Recognition	com.google.android.gms:play-services-location:10.2.6
+//Google Maps	                            com.google.android.gms:play-services-maps:10.2.6
+//Google Mobile Ads                         com.google.android.gms:play-services-ads:10.2.6
+//Google Places	                            com.google.android.gms:play-services-places:10.2.6
+//Mobile Vision	                            com.google.android.gms:play-services-vision:10.2.6
+//Google Nearby	                            com.google.android.gms:play-services-nearby:10.2.6
+//Google Panorama Viewer	                com.google.android.gms:play-services-panorama:10.2.6
+//Google Play Game services	                com.google.android.gms:play-services-games:10.2.6
+//SafetyNet	                                com.google.android.gms:play-services-safetynet:10.2.6
+//Android Pay	                            com.google.android.gms:play-services-wallet:10.2.6
+//Android Wear	                            com.google.android.gms:play-services-wearable:10.2.6

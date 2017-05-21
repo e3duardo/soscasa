@@ -10,7 +10,19 @@ import java.util.Map;
  */
 
 public class Area {
+
+    @Exclude
+    private String uid;
+
     private String nome;
+
+    public Area(){
+
+    }
+    public Area(String uid) {
+        this.uid = uid;
+    }
+
 
     public String getNome() {
         return nome;
@@ -20,10 +32,19 @@ public class Area {
         this.nome = nome;
     }
 
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
     @Exclude
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
         result.put("nome", nome);
+        result.put("uid", uid);
 
         return result;
     }
@@ -40,12 +61,12 @@ public class Area {
 
         Area area = (Area) o;
 
-        return nome != null ? nome.equals(area.nome) : area.nome == null;
+        return uid != null ? uid.equals(area.uid) : area.uid == null;
 
     }
 
     @Override
     public int hashCode() {
-        return nome != null ? nome.hashCode() : 0;
+        return uid != null ? uid.hashCode() : 0;
     }
 }

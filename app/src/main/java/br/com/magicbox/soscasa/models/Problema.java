@@ -1,7 +1,16 @@
 package br.com.magicbox.soscasa.models;
 
-import com.google.firebase.database.Exclude;
+import android.support.v4.media.session.PlaybackStateCompat;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.Exclude;
+import com.google.firebase.database.IgnoreExtraProperties;
+import com.google.firebase.database.PropertyName;
+import com.google.firebase.database.ValueEventListener;
+
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,18 +18,34 @@ import java.util.Map;
  * Created by pedro on 31/03/17.
  */
 
-public class Problema  {
-    private String descricao;
+@IgnoreExtraProperties
+public class Problema implements Serializable{
 
-    private Area area;
+    @Exclude
+    private String uid;
+
+    private String descricao;
 
     private StatusProblema status;
 
-    private Usuario cliente;
+    private String areaUid;
+
+    private String clienteUid;
+
+    private Double latitude;
+
+    private Double longitude;
 
     public Problema() {
     }
 
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
 
     public String getDescricao() {
         return descricao;
@@ -28,14 +53,6 @@ public class Problema  {
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
-    }
-
-    public Area getArea() {
-        return area;
-    }
-
-    public void setArea(Area area) {
-        this.area = area;
     }
 
     public StatusProblema getStatus() {
@@ -46,20 +63,41 @@ public class Problema  {
         this.status = status;
     }
 
-    @Exclude
-    public Map<String, Object> toMap() {
-        HashMap<String, Object> result = new HashMap<>();
-        result.put("descricao", descricao);
-        result.put("area", area);
-        result.put("status", status);
-        result.put("cliente", cliente);
+    public Double getLatitude() {
+        return latitude;
+    }
 
-        return result;
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
     }
-    public Usuario getCliente() {
-        return cliente;
+
+    public Double getLongitude() {
+        return longitude;
     }
-    public void setCliente(Usuario cliente) {
-        this.cliente = cliente;
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
     }
+
+    @PropertyName(value = "area")
+    public String getAreaUid() {
+        return areaUid;
+    }
+
+    @PropertyName(value = "cliente")
+    public String getClienteUid() {
+        return clienteUid;
+    }
+
+    @PropertyName(value = "area")
+    public void setAreaUid(String areaUid) {
+        this.areaUid = areaUid;
+    }
+
+    @PropertyName(value = "cliente")
+    public void setClienteUid(String clienteUid) {
+        this.clienteUid = clienteUid;
+    }
+
+
 }

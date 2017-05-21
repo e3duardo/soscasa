@@ -47,7 +47,6 @@ public class Util {
 
 
     public static void writeNewUser(DatabaseReference mDatabase, String usuarioID, Usuario usuario) {
-        usuario.setGui(usuarioID);
         mDatabase.child("usuarios").child(usuarioID).setValue(usuario);
     }
 }

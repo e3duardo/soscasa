@@ -89,6 +89,7 @@ public class MeuPerfilFragment extends Fragment {
                                     List<Area> areas =  new ArrayList<>();
                                     for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
                                         Area area = postSnapshot.getValue(Area.class);
+                                        area.setUid(postSnapshot.getKey());
                                         areas.add(area);
                                     }
 
@@ -96,7 +97,7 @@ public class MeuPerfilFragment extends Fragment {
                                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                                     area.setAdapter(adapter);
 
-                                    area.setSelection(adapter.getPosition(usuario.getArea()));
+                                    area.setSelection(adapter.getPosition(new Area(usuario.getAreaUid())));
 
                                 }
 
@@ -121,7 +122,9 @@ public class MeuPerfilFragment extends Fragment {
                 usuario.setNome(nome.getText().toString());
                 usuario.setEmail(email.getText().toString());
                 usuario.setCelular(celular.getText().toString());
-                usuario.setArea((Area) area.getSelectedItem());
+
+                Area areaAtual = (Area) area.getSelectedItem();
+                usuario.setAreaUid(areaAtual.getUid());
 
                 Util.writeNewUser(mDatabase, userId, usuario);
 

@@ -12,7 +12,7 @@
             android:padding="8sp">
 
                 <TextView
-                    android:id="@+id/problema_area"
+                    android:id="@+id/negociacao_nome"
                     style="@style/TextAppearance.AppCompat.Medium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -22,7 +22,7 @@
                     tools:text="My First Post" />
 
         <TextView
-            android:id="@+id/problema_text"
+            android:id="@+id/negociacao_descricao"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"

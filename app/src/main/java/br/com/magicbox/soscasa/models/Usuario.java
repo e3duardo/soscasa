@@ -2,19 +2,23 @@ package br.com.magicbox.soscasa.models;
 
 import android.widget.EditText;
 
+import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
+import com.google.firebase.database.PropertyName;
 
 // [START blog_user_class]
 @IgnoreExtraProperties
 public class Usuario {
 
-    private String gui;
+    @Exclude
+    private String uid;
 
     private String nome;
     private String email;
     private String celular;
 
-    private Area area;
+    private String areaUid;
+
     private Boolean ehProfissional;
 
     public Usuario() {
@@ -22,7 +26,7 @@ public class Usuario {
     }
 
     public Usuario(String nome, String email, String celular) {
-        this.area = null;
+        this.areaUid = null;
         this.ehProfissional = false;
         this.nome = nome;
         this.email = email;
@@ -54,12 +58,14 @@ public class Usuario {
     }
 
 
-    public Area getArea() {
-        return area;
+    @PropertyName(value = "area")
+    public String getAreaUid() {
+        return areaUid;
     }
 
-    public void setArea(Area area) {
-        this.area = area;
+    @PropertyName(value = "area")
+    public void setAreaUid(String area) {
+        this.areaUid = area;
     }
 
     public Boolean getEhProfissional() {
@@ -70,12 +76,12 @@ public class Usuario {
         this.ehProfissional = ehProfissional;
     }
 
-    public String getGui() {
-        return gui;
+    public String getUid() {
+        return uid;
     }
 
-    public void setGui(String gui) {
-        this.gui = gui;
+    public void setUid(String gui) {
+        this.uid = gui;
     }
 }
 

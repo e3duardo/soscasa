@@ -5,14 +5,14 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import br.com.magicbox.soscasa.fragment.MeuPerfilFragment;
-import br.com.magicbox.soscasa.fragment.ProblemasEnvolvidosFragment;
+import br.com.magicbox.soscasa.fragment.MinhasNegociacoesFragment;
 import br.com.magicbox.soscasa.fragment.ProcurarProblema;
 
-public class ProfissionalActivity extends AppCompatActivity {
+public class ProfissionalActivity extends BaseActivity {
+
 
     private Fragment fragment;
     private FragmentManager fragmentManager;
@@ -39,7 +39,7 @@ public class ProfissionalActivity extends AppCompatActivity {
                                 fragment = new ProcurarProblema();
                                 break;
                             case R.id.meus_problemas_profissional:
-                                fragment = new ProblemasEnvolvidosFragment();
+                                fragment = new MinhasNegociacoesFragment();
                                 break;
                             case R.id.meu_perfil_profissional:
                                 fragment = new MeuPerfilFragment();
