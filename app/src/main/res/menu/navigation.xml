@@ -4,7 +4,7 @@
     <item
         android:id="@+id/definir_problema"
         android:icon="@drawable/ic_home_black_24dp"
-        android:title="Definir problemas" />
+        android:title="Estou com problema" />
 
     <item
         android:id="@+id/meus_problemas"

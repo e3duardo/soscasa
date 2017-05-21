@@ -20,12 +20,14 @@ public class Util {
     public static void onAuthSuccess(Context context, DatabaseReference mDatabase, FirebaseUser user, Usuario usuario) {
         writeNewUser(mDatabase, user.getUid(), usuario);
 
-        if(usuario.getEhProfissional())
+        if (usuario.getEhProfissional()) {
             context.startActivity(new Intent(context, ProfissionalActivity.class));
-        else
+        } else {
             context.startActivity(new Intent(context, ClienteActivity.class));
+        }
         //context.finish();
     }
+
     public static void onAuthSuccess(final Context context, final DatabaseReference mDatabase, final FirebaseUser user) {
 
         mDatabase.child("usuarios")
@@ -34,16 +36,13 @@ public class Util {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         onAuthSuccess(context, mDatabase, user, dataSnapshot.getValue(Usuario.class));
-
                     }
 
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
-
                     }
                 });
     }
-
 
 
     public static void writeNewUser(DatabaseReference mDatabase, String usuarioID, Usuario usuario) {

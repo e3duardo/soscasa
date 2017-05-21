@@ -1,11 +1,9 @@
 package br.com.magicbox.soscasa;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -16,6 +14,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import br.com.magicbox.soscasa.adapter.NegociacaoAdapter;
 import br.com.magicbox.soscasa.models.Area;
 import br.com.magicbox.soscasa.models.Negociacao;
 import br.com.magicbox.soscasa.models.Problema;
@@ -28,12 +27,13 @@ public class ProblemaActivity extends AppCompatActivity {
 
     private Problema problema;
 
-    private TextView problemaArea;
-    private TextView problemaDescricao;
-    private TextView problemaCliente;
-    private TextView problemaStatus;
+    private Usuario usuario;
 
-    private RecyclerView mRecycler;
+    private TextView tvArea;
+    private TextView tvDescricao;
+    private TextView tvStatus;
+
+    private RecyclerView rvNegociacoes;
     private LinearLayoutManager mManager;
     private FirebaseRecyclerAdapter<Negociacao, NegociacaoViewHolder> mAdapter;
 
@@ -45,31 +45,34 @@ public class ProblemaActivity extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
         problema = (Problema) getIntent().getSerializableExtra("problema");
+        usuario = (Usuario) getIntent().getSerializableExtra("usuario");
 
-        problemaArea = (TextView) findViewById(R.id.problema_detail_area);
-        problemaDescricao = (TextView) findViewById(R.id.problema_detail_descricao);
-        problemaCliente = (TextView) findViewById(R.id.problema_detail_cliente);
-        problemaStatus = (TextView) findViewById(R.id.problema_detail_status);
+        tvArea = (TextView) findViewById(R.id.tv_problema_area);
+        tvDescricao = (TextView) findViewById(R.id.tv_problema_descricao);
+        tvStatus = (TextView) findViewById(R.id.tv_problema_status);
 
-        mRecycler = (RecyclerView) findViewById(R.id.negociacoes_list);
-        mRecycler.setHasFixedSize(true);
+        rvNegociacoes = (RecyclerView) findViewById(R.id.rv_problema_negociacoes);
+        rvNegociacoes.setHasFixedSize(true);
 
         mManager = new LinearLayoutManager(this);
         mManager.setReverseLayout(true);
         mManager.setStackFromEnd(true);
-        mRecycler.setLayoutManager(mManager);
-
-        populateView();
+        rvNegociacoes.setLayoutManager(mManager);
     }
 
-    private void populateView() {
-        problemaStatus.setText(problema.getStatus().getI18n());
-        problemaDescricao.setText(problema.getDescricao());
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        tvStatus.setText(problema.getStatus().getI18n());
+        tvDescricao.setText(problema.getDescricao());
+
         mDatabase.child("areas").child(problema.getAreaUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                problemaArea.setText(dataSnapshot.getValue(Area.class).getNome());
+                tvArea.setText(dataSnapshot.getValue(Area.class).getNome());
             }
+
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
@@ -78,7 +81,7 @@ public class ProblemaActivity extends AppCompatActivity {
 //        mDatabase.child("usuarios").child(problema.getClienteUid()).addListenerForSingleValueEvent(new ValueEventListener() {
 //            @Override
 //            public void onDataChange(DataSnapshot dataSnapshot) {
-//                problemaCliente.setText(dataSnapshot.getValue(Usuario.class).getNome());
+//                tvCliente.setText(dataSnapshot.getValue(Usuario.class).getNome());
 //            }
 //            @Override
 //            public void onCancelled(DatabaseError databaseError) {
@@ -90,37 +93,9 @@ public class ProblemaActivity extends AppCompatActivity {
         Query negociacoes = mDatabase.child("negociacoes")
                 .orderByChild("problema").equalTo(problema.getUid());
 
-        mAdapter = new FirebaseRecyclerAdapter<Negociacao, NegociacaoViewHolder>
-                (Negociacao.class, R.layout.item_negociacao, NegociacaoViewHolder.class, negociacoes) {
-
-            @Override
-            protected Negociacao parseSnapshot(DataSnapshot snapshot) {
-                Negociacao negociacao = super.parseSnapshot(snapshot);
-                negociacao.setUid(snapshot.getKey());
-                return negociacao;
-            }
-
-            @Override
-            protected void populateViewHolder
-                    (final NegociacaoViewHolder viewHolder, final Negociacao model, final int position) {
-
-
-                viewHolder.bindToPost(mDatabase, model);
-
-                viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(ProblemaActivity.this, NegociacaoActivity.class);
-                        intent.putExtra("negociacao", model);
-                        startActivity(intent);
-                    }
-                });
-            }
-        };
-
-        mRecycler.setAdapter(mAdapter);
-
+        rvNegociacoes.setAdapter(new NegociacaoAdapter(this, negociacoes, usuario));
     }
+
 
     @Override
     public void onDestroy() {

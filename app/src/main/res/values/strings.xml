@@ -10,6 +10,8 @@
     <string name="title_activity_problema">Problema</string>
     <string name="title_activity_negociacao">Negociação</string>
 
+    <bool name="ehProfissional">false</bool>
+
 
     <string name="action_settings">Settings</string>
     <string name="menu_login">Log in</string>

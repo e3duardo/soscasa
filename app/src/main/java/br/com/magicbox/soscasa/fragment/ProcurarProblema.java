@@ -38,7 +38,6 @@ public class ProcurarProblema extends Fragment implements OnMapReadyCallback, Go
 
     private GoogleMap mMap;
 
-    //todo: popular lista
     private List<String> problemasEnvolvidosUid = new ArrayList<>();
 
     @Override

@@ -7,32 +7,35 @@ import android.widget.TextView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import br.com.magicbox.soscasa.R;
 import br.com.magicbox.soscasa.models.Area;
 import br.com.magicbox.soscasa.models.Problema;
-import br.com.magicbox.soscasa.models.Usuario;
 
 
 public class ProblemaViewHolder extends RecyclerView.ViewHolder {
 
-    public TextView titleView;
-    public TextView authorView;
+    public TextView tvArea;
+    public TextView tvDescricao;
+
 
     public ProblemaViewHolder(View itemView) {
         super(itemView);
 
-        titleView = (TextView) itemView.findViewById(R.id.problema_area);
-        authorView = (TextView) itemView.findViewById(R.id.problema_text);
+        tvArea = (TextView) itemView.findViewById(R.id.tv_item_problema_area);
+        tvDescricao = (TextView) itemView.findViewById(R.id.tv_item_problema_descricao);
     }
 
-    public void bindToPost(DatabaseReference mDatabase, Problema problema) {
+    public void bindToView(Problema problema) {
+
+        final DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
 
         mDatabase.child("areas").child(problema.getAreaUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                titleView.setText(dataSnapshot.getValue(Area.class).getNome());
+                tvArea.setText(dataSnapshot.getValue(Area.class).getNome());
             }
 
             @Override
@@ -41,6 +44,6 @@ public class ProblemaViewHolder extends RecyclerView.ViewHolder {
             }
         });
 
-        authorView.setText(problema.getDescricao());
+        tvDescricao.setText(problema.getDescricao());
     }
 }

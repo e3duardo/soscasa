@@ -3,14 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="16dp"
     tools:context="br.com.magicbox.soscasa.ProblemaActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="10dp">
-
+        android:orientation="vertical">
 
         <TextView
             android:layout_width="wrap_content"
@@ -18,14 +17,15 @@
             android:layout_marginTop="10dp"
             android:text="Área: "
             android:textStyle="bold" />
+
         <TextView
-            android:id="@+id/problema_detail_area"
+            android:id="@+id/tv_problema_area"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:maxLines="1"
             android:layout_marginLeft="4dp"
             android:layout_marginRight="4dp"
+            android:ellipsize="end"
+            android:maxLines="1"
             tools:text="..." />
 
 
@@ -35,25 +35,26 @@
             android:layout_marginTop="10dp"
             android:text="Status: "
             android:textStyle="bold" />
+
         <TextView
-            android:id="@+id/problema_detail_status"
+            android:id="@+id/tv_problema_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:maxLines="1"
             android:layout_marginLeft="4dp"
             android:layout_marginRight="4dp"
-            tools:text="..." />
-
-       <!-- <TextView
-            android:id="@+id/problema_detail_cliente"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
             android:ellipsize="end"
             android:maxLines="1"
-            android:textStyle="bold"
-            tools:text="Cliente" /> -->
+            tools:text="..." />
+
+        <!-- <TextView
+             android:id="@+id/problema_detail_cliente"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_marginTop="5dp"
+             android:ellipsize="end"
+             android:maxLines="1"
+             android:textStyle="bold"
+             tools:text="Cliente" /> -->
 
         <TextView
             android:layout_width="wrap_content"
@@ -61,15 +62,14 @@
             android:layout_marginTop="10dp"
             android:text="Descrição: "
             android:textStyle="bold" />
+
         <TextView
-            android:id="@+id/problema_detail_descricao"
+            android:id="@+id/tv_problema_descricao"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="4dp"
             android:layout_marginRight="4dp"
-            tools:text="@string/lorem" />
-
-
+            tools:text="..." />
 
 
         <TextView
@@ -80,13 +80,13 @@
             android:textStyle="bold" />
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/negociacoes_list"
+            android:id="@+id/rv_problema_negociacoes"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:clipToPadding="false"
-            android:scrollbars="vertical"
             android:layout_marginLeft="2dp"
             android:layout_marginRight="2dp"
+            android:clipToPadding="false"
+            android:scrollbars="vertical"
             tools:listitem="@layout/item_negociacao" />
 
     </LinearLayout>

@@ -12,7 +12,7 @@
         android:padding="8sp">
 
         <TextView
-            android:id="@+id/problema_detail_area"
+            android:id="@+id/tv_problema_area"
             style="@style/TextAppearance.AppCompat.Medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -32,7 +32,7 @@
             tools:text="Usuario" />
 
         <TextView
-            android:id="@+id/problema_detail_descricao"
+            android:id="@+id/tv_problema_descricao"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"

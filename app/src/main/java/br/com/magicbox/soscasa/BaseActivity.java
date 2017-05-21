@@ -31,21 +31,17 @@ import static android.content.ContentValues.TAG;
  */
 
 public class BaseActivity extends AppCompatActivity implements LocationListener {
-    //get location codes
-    private DatabaseReference mDatabase;
+
+    public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
 
     public double latitude = -21.1947618;
     public double longitude = -41.9047604;
 
-
-
-    public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
-
+    private DatabaseReference mDatabase;
     private Usuario usuario;
 
     private LocationManager locationManager;
     private String provider;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +61,7 @@ public class BaseActivity extends AppCompatActivity implements LocationListener 
                         usuario = dataSnapshot.getValue(Usuario.class);
                         usuario.setUid(dataSnapshot.getKey());
                     }
+
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
                         Log.w(TAG, "getUser:onCancelled", databaseError.toException());
@@ -76,6 +73,7 @@ public class BaseActivity extends AppCompatActivity implements LocationListener 
     public Usuario getUsuario() {
         return usuario;
     }
+
     public DatabaseReference getDatabase() {
         return mDatabase;
     }
@@ -172,7 +170,7 @@ public class BaseActivity extends AppCompatActivity implements LocationListener 
     public void onLocationChanged(Location location) {
         latitude = location.getLatitude();
         longitude = location.getLongitude();
-        Toast.makeText(BaseActivity.this,"teste2", Toast.LENGTH_LONG).show();
+        Toast.makeText(BaseActivity.this, "teste2", Toast.LENGTH_LONG).show();
     }
 
     @Override

@@ -4,12 +4,12 @@
     <item
         android:id="@+id/procurar_problema"
         android:icon="@drawable/ic_home_black_24dp"
-        android:title="Procurar problema" />
+        android:title="Problemas" />
 
     <item
         android:id="@+id/meus_problemas_profissional"
         android:icon="@drawable/ic_dashboard_black_24dp"
-        android:title="Problemas envolvidos" />
+        android:title="Minhas negociações" />
 
     <item
         android:id="@+id/meu_perfil_profissional"

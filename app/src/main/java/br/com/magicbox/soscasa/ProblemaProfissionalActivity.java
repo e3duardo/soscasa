@@ -44,8 +44,8 @@ public class ProblemaProfissionalActivity extends AppCompatActivity {
 
         problema = (Problema) getIntent().getSerializableExtra("problema");
 
-        problemaArea = (TextView) findViewById(R.id.problema_detail_area);
-        problemaDescricao = (TextView) findViewById(R.id.problema_detail_descricao);
+        problemaArea = (TextView) findViewById(R.id.tv_problema_area);
+        problemaDescricao = (TextView) findViewById(R.id.tv_problema_descricao);
         problemaCliente = (TextView) findViewById(R.id.problema_detail_cliente);
 
         negociarBotao = (Button) findViewById(R.id.negociar_profissional_button);

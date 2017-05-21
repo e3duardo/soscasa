@@ -7,7 +7,7 @@
 
 
     <TextView
-        android:id="@+id/mensagem_usuario"
+        android:id="@+id/tv_mensavem_usuario"
         style="@style/TextAppearance.AppCompat.Medium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -17,7 +17,7 @@
         tools:text="My First Post" />
 
     <TextView
-        android:id="@+id/mensagem_texto"
+        android:id="@+id/tv_mensagem_texto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"

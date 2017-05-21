@@ -1,15 +1,10 @@
 package br.com.magicbox.soscasa;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
-import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,19 +18,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-import org.w3c.dom.Text;
-
 import java.util.Date;
 
-import br.com.magicbox.soscasa.models.Area;
 import br.com.magicbox.soscasa.models.Mensagem;
 import br.com.magicbox.soscasa.models.Negociacao;
 import br.com.magicbox.soscasa.models.Problema;
-import br.com.magicbox.soscasa.models.StatusProblema;
 import br.com.magicbox.soscasa.models.Usuario;
 import br.com.magicbox.soscasa.viewholder.MensagemViewHolder;
-import br.com.magicbox.soscasa.viewholder.NegociacaoViewHolder;
-import br.com.magicbox.soscasa.viewholder.ProblemaViewHolder;
 
 public class NegociacaoActivity extends AppCompatActivity {
 
@@ -124,7 +113,7 @@ public class NegociacaoActivity extends AppCompatActivity {
 
             @Override
             protected void populateViewHolder(final MensagemViewHolder viewHolder, final Mensagem model, final int position) {
-                viewHolder.bindToPost("eu", model.getMensagem());
+                viewHolder.bindToView("eu", model.getMensagem());
             }
         };
         mRecycler.setAdapter(mAdapter);

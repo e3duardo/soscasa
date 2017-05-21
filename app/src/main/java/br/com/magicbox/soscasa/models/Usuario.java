@@ -6,9 +6,11 @@ import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
 import com.google.firebase.database.PropertyName;
 
+import java.io.Serializable;
+
 // [START blog_user_class]
 @IgnoreExtraProperties
-public class Usuario {
+public class Usuario implements Serializable{
 
     @Exclude
     private String uid;
