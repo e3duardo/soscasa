@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".NegociacaoProfissionalActivity">
+
+    <item
+        android:id="@+id/action_enviar_valor_negociacao"
+        android:title="@string/definir_valor"
+        android:visible="true"
+        android:icon="@drawable/ic_attach_money_black_24dp"
+        app:showAsAction="always" />
+</menu>

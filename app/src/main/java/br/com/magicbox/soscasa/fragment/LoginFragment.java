@@ -1,9 +1,6 @@
 package br.com.magicbox.soscasa.fragment;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -25,7 +22,6 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
-import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -36,8 +32,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
-import java.util.concurrent.Executor;
 
 import br.com.magicbox.soscasa.R;
 import br.com.magicbox.soscasa.Util;
@@ -71,8 +65,6 @@ public class LoginFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-
         View view = inflater.inflate(R.layout.fragment_login, container, false);
 
         fragmentManager = myContext.getSupportFragmentManager();
@@ -89,13 +81,13 @@ public class LoginFragment extends Fragment {
         entrarFacebook = (LoginButton) view.findViewById(R.id.button_entrar_facebook);
         entrarFacebook.setReadPermissions("email");
         entrarFacebook.setFragment(this);
-        entrarFacebook.setReadPermissions("email","public_profile");
+        entrarFacebook.setReadPermissions("email", "public_profile");
         entrarFacebook.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 Toast.makeText(getContext(), "facebook login", Toast.LENGTH_LONG).show();
 
-               handleFacebookAccessToken (loginResult.getAccessToken());
+                handleFacebookAccessToken(loginResult.getAccessToken());
             }
 
             @Override
@@ -111,63 +103,63 @@ public class LoginFragment extends Fragment {
 
         entrarGoogle = (SignInButton) view.findViewById(R.id.button_entrar_google);
         entrarGoogle.setOnClickListener(new View.OnClickListener() {
-                                              @Override
-                                              public void onClick(View v) {
+                                            @Override
+                                            public void onClick(View v) {
 
 
-                                                  Toast.makeText(v.getContext(), "google login", Toast.LENGTH_LONG).show();
-                                              }
-                                          }
+                                                Toast.makeText(v.getContext(), "google login", Toast.LENGTH_LONG).show();
+                                            }
+                                        }
         );
 
         entrarEmail = (Button) view.findViewById(R.id.button_login_email);
         entrarEmail.setOnClickListener(new View.OnClickListener() {
-                                              @Override
-                                              public void onClick(View v) {
-                                                  if (!validateForm()) {
-                                                      return;
-                                                  }
+                                           @Override
+                                           public void onClick(View v) {
+                                               if (!validateForm()) {
+                                                   return;
+                                               }
 
-                                                  mAuth.signInWithEmailAndPassword(email.getText().toString(), senha.getText().toString())
-                                                          .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
-                                                              @Override
-                                                              public void onComplete(@NonNull Task<AuthResult> task) {
-                                                                  Log.d(TAG, "signIn:onComplete:" + task.isSuccessful());
+                                               mAuth.signInWithEmailAndPassword(email.getText().toString(), senha.getText().toString())
+                                                       .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
+                                                           @Override
+                                                           public void onComplete(@NonNull Task<AuthResult> task) {
+                                                               Log.d(TAG, "signIn:onComplete:" + task.isSuccessful());
 
-                                                                  if (task.isSuccessful()) {
-                                                                      Util.onAuthSuccess(getActivity(), mDatabase, task.getResult().getUser());
-                                                                  } else {
-                                                                      Toast.makeText(getActivity(), "Sign In Failed",
-                                                                              Toast.LENGTH_SHORT).show();
-                                                                  }
-                                                              }
-                                                          });
+                                                               if (task.isSuccessful()) {
+                                                                   Util.onAuthSuccess(getActivity(), mDatabase, task.getResult().getUser());
+                                                               } else {
+                                                                   Toast.makeText(getActivity(), "Sign In Failed",
+                                                                           Toast.LENGTH_SHORT).show();
+                                                               }
+                                                           }
+                                                       });
 
-                                              }
-                                          }
+                                           }
+                                       }
         );
 
         cadastrar = (Button) view.findViewById(R.id.button_cadastrar);
         cadastrar.setOnClickListener(new View.OnClickListener() {
-                                              @Override
-                                              public void onClick(View v) {
-                                                  fragment = new RegistrarFragment();
+                                         @Override
+                                         public void onClick(View v) {
+                                             fragment = new RegistrarFragment();
 
-                                                  final FragmentTransaction transaction = fragmentManager.beginTransaction();
-                                                  transaction.replace(R.id.entrar_container, fragment);
-                                                  transaction.addToBackStack(fragment.getClass().getName());
-                                                  transaction.commit();
-                                              }
-                                          }
+                                             final FragmentTransaction transaction = fragmentManager.beginTransaction();
+                                             transaction.replace(R.id.entrar_container, fragment);
+                                             transaction.addToBackStack(fragment.getClass().getName());
+                                             transaction.commit();
+                                         }
+                                     }
         );
 
-        mAuthStateListener = new FirebaseAuth.AuthStateListener(){
+        mAuthStateListener = new FirebaseAuth.AuthStateListener() {
 
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
 
-                    Util.onAuthSuccess(getActivity(), mDatabase, user);
+                Util.onAuthSuccess(getActivity(), mDatabase, user);
 
             }
         };
@@ -176,7 +168,7 @@ public class LoginFragment extends Fragment {
         return view;
     }
 
-    private void handleFacebookAccessToken(AccessToken token){
+    private void handleFacebookAccessToken(AccessToken token) {
         AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
         mAuth.signInWithCredential(credential).addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
 
@@ -195,7 +187,7 @@ public class LoginFragment extends Fragment {
 
     @Override
     public void onAttach(Activity activity) {
-        myContext=(FragmentActivity) activity;
+        myContext = (FragmentActivity) activity;
         super.onAttach(activity);
     }
 

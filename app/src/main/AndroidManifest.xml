@@ -27,7 +27,8 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <activity android:name=".EntrarActivity"
+        <activity
+            android:name=".EntrarActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -42,13 +43,17 @@
             android:name=".ProfissionalActivity"
             android:label="@string/title_activity_profissional" />
         <activity
-            android:name=".ProblemaActivity"
+            android:name=".ProblemaClienteActivity"
             android:label="@string/title_activity_problema" />
         <activity
             android:name=".ProblemaProfissionalActivity"
             android:label="@string/title_activity_profissional" />
         <activity
-            android:name=".NegociacaoActivity"
+            android:name=".NegociacaoProfissionalActivity"
+            android:label="@string/title_activity_negociacao" />
+
+        <activity
+            android:name=".NegociacaoClienteActivity"
             android:label="@string/title_activity_negociacao" />
     </application>
 

@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="br.com.magicbox.soscasa.ProblemaActivity">
+    tools:context="br.com.magicbox.soscasa.ProblemaClienteActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

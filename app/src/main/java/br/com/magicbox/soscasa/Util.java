@@ -1,5 +1,6 @@
 package br.com.magicbox.soscasa;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 
@@ -17,7 +18,7 @@ import br.com.magicbox.soscasa.models.Usuario;
  */
 
 public class Util {
-    public static void onAuthSuccess(Context context, DatabaseReference mDatabase, FirebaseUser user, Usuario usuario) {
+    public static void onAuthSuccess(Activity context, DatabaseReference mDatabase, FirebaseUser user, Usuario usuario) {
         writeNewUser(mDatabase, user.getUid(), usuario);
 
         if (usuario.getEhProfissional()) {
@@ -25,10 +26,10 @@ public class Util {
         } else {
             context.startActivity(new Intent(context, ClienteActivity.class));
         }
-        //context.finish();
+        context.finish();
     }
 
-    public static void onAuthSuccess(final Context context, final DatabaseReference mDatabase, final FirebaseUser user) {
+    public static void onAuthSuccess(final Activity context, final DatabaseReference mDatabase, final FirebaseUser user) {
 
         mDatabase.child("usuarios")
                 .child(user.getUid()).addListenerForSingleValueEvent(

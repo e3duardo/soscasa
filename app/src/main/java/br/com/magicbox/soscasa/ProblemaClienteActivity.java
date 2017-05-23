@@ -22,7 +22,7 @@ import br.com.magicbox.soscasa.models.Problema;
 import br.com.magicbox.soscasa.models.Usuario;
 import br.com.magicbox.soscasa.viewholder.NegociacaoViewHolder;
 
-public class ProblemaActivity extends AppCompatActivity {
+public class ProblemaClienteActivity extends AppCompatActivity {
 
     private DatabaseReference mDatabase;
 
@@ -41,7 +41,7 @@ public class ProblemaActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_problema);
+        setContentView(R.layout.activity_problema_cliente);
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
@@ -65,7 +65,7 @@ public class ProblemaActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        Toast.makeText(ProblemaActivity.this, "sequence1", Toast.LENGTH_SHORT).show();
+        Toast.makeText(ProblemaClienteActivity.this, "sequence1", Toast.LENGTH_SHORT).show();
 
         tvStatus.setText(problema.getStatus().getI18n());
         tvDescricao.setText(problema.getDescricao());
@@ -87,7 +87,7 @@ public class ProblemaActivity extends AppCompatActivity {
 
         rvNegociacoes.setAdapter(new NegociacaoAdapter(this, negociacoes, usuario));
 
-        Toast.makeText(ProblemaActivity.this, "sequence2", Toast.LENGTH_SHORT).show();
+        Toast.makeText(ProblemaClienteActivity.this, "sequence2", Toast.LENGTH_SHORT).show();
     }
 
 

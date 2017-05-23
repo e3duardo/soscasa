@@ -15,7 +15,7 @@
 
     <string name="action_settings">Settings</string>
     <string name="menu_login">Log in</string>
-    <string name="menu_logout">Log out</string>
+    <string name="menu_logout">Sair</string>
     <string name="login_label">Log In</string>
     <string name="email_label">Email</string>
     <string name="password_label">Senha</string>
@@ -38,5 +38,13 @@
     <string name="title_location_permission">Ei, preciso saber onde vc tá</string>
     <string name="text_location_permission">Me ajude a te ajudar, onde vc tá?</string>
     <string name="ok">Ok</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="perfil">Meu perfil</string>
+    <string name="negociacoes">Negociações</string>
+    <string name="problemas">Problemas</string>
+    <string name="aprovar">Aprovar</string>
+    <string name="novo_problema">Novo problema</string>
+    <string name="definir_valor">Definir valor</string>
+    <string name="cancelar">Cancelar</string>
 
 </resources>

@@ -9,9 +9,8 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.Query;
 
-import br.com.magicbox.soscasa.BaseActivity;
-import br.com.magicbox.soscasa.NegociacaoActivity;
-import br.com.magicbox.soscasa.ProblemaActivity;
+import br.com.magicbox.soscasa.NegociacaoClienteActivity;
+import br.com.magicbox.soscasa.NegociacaoProfissionalActivity;
 import br.com.magicbox.soscasa.R;
 import br.com.magicbox.soscasa.models.Negociacao;
 import br.com.magicbox.soscasa.models.Usuario;
@@ -53,7 +52,13 @@ public class NegociacaoAdapter extends FirebaseRecyclerAdapter<Negociacao, Negoc
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(activity, NegociacaoActivity.class);
+                Intent intent = null;
+
+                if (usuario.getEhProfissional())
+                    intent = new Intent(activity, NegociacaoProfissionalActivity.class);
+                else
+                    intent = new Intent(activity, NegociacaoClienteActivity.class);
+
                 intent.putExtra("negociacao", model);
                 activity.startActivity(intent);
             }

@@ -31,9 +31,9 @@ public class NegociacaoViewHolder extends RecyclerView.ViewHolder {
 
     public void bindToView(Negociacao negociacao, final boolean ehProfissional) {
 
-        Toast.makeText(itemView.getContext(), "sequence10", Toast.LENGTH_SHORT).show();
-
         final DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        tvDescription.setText(String.valueOf(negociacao.getValor()));//todo: formatar moeda
 
         if (!ehProfissional) {
             mDatabase.child("usuarios").child(negociacao.getProfissionalUid()).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -54,7 +54,7 @@ public class NegociacaoViewHolder extends RecyclerView.ViewHolder {
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                 Problema problema = dataSnapshot.getValue(Problema.class);
-                tvDescription.setText(problema.getDescricao());
+                //tvDescription.setText(problema.getDescricao());
 
                 if (ehProfissional) {
                     mDatabase.child("usuarios").child(problema.getClienteUid()).addListenerForSingleValueEvent(new ValueEventListener() {

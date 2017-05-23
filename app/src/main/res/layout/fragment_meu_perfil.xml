@@ -2,17 +2,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="br.com.magicbox.soscasa.fragment.MeuPerfilFragment"
-    android:padding="10sp">
+    android:padding="10sp"
+    tools:context="br.com.magicbox.soscasa.fragment.MeuPerfilFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Nome" />
+
         <EditText
             android:id="@+id/editText_perfil_nome"
             android:layout_width="match_parent"
@@ -22,31 +24,35 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Email" />
+
         <EditText
             android:id="@+id/editText_perfil_email"
-            android:enabled="false"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:enabled="false" />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Celular" />
+
         <EditText
             android:id="@+id/editText_perfil_celular"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
 
         <LinearLayout
             android:id="@+id/campos_profissional"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:visibility="gone"
-            >
+            android:visibility="gone">
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Área" />
+
             <Spinner
                 android:id="@+id/areaSpinner"
                 android:layout_width="match_parent"
@@ -57,8 +63,8 @@
             android:id="@+id/button_perfil_profissional"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Sou um profissional"
-            android:layout_marginTop="20sp"/>
+            android:layout_marginTop="20sp"
+            android:text="Sou um profissional" />
 
     </LinearLayout>
 
@@ -66,7 +72,7 @@
         android:id="@+id/button_perfil_ok"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="OK"
-        android:layout_gravity="bottom"/>
+        android:layout_gravity="bottom"
+        android:text="OK" />
 
 </FrameLayout>

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/negociacao_profissional"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    tools:context="br.com.magicbox.soscasa.NegociacaoProfissionalActivity">
+
+
+    <TextView
+        android:id="@+id/negociacao_profissional_l_cliente"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Profissional: "
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/negociacao_profissional_tv_cliente"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/negociacao_profissional_l_cliente"
+        android:ellipsize="end"
+        android:maxLines="1"
+        tools:text="Profissional" />
+
+
+    <TextView
+        android:id="@+id/negociacao_profissional_l_valor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/negociacao_profissional_tv_cliente"
+        android:layout_marginTop="10dp"
+        android:text="Valor: "
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/negociacao_profissional_tv_valor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/negociacao_profissional_l_valor"
+        android:layout_marginTop="5dp"
+        tools:text="R$ 0,00" />
+
+    <TextView
+        android:id="@+id/negociacao_profissional_l_mensagens"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/negociacao_profissional_tv_valor"
+        android:layout_marginTop="10dp"
+        android:text="Mensagens: "
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/negociacao_profissional_et_nova_mensagem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="30sp" />
+
+    <ImageButton
+        android:id="@+id/negociacao_profissional_b_enviar_mensagem"
+        android:layout_width="30sp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="6sp"
+        android:background="@android:color/transparent"
+        app:srcCompat="@drawable/ic_send_black_24dp" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/negociacao_profissional_rv_mensagens"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/negociacao_profissional_et_nova_mensagem"
+        android:layout_below="@+id/negociacao_profissional_l_mensagens"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
+        android:clipToPadding="false"
+        android:scrollbars="vertical"
+        tools:listitem="@layout/item_mensagem"
+
+        />
+
+
+</RelativeLayout>

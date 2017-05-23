@@ -3,17 +3,17 @@
 
     <item
         android:id="@+id/procurar_problema"
-        android:icon="@drawable/ic_home_black_24dp"
-        android:title="Problemas" />
+        android:icon="@drawable/ic_map_black_24dp"
+        android:title="@string/problemas" />
 
     <item
         android:id="@+id/meus_problemas_profissional"
-        android:icon="@drawable/ic_dashboard_black_24dp"
-        android:title="Minhas negociações" />
+        android:icon="@drawable/ic_assignment_black_24dp"
+        android:title="@string/negociacoes" />
 
     <item
         android:id="@+id/meu_perfil_profissional"
-        android:icon="@drawable/ic_notifications_black_24dp"
-        android:title="Meu perfil" />
+        android:icon="@drawable/ic_account_circle_black_24dp"
+        android:title="@string/perfil" />
 
 </menu>

@@ -5,11 +5,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -18,6 +21,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.NumberFormat;
 import java.util.Date;
 
 import br.com.magicbox.soscasa.adapter.MensagemAdapter;
@@ -25,16 +29,16 @@ import br.com.magicbox.soscasa.models.Mensagem;
 import br.com.magicbox.soscasa.models.Negociacao;
 import br.com.magicbox.soscasa.models.Problema;
 import br.com.magicbox.soscasa.models.Usuario;
-import br.com.magicbox.soscasa.viewholder.MensagemViewHolder;
 
-public class NegociacaoActivity extends AppCompatActivity {
+public class NegociacaoClienteActivity extends AppCompatActivity {
 
     private DatabaseReference mDatabase;
 
     private Negociacao negociacao;
 
-    private TextView tvCliente;
-    private TextView tvDescricaoProblema;
+    private TextView tvProfissional;
+    //private TextView tvDescricaoProblema;
+    private TextView tvValor;
     private TextView tvNovaMensagem;
 
     private RecyclerView mRecycler;
@@ -43,15 +47,27 @@ public class NegociacaoActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_negociacao);
+        setContentView(R.layout.activity_negociacao_cliente);
+
+        NumberFormat format = NumberFormat.getCurrencyInstance();
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
         negociacao = (Negociacao) getIntent().getSerializableExtra("negociacao");
 
-        tvCliente = (TextView) findViewById(R.id.tv_negociacao_cliente);
-        tvDescricaoProblema = (TextView) findViewById(R.id.tv_negociacao_descricao_problema);
-        tvNovaMensagem = (TextView) findViewById(R.id.tv_negociacao_nova_mensagem);
+        tvProfissional = (TextView) findViewById(R.id.negociacao_cliente_tv_profissional);
+        //tvDescricaoProblema = (TextView) findViewById(R.id.tv_negociacao_cliente_descricao_problema);
+        tvNovaMensagem = (TextView) findViewById(R.id.negociacao_cliente_et_nova_mensagem);
+
+        tvValor = (TextView) findViewById(R.id.negociacao_cliente_tv_valor);
+        if(negociacao.getValor() != null) {
+            tvValor.setText(String.valueOf(format.format(negociacao.getValor())));
+        }else{
+            //findViewById(R.id.action_aprovar_negociacao).setVisibility(View.INVISIBLE);
+            tvValor.setVisibility(View.GONE);
+            findViewById(R.id.negociacao_cliente_l_valor).setVisibility(View.GONE);
+        }
+
 
         tvNovaMensagem.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -65,11 +81,9 @@ public class NegociacaoActivity extends AppCompatActivity {
         });
 
         mManager = new LinearLayoutManager(this);
-        //mManager.set
-        //mManager.setReverseLayout(true);
         mManager.setStackFromEnd(true);
 
-        mRecycler = (RecyclerView) findViewById(R.id.mensagem_list);
+        mRecycler = (RecyclerView) findViewById(R.id.negociacao_cliente_rv_mensagens);
         mRecycler.setHasFixedSize(true);
         mRecycler.setLayoutManager(mManager);
     }
@@ -83,13 +97,13 @@ public class NegociacaoActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                 Problema problema = dataSnapshot.getValue(Problema.class);
-                tvDescricaoProblema.setText(problema.getDescricao());
+                //tvDescricaoProblema.setText(problema.getDescricao());
 
                 mDatabase.child("usuarios").child(problema.getClienteUid()).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         Usuario cliente = dataSnapshot.getValue(Usuario.class);
-                        tvCliente.setText(cliente.getNome());
+                        tvProfissional.setText(cliente.getNome());
                     }
 
                     @Override
@@ -110,6 +124,25 @@ public class NegociacaoActivity extends AppCompatActivity {
         mRecycler.setAdapter(new MensagemAdapter(this, query));
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.navigation_negociacao_cliente, menu);
+        if(negociacao.getValor() == null)
+            menu.findItem(R.id.action_aprovar_negociacao).setVisible(false);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_aprovar_negociacao:
+                Toast.makeText(NegociacaoClienteActivity.this, "criar logica de aprovacao aqui", Toast.LENGTH_SHORT).show();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
     private void cadastrarMensagem(String texto) {
         String key = mDatabase.child("negociacoes").child(negociacao.getUid()).child("mensagens").push().getKey();
 
@@ -120,7 +153,7 @@ public class NegociacaoActivity extends AppCompatActivity {
 
         mDatabase.child("negociacoes").child(negociacao.getUid()).child("mensagens").child(key).setValue(mensagem);
 
-        Toast.makeText(NegociacaoActivity.this, "nova mensagem" , Toast.LENGTH_SHORT).show();
+        Toast.makeText(NegociacaoClienteActivity.this, "nova mensagem" , Toast.LENGTH_SHORT).show();
 
         mRecycler.smoothScrollToPosition(mRecycler.getAdapter().getItemCount());
     }
