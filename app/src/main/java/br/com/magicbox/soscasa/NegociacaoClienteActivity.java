@@ -61,7 +61,7 @@ public class NegociacaoClienteActivity extends AppCompatActivity {
 
         tvValor = (TextView) findViewById(R.id.negociacao_cliente_tv_valor);
         if(negociacao.getValor() != null) {
-            tvValor.setText(String.valueOf(format.format(negociacao.getValor())));
+            tvValor.setText(format.format(negociacao.getValor()));
         }else{
             //findViewById(R.id.action_aprovar_negociacao).setVisibility(View.INVISIBLE);
             tvValor.setVisibility(View.GONE);

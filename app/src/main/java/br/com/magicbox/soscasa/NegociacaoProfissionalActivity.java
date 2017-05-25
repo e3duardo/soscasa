@@ -6,14 +6,13 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.InputType;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -27,6 +26,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.util.Date;
 
@@ -34,6 +34,7 @@ import br.com.magicbox.soscasa.adapter.MensagemAdapter;
 import br.com.magicbox.soscasa.models.Mensagem;
 import br.com.magicbox.soscasa.models.Negociacao;
 import br.com.magicbox.soscasa.models.Problema;
+import br.com.magicbox.soscasa.models.StatusNegociacao;
 import br.com.magicbox.soscasa.models.Usuario;
 
 public class NegociacaoProfissionalActivity extends AppCompatActivity {
@@ -69,7 +70,7 @@ public class NegociacaoProfissionalActivity extends AppCompatActivity {
         etNovaMensagem.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_NULL  && event.getAction() == KeyEvent.ACTION_DOWN) {
+                if (actionId == EditorInfo.IME_NULL && event.getAction() == KeyEvent.ACTION_DOWN) {
                     cadastrarMensagem(etNovaMensagem.getText().toString());
                 }
                 return true;
@@ -82,9 +83,9 @@ public class NegociacaoProfissionalActivity extends AppCompatActivity {
             }
         });
 
-        if(negociacao.getValor() != null) {
+        if (negociacao.getValor() != null) {
             tvValor.setText(String.valueOf(format.format(negociacao.getValor())));
-        }else{
+        } else {
             tvValor.setVisibility(View.GONE);
             findViewById(R.id.negociacao_profissional_l_valor).setVisibility(View.GONE);
         }
@@ -140,11 +141,43 @@ public class NegociacaoProfissionalActivity extends AppCompatActivity {
         inflater.inflate(R.menu.navigation_negociacao_profissional, menu);
         return true;
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_enviar_valor_negociacao:
-                Toast.makeText(NegociacaoProfissionalActivity.this, "criar logica de enviar valor aqui", Toast.LENGTH_SHORT).show();
+
+                LayoutInflater inflater = LayoutInflater.from(NegociacaoProfissionalActivity.this);
+
+                View promptsView = inflater.inflate(R.layout.dialog_precificar_negociacao, null);
+
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                        NegociacaoProfissionalActivity.this);
+
+                alertDialogBuilder.setView(promptsView);
+
+                final EditText userInput = (EditText) promptsView
+                        .findViewById(R.id.editTextDialogUserInput);
+
+                // set dialog message
+                alertDialogBuilder
+                        .setCancelable(false)
+                        .setPositiveButton("Ok",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        mDatabase.child("negociacoes").child(negociacao.getUid()).child("status").setValue(StatusNegociacao.ORCADA);
+                                        mDatabase.child("negociacoes").child(negociacao.getUid()).child("valor").setValue(new Float(userInput.getText().toString()));
+                                    }
+                                })
+                        .setNegativeButton("Cancel",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        dialog.cancel();
+                                    }
+                                });
+
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                alertDialog.show();
 
                 return true;
             default:
@@ -162,7 +195,7 @@ public class NegociacaoProfissionalActivity extends AppCompatActivity {
 
         mDatabase.child("negociacoes").child(negociacao.getUid()).child("mensagens").child(key).setValue(mensagem);
 
-        Toast.makeText(NegociacaoProfissionalActivity.this, "nova mensagem" , Toast.LENGTH_SHORT).show();
+        Toast.makeText(NegociacaoProfissionalActivity.this, "nova mensagem", Toast.LENGTH_SHORT).show();
 
         mRecycler.smoothScrollToPosition(mRecycler.getAdapter().getItemCount());
 
