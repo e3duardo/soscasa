@@ -20,6 +20,21 @@
             android:layout_gravity="bottom"
             android:orientation="vertical">
 
+            <Button
+                android:text="cliente"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/client"
+                />
+
+            <Button
+                android:text="profissional"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/prof"
+
+                />
+
             <EditText
                 android:id="@+id/editText_login_email"
                 android:layout_width="match_parent"
