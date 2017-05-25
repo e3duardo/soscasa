@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -206,7 +207,7 @@ public class LoginFragment extends Fragment {
         redefinirSenha.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                final Snackbar mySnackbar = Snackbar.make(getView(), "Sucesso", 200);
                 LayoutInflater inflater = LayoutInflater.from(getActivity());
                 View promptsView = inflater.inflate(R.layout.dialog_reset, null);
 
@@ -231,7 +232,8 @@ public class LoginFragment extends Fragment {
                                                     public void onComplete(@NonNull Task<Void> task) {
 
                                                         if (task.isSuccessful()) {
-                                                            Toast.makeText(getActivity(),"Recuperação de acesso iniciada. Email enviado.", Toast.LENGTH_LONG).show();
+//                                                            Toast.makeText(getActivity(),"Recuperação de acesso iniciada. Email enviado.", Toast.LENGTH_LONG).show();
+                                                            mySnackbar.show();
                                                         }
                                                         else
                                                         Toast.makeText(
