@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.system.ErrnoException;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
@@ -43,12 +45,12 @@ public class LoginFragment extends Fragment {
 
 
     private LoginButton entrarFacebook;
-    private SignInButton entrarGoogle;
     private Button entrarEmail;
     private Button cadastrar;
     private Button client;
     private Button prof;
 
+    private ProgressBar progressBar;
     private FragmentActivity myContext;
 
     private Fragment fragment;
@@ -76,6 +78,8 @@ public class LoginFragment extends Fragment {
         email = (EditText) view.findViewById(R.id.editText_login_email);
         senha = (EditText) view.findViewById(R.id.editText_login_senha);
         continuar = (Button) view.findViewById(R.id.button_login_email);
+        progressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
+        progressBar.setVisibility(View.GONE);
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
@@ -102,17 +106,6 @@ public class LoginFragment extends Fragment {
                 // App code
             }
         });
-
-        entrarGoogle = (SignInButton) view.findViewById(R.id.button_entrar_google);
-        entrarGoogle.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View v) {
-
-
-                                                Toast.makeText(v.getContext(), "google login", Toast.LENGTH_LONG).show();
-                                            }
-                                        }
-        );
 
         entrarEmail = (Button) view.findViewById(R.id.button_login_email);
         entrarEmail.setOnClickListener(new View.OnClickListener() {
@@ -151,6 +144,7 @@ public class LoginFragment extends Fragment {
                                                            @Override
                                                            public void onComplete(@NonNull Task<AuthResult> task) {
                                                                Log.d(TAG, "signIn:onComplete:" + task.isSuccessful());
+                                                                   progressBar.setVisibility(View.VISIBLE);
 
                                                                if (task.isSuccessful()) {
                                                                    Util.onAuthSuccess(getActivity(), mDatabase, task.getResult().getUser());
@@ -176,9 +170,10 @@ public class LoginFragment extends Fragment {
                                                       @Override
                                                       public void onComplete(@NonNull Task<AuthResult> task) {
                                                           Log.d(TAG, "signIn:onComplete:" + task.isSuccessful());
-
+                                                          progressBar.setVisibility(View.VISIBLE);
                                                           if (task.isSuccessful()) {
                                                               Util.onAuthSuccess(getActivity(), mDatabase, task.getResult().getUser());
+
                                                           } else {
                                                               Toast.makeText(getActivity(), "Sign In Failed",
                                                                       Toast.LENGTH_SHORT).show();

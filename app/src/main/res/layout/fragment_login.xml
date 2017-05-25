@@ -1,8 +1,9 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16sp"
+    android:layout_marginTop="20dp"
     tools:context="br.com.magicbox.soscasa.fragment.LoginFragment">
 
     <ImageView
@@ -14,11 +15,13 @@
         android:src="@drawable/logo"
         android:layout_gravity="center_horizontal"/>
 
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:orientation="vertical">
+
 
             <Button
                 android:text="cliente"
@@ -32,8 +35,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:id="@+id/prof"
-
                 />
+
 
             <EditText
                 android:id="@+id/editText_login_email"
@@ -47,17 +50,20 @@
                 android:layout_height="wrap_content"
                 android:hint="Senha"
                 android:inputType="textPassword" />
-
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="gone"
+                />
             <Button
+                android:layout_marginTop="100dp"
                 android:id="@+id/button_login_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
                 android:text="Entrar" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="60dp" />
 
             <com.facebook.login.widget.LoginButton
                 android:id="@+id/button_entrar_facebook"
@@ -69,11 +75,7 @@
                 android:paddingBottom="15sp"
                 android:paddingTop="15sp" />
 
-            <com.google.android.gms.common.SignInButton
-                android:id="@+id/button_entrar_google"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom" />
+
 
             <Button
                 android:id="@+id/button_cadastrar"
@@ -93,4 +95,4 @@
         </LinearLayout>
 
 
-</FrameLayout>
+</RelativeLayout>
