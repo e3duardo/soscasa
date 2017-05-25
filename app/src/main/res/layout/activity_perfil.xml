@@ -1,9 +1,10 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="10sp"
-    tools:context="br.com.magicbox.soscasa.fragment.MeuPerfilFragment">
+    tools:context="br.com.magicbox.soscasa.PerfilActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -66,13 +67,15 @@
             android:layout_marginTop="20sp"
             android:text="Sou um profissional" />
 
+
+        <Button
+            android:id="@+id/button_perfil_ok"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:text="OK" />
     </LinearLayout>
 
-    <Button
-        android:id="@+id/button_perfil_ok"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:text="OK" />
 
-</FrameLayout>
+
+</android.support.constraint.ConstraintLayout>

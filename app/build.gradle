@@ -6,6 +6,7 @@ android {
     defaultConfig {
         applicationId "br.com.magicbox.soscasa"
         minSdkVersion 16
+        //minSdkVersion 21
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"

@@ -1,12 +1,11 @@
-package br.com.magicbox.soscasa.fragment;
+package br.com.magicbox.soscasa;
 
-import android.location.LocationManager;
+import android.app.Activity;
+import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -20,34 +19,26 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.magicbox.soscasa.ClienteActivity;
-import br.com.magicbox.soscasa.R;
 import br.com.magicbox.soscasa.models.Area;
 import br.com.magicbox.soscasa.models.Problema;
 import br.com.magicbox.soscasa.models.StatusProblema;
 
 import static android.content.ContentValues.TAG;
 
-
-public class DefinirProblemaFragment extends Fragment {
+public class NovoProblemaActivity extends BaseActivity {
 
     private Spinner sArea;
     private AutoCompleteTextView actvProblema;
     private Button bCadastrar;
 
-    private ClienteActivity activity;
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_novo_problema);
 
-        activity = (ClienteActivity) getActivity();
-
-        View view = inflater.inflate(R.layout.fragment_definir_problema, container, false);
-
-        sArea = (Spinner) view.findViewById(R.id.areaSpinner);
-        actvProblema = (AutoCompleteTextView) view.findViewById(R.id.problemaEditText);
-        bCadastrar = (Button) view.findViewById(R.id.okButton);
+        sArea = (Spinner) findViewById(R.id.areaSpinner);
+        actvProblema = (AutoCompleteTextView) findViewById(R.id.problemaEditText);
+        bCadastrar = (Button) findViewById(R.id.okButton);
 
         bCadastrar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,14 +47,7 @@ public class DefinirProblemaFragment extends Fragment {
             }
         });
 
-        return view;
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        activity.getDatabase().child("areas").addValueEventListener(new ValueEventListener() {
+        getDatabase().child("areas").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 List<Area> areas = new ArrayList<>();
@@ -73,7 +57,7 @@ public class DefinirProblemaFragment extends Fragment {
                     areas.add(area);
                 }
 
-                ArrayAdapter<Area> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, areas);
+                ArrayAdapter<Area> adapter = new ArrayAdapter<>(NovoProblemaActivity.this, android.R.layout.simple_spinner_item, areas);
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 sArea.setAdapter(adapter);
             }
@@ -86,20 +70,24 @@ public class DefinirProblemaFragment extends Fragment {
     }
 
     private void cadastrarProblema(String descricao, Area area) {
-        String key = activity.getDatabase().child("problemas").push().getKey();
+        String key = getDatabase().child("problemas").push().getKey();
 
         Problema problema = new Problema();
         problema.setStatus(StatusProblema.SOLICITADO);
         problema.setDescricao(descricao);
         problema.setAreaUid(area.getUid());
-        problema.setClienteUid(activity.getUsuario().getUid());
-        problema.setLatitude(activity.latitude);
-        problema.setLongitude(activity.longitude);
+        problema.setClienteUid(getUsuario().getUid());
+        problema.setLatitude(latitude);
+        problema.setLongitude(longitude);
 
-        activity.getDatabase().child("problemas").child(key).setValue(problema);
+        getDatabase().child("problemas").child(key).setValue(problema);
 
-        Toast.makeText(getActivity(), "novo problema: " + problema.getDescricao() + " " + area.getNome(), Toast.LENGTH_SHORT).show();
+        problema.setUid(key);
+        //Toast.makeText(getActivity(), "novo problema: " + problema.getDescricao() + " " + area.getNome(), Toast.LENGTH_SHORT).show();
+
+        Intent returnIntent = new Intent();
+        returnIntent.putExtra("result",problema);
+        setResult(Activity.RESULT_OK,returnIntent);
+        finish();
     }
-
-
 }

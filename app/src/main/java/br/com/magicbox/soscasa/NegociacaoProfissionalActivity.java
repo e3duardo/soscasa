@@ -29,6 +29,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import br.com.magicbox.soscasa.adapter.MensagemAdapter;
 import br.com.magicbox.soscasa.models.Mensagem;
@@ -45,6 +46,7 @@ public class NegociacaoProfissionalActivity extends AppCompatActivity {
 
     private TextView tvCliente;
     private TextView tvValor;
+    private TextView tvStatus;
     private EditText etNovaMensagem;
     private ImageButton bEnviarMensagem;
 
@@ -56,14 +58,15 @@ public class NegociacaoProfissionalActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_negociacao_profissional);
 
-        NumberFormat format = NumberFormat.getCurrencyInstance();
+        NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
         negociacao = (Negociacao) getIntent().getSerializableExtra("negociacao");
 
-        tvCliente = (TextView) findViewById(R.id.negociacao_profissional_l_cliente);
-        tvValor = (TextView) findViewById(R.id.negociacao_profissional_l_valor);
+        tvCliente = (TextView) findViewById(R.id.negociacao_profissional_tv_cliente);
+        tvValor = (TextView) findViewById(R.id.negociacao_profissional_tv_valor);
+        tvStatus = (TextView) findViewById(R.id.negociacao_profissional_tv_status);
         etNovaMensagem = (EditText) findViewById(R.id.negociacao_profissional_et_nova_mensagem);
         bEnviarMensagem = (ImageButton) findViewById(R.id.negociacao_profissional_b_enviar_mensagem);
 
@@ -83,11 +86,13 @@ public class NegociacaoProfissionalActivity extends AppCompatActivity {
             }
         });
 
+        tvStatus.setText(negociacao.getStatus().getI18n());
+
         if (negociacao.getValor() != null) {
             tvValor.setText(String.valueOf(format.format(negociacao.getValor())));
         } else {
             tvValor.setVisibility(View.GONE);
-            findViewById(R.id.negociacao_profissional_l_valor).setVisibility(View.GONE);
+            findViewById(R.id.negociacao_profissional_tv_valor).setVisibility(View.GONE);
         }
 
         mManager = new LinearLayoutManager(this);
@@ -98,11 +103,6 @@ public class NegociacaoProfissionalActivity extends AppCompatActivity {
         mRecycler = (RecyclerView) findViewById(R.id.negociacao_profissional_rv_mensagens);
         mRecycler.setHasFixedSize(true);
         mRecycler.setLayoutManager(mManager);
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
 
         mDatabase.child("problemas").child(negociacao.getProblemaUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -134,6 +134,7 @@ public class NegociacaoProfissionalActivity extends AppCompatActivity {
 
         mRecycler.setAdapter(new MensagemAdapter(this, query));
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

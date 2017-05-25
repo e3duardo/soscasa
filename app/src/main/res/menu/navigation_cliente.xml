@@ -4,6 +4,12 @@
     tools:context=".AntigaMainActivityAntiga">
 
     <item
+        android:id="@+id/action_profile"
+        android:title="Meu perfil"
+        android:visible="true"
+        android:icon="@drawable/ic_account_circle_white_24dp"
+        app:showAsAction="always" />
+    <item
         android:id="@+id/action_logout"
         android:title="@string/menu_logout"
         android:visible="true"

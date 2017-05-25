@@ -1,25 +1,18 @@
-package br.com.magicbox.soscasa.fragment;
+package br.com.magicbox.soscasa;
 
-import android.net.Uri;
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -29,41 +22,41 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.magicbox.soscasa.R;
-import br.com.magicbox.soscasa.Util;
 import br.com.magicbox.soscasa.models.Area;
 import br.com.magicbox.soscasa.models.Usuario;
 
 import static android.content.ContentValues.TAG;
 
-public class MeuPerfilFragment extends Fragment {
+public class PerfilActivity extends AppCompatActivity {
 
-    EditText nome;
-    EditText email;
-   // EditText senha;
-    EditText celular;
-    Spinner area;
-    Button botao;
-    Button profissional;
+    private EditText nome;
+    private EditText email;
+    // EditText senha;
+    private EditText celular;
+    private Spinner area;
+    private Button botao;
+    private Button profissional;
 
-    Usuario usuario;
+    private Usuario usuario;
 
     private DatabaseReference mDatabase;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.fragment_meu_perfil, container, false);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_perfil);
+
+
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
-        nome = (EditText) view.findViewById(R.id.editText_perfil_nome);
-        email = (EditText) view.findViewById(R.id.editText_perfil_email);
-        celular = (EditText) view.findViewById(R.id.editText_perfil_celular);
-        area = (Spinner) view.findViewById(R.id.areaSpinner);
-        botao = (Button) view.findViewById(R.id.button_perfil_ok);
-        profissional = (Button) view.findViewById(R.id.button_perfil_profissional);
+        nome = (EditText) findViewById(R.id.editText_perfil_nome);
+        email = (EditText) findViewById(R.id.editText_perfil_email);
+        celular = (EditText) findViewById(R.id.editText_perfil_celular);
+        area = (Spinner) findViewById(R.id.areaSpinner);
+        botao = (Button) findViewById(R.id.button_perfil_ok);
+        profissional = (Button) findViewById(R.id.button_perfil_profissional);
 
-        final View camposProfissional = view.findViewById(R.id.campos_profissional);
+        final View camposProfissional = findViewById(R.id.campos_profissional);
 
         final String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
@@ -78,7 +71,7 @@ public class MeuPerfilFragment extends Fragment {
                             email.setText(usuario.getEmail());
                             celular.setText(usuario.getCelular());
 
-                            if(usuario.getEhProfissional()){
+                            if (usuario.getEhProfissional()) {
                                 camposProfissional.setVisibility(View.VISIBLE);
                                 profissional.setVisibility(View.GONE);
                             }
@@ -86,14 +79,14 @@ public class MeuPerfilFragment extends Fragment {
                             mDatabase.child("areas").addValueEventListener(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(DataSnapshot dataSnapshot) {
-                                    List<Area> areas =  new ArrayList<>();
-                                    for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                                    List<Area> areas = new ArrayList<>();
+                                    for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                                         Area area = postSnapshot.getValue(Area.class);
                                         area.setUid(postSnapshot.getKey());
                                         areas.add(area);
                                     }
 
-                                    ArrayAdapter<Area> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, areas);
+                                    ArrayAdapter<Area> adapter = new ArrayAdapter<>(PerfilActivity.this, android.R.layout.simple_spinner_item, areas);
                                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                                     area.setAdapter(adapter);
 
@@ -124,11 +117,17 @@ public class MeuPerfilFragment extends Fragment {
                 usuario.setCelular(celular.getText().toString());
 
                 Area areaAtual = (Area) area.getSelectedItem();
-                usuario.setAreaUid(areaAtual.getUid());
+                if(areaAtual!=null)
+                    usuario.setAreaUid(areaAtual.getUid());
 
                 Util.writeNewUser(mDatabase, userId, usuario);
 
-                Toast.makeText(getActivity(), "Usuário salvo!", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getActivity(), "Usuário salvo!", Toast.LENGTH_SHORT).show();
+
+                Intent returnIntent = new Intent();
+                //returnIntent.putExtra("result",problema);
+                setResult(Activity.RESULT_OK,returnIntent);
+                finish();
             }
         });
         profissional.setOnClickListener(new View.OnClickListener() {
@@ -143,10 +142,5 @@ public class MeuPerfilFragment extends Fragment {
                 profissional.setVisibility(View.GONE);
             }
         });
-
-
-
-
-        return view;
     }
 }

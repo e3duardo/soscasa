@@ -9,7 +9,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-import br.com.magicbox.soscasa.fragment.MeuPerfilFragment;
 import br.com.magicbox.soscasa.fragment.MinhasNegociacoesFragment;
 import br.com.magicbox.soscasa.fragment.ProcurarProblema;
 
@@ -44,7 +43,7 @@ public class ProfissionalActivity extends BaseActivity {
                                 fragment = new MinhasNegociacoesFragment();
                                 break;
                             case R.id.meu_perfil_profissional:
-                                fragment = new MeuPerfilFragment();
+                                //fragment = new MeuPerfilFragment();
                                 break;
                         }
                         final FragmentTransaction transaction = fragmentManager.beginTransaction();
@@ -57,7 +56,7 @@ public class ProfissionalActivity extends BaseActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_main, menu);
+        inflater.inflate(R.menu.navigation_cliente, menu);
         return true;
     }
     @Override

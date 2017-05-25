@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:layout_margin="2dp">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -26,7 +26,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
+            android:layout_below="@+id/tv_item_problema_area"
             tools:text="@string/lorem" />
 
-    </LinearLayout>
+    </RelativeLayout>
 </android.support.v7.widget.CardView>
