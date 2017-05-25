@@ -4,6 +4,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,6 +22,8 @@ import br.com.magicbox.soscasa.adapter.NegociacaoAdapter;
 import br.com.magicbox.soscasa.models.Area;
 import br.com.magicbox.soscasa.models.Negociacao;
 import br.com.magicbox.soscasa.models.Problema;
+import br.com.magicbox.soscasa.models.StatusNegociacao;
+import br.com.magicbox.soscasa.models.StatusProblema;
 import br.com.magicbox.soscasa.models.Usuario;
 import br.com.magicbox.soscasa.viewholder.NegociacaoViewHolder;
 
@@ -90,6 +95,27 @@ public class ProblemaClienteActivity extends AppCompatActivity {
         Toast.makeText(ProblemaClienteActivity.this, "sequence2", Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.navigation_problema_cliente, menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_cancelar_problema:
+                if(problema.getStatus() != StatusProblema.CANCELADO && problema.getStatus() != StatusProblema.RESOLVIDO) {
+                    mDatabase.child("problemas").child(problema.getUid()).child("status").setValue(StatusProblema.CANCELADO);
+
+                }
+                //todo:mensagem
+                //Toast.makeText(NegociacaoClienteActivity.this, "criar logica de aprovacao aqui", Toast.LENGTH_SHORT).show();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
     @Override
     public void onDestroy() {

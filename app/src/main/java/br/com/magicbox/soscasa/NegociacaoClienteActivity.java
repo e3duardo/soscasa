@@ -23,6 +23,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.text.NumberFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import br.com.magicbox.soscasa.adapter.MensagemAdapter;
 import br.com.magicbox.soscasa.models.Mensagem;
@@ -49,7 +50,7 @@ public class NegociacaoClienteActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_negociacao_cliente);
 
-        NumberFormat format = NumberFormat.getCurrencyInstance();
+        NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
 

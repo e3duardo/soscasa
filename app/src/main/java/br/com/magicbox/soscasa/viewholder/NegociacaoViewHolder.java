@@ -11,6 +11,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.NumberFormat;
+import java.util.Locale;
 
 import br.com.magicbox.soscasa.R;
 import br.com.magicbox.soscasa.models.Negociacao;
@@ -34,7 +35,7 @@ public class NegociacaoViewHolder extends RecyclerView.ViewHolder {
 
         final DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
 
-        NumberFormat format = NumberFormat.getCurrencyInstance();
+        NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
 
         if (!ehProfissional) {
 

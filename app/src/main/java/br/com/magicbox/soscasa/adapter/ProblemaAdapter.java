@@ -12,6 +12,7 @@ import br.com.magicbox.soscasa.ProblemaClienteActivity;
 import br.com.magicbox.soscasa.ProblemaProfissionalActivity;
 import br.com.magicbox.soscasa.R;
 import br.com.magicbox.soscasa.models.Problema;
+import br.com.magicbox.soscasa.models.StatusProblema;
 import br.com.magicbox.soscasa.models.Usuario;
 import br.com.magicbox.soscasa.viewholder.ProblemaViewHolder;
 
@@ -30,6 +31,8 @@ public class ProblemaAdapter extends FirebaseRecyclerAdapter<Problema, ProblemaV
         this.usuario = usuario;
     }
 
+
+
     @Override
     protected Problema parseSnapshot(DataSnapshot snapshot) {
         Problema problema = super.parseSnapshot(snapshot);
@@ -39,24 +42,26 @@ public class ProblemaAdapter extends FirebaseRecyclerAdapter<Problema, ProblemaV
 
     @Override
     protected void populateViewHolder(final ProblemaViewHolder viewHolder, final Problema model, final int position) {
-        viewHolder.bindToView(model);
+        if(model.getStatus() != StatusProblema.CANCELADO && model.getStatus() != StatusProblema.RESOLVIDO) {
+            viewHolder.bindToView(model);
 
-        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
-                Intent intent = null;
+                    Intent intent = null;
 
-                if (usuario.getEhProfissional())
-                    intent = new Intent(activity, ProblemaProfissionalActivity.class);
-                else
-                    intent = new Intent(activity, ProblemaClienteActivity.class);
+                    if (usuario.getEhProfissional())
+                        intent = new Intent(activity, ProblemaProfissionalActivity.class);
+                    else
+                        intent = new Intent(activity, ProblemaClienteActivity.class);
 
-                intent.putExtra("problema", model);
-                intent.putExtra("usuario", usuario);
-                activity.startActivity(intent);
+                    intent.putExtra("problema", model);
+                    intent.putExtra("usuario", usuario);
+                    activity.startActivity(intent);
 
-            }
-        });
+                }
+            });
+        }
     }
 }
