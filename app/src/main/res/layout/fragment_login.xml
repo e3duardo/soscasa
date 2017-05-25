@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     xmlns:facebook="http://schemas.android.com/apk/res-auto"
     android:padding="16sp"
-    android:layout_marginTop="20dp"
+    android:background="@mipmap/background"
     tools:context="br.com.magicbox.soscasa.fragment.LoginFragment">
 
     <ImageView
@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30sp"
-        android:src="@drawable/logo"
+        android:src="@mipmap/ic_launcher"
         android:layout_gravity="center_horizontal"
         />
 
@@ -21,9 +21,13 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
+            android:layout_gravity="end"
             android:orientation="vertical"
-            android:weightSum="1">
+            android:weightSum="1"
+            android:layout_marginTop="74dp"
+            android:layout_below="@+id/icon"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
 
 
             <Button
@@ -45,25 +49,30 @@
                 android:id="@+id/editText_login_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="E-mail" />
+                android:hint="E-mail"
+                android:textColorHint="#ff0000"
+                android:textColor="#ff0000"
+                />
 
             <EditText
                 android:id="@+id/editText_login_senha"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Senha"
-                android:inputType="textPassword" />
+                android:inputType="textPassword"
+                android:textColorHint="#ff0000"
+                android:textColor="#ff0000"/>
 
             <ProgressBar
                 android:id="@+id/progress_bar"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:visibility="gone"
                 />
 
             <Button
-                android:layout_marginTop="100dp"
+                android:layout_marginTop="50dp"
                 android:id="@+id/button_login_email"
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
@@ -83,17 +92,22 @@
             <TextView
                 android:id="@+id/button_cadastrar"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
                 android:onClick="button_cadastrar"
-                android:text="Cadastrar" />
+                android:textColor="#ff0000"
+                android:text="Cadastrar"
+
+                />
 
             <TextView
                 android:id="@+id/redefinir_senha"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="Redefinir Senha"
+                android:textColor="#ff0000"
 
-                android:text="Redefinir Senha" />
+                />
 
         </LinearLayout>
 

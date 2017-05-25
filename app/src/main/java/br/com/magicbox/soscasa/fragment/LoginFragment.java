@@ -222,7 +222,7 @@ public class LoginFragment extends Fragment {
                 // set dialog message
                 alertDialogBuilder
                         .setCancelable(false)
-                        .setPositiveButton("Ok",
+                        .setPositiveButton("Redefinir",
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
                                         mAuth

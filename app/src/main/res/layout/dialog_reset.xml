@@ -8,7 +8,7 @@
 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="e-mail "
+        android:text="Email "
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <EditText
