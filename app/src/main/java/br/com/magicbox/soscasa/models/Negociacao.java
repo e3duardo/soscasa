@@ -21,7 +21,7 @@ public class Negociacao implements Serializable {
 
     private StatusNegociacao status;
 
-    private BigDecimal valor;
+    private Float valor;
 
 
     public String getUid() {
@@ -60,11 +60,11 @@ public class Negociacao implements Serializable {
         this.status = status;
     }
 
-    public BigDecimal getValor() {
+    public Float getValor() {
         return valor;
     }
 
-    public void setValor(BigDecimal valor) {
+    public void setValor(Float valor) {
         this.valor = valor;
     }
 }

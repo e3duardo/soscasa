@@ -47,8 +47,6 @@ public class NegociacaoAdapter extends FirebaseRecyclerAdapter<Negociacao, Negoc
 
         viewHolder.bindToView(model, usuario.getEhProfissional());
 
-        Toast.makeText(activity, "sequence6", Toast.LENGTH_SHORT).show();
-
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
