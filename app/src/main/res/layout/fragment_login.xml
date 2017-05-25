@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:facebook="http://schemas.android.com/apk/res-auto"
     android:padding="16sp"
     android:layout_marginTop="20dp"
     tools:context="br.com.magicbox.soscasa.fragment.LoginFragment">
@@ -13,14 +14,16 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30sp"
         android:src="@drawable/logo"
-        android:layout_gravity="center_horizontal"/>
+        android:layout_gravity="center_horizontal"
+        />
 
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:weightSum="1">
 
 
             <Button
@@ -50,6 +53,7 @@
                 android:layout_height="wrap_content"
                 android:hint="Senha"
                 android:inputType="textPassword" />
+
             <ProgressBar
                 android:id="@+id/progress_bar"
                 android:layout_width="match_parent"
@@ -57,11 +61,12 @@
                 android:layout_gravity="center"
                 android:visibility="gone"
                 />
+
             <Button
                 android:layout_marginTop="100dp"
                 android:id="@+id/button_login_email"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="35dp"
                 android:layout_gravity="bottom"
                 android:text="Entrar" />
 
@@ -70,26 +75,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_margin="3sp"
-                android:layout_marginTop="20dp"
-                android:paddingBottom="15sp"
-                android:paddingTop="15sp" />
+                facebook:com_facebook_login_text="Entrar com Facebook"
+               />
 
 
 
-            <Button
+            <TextView
                 android:id="@+id/button_cadastrar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="fill"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="bottom"
+                android:onClick="button_cadastrar"
                 android:text="Cadastrar" />
 
             <TextView
                 android:id="@+id/redefinir_senha"
-                android:layout_width="match_parent"
-                android:paddingTop="10dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
+
                 android:text="Redefinir Senha" />
 
         </LinearLayout>

@@ -1,13 +1,14 @@
 package br.com.magicbox.soscasa.fragment;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.system.ErrnoException;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
@@ -24,7 +26,6 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
-import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
@@ -35,6 +36,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import br.com.magicbox.soscasa.EntrarActivity;
 import br.com.magicbox.soscasa.R;
 import br.com.magicbox.soscasa.Util;
 
@@ -43,10 +45,9 @@ import static android.content.ContentValues.TAG;
 
 public class LoginFragment extends Fragment {
 
-
     private LoginButton entrarFacebook;
     private Button entrarEmail;
-    private Button cadastrar;
+    private TextView cadastrar;
     private Button client;
     private Button prof;
 
@@ -60,6 +61,7 @@ public class LoginFragment extends Fragment {
     private EditText email;
     private EditText senha;
     private Button continuar;
+    private TextView redefinirSenha;
 
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
@@ -186,7 +188,7 @@ public class LoginFragment extends Fragment {
         );
 
 
-        cadastrar = (Button) view.findViewById(R.id.button_cadastrar);
+        cadastrar = (TextView) view.findViewById(R.id.button_cadastrar);
         cadastrar.setOnClickListener(new View.OnClickListener() {
                                          @Override
                                          public void onClick(View v) {
@@ -199,6 +201,53 @@ public class LoginFragment extends Fragment {
                                          }
                                      }
         );
+
+        redefinirSenha = (TextView) view.findViewById(R.id.redefinir_senha);
+        redefinirSenha.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                LayoutInflater inflater = LayoutInflater.from(getActivity());
+                View promptsView = inflater.inflate(R.layout.dialog_reset, null);
+
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                        getActivity());
+
+                alertDialogBuilder.setView(promptsView);
+
+                final TextView userInput = (TextView) promptsView
+                        .findViewById(R.id.email_reset);
+
+                // set dialog message
+                alertDialogBuilder
+                        .setCancelable(false)
+                        .setPositiveButton("Ok",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        mAuth
+                                        .sendPasswordResetEmail( userInput.getText().toString() )
+                                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<Void> task) {
+
+                                                        if (task.isSuccessful()) {
+                                                            Toast.makeText(getActivity(),"Recuperação de acesso iniciada. Email enviado.", Toast.LENGTH_LONG).show();
+                                                        }
+                                                        else
+                                                        Toast.makeText(
+                                                                getActivity(),
+                                                                "Falhou! Tente novamente",
+                                                                Toast.LENGTH_SHORT
+                                                        ).show();
+                                                    }
+                                                });
+                                    }
+                                });
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                alertDialog.show();
+
+            }
+            });
 
         mAuthStateListener = new FirebaseAuth.AuthStateListener() {
 
