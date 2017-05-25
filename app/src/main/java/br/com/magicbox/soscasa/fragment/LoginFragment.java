@@ -46,6 +46,8 @@ public class LoginFragment extends Fragment {
     private SignInButton entrarGoogle;
     private Button entrarEmail;
     private Button cadastrar;
+    private Button client;
+    private Button prof;
 
     private FragmentActivity myContext;
 
@@ -138,6 +140,56 @@ public class LoginFragment extends Fragment {
                                            }
                                        }
         );
+
+        client = (Button) view.findViewById(R.id.client);
+        client.setOnClickListener(new View.OnClickListener() {
+                                           @Override
+                                           public void onClick(View v) {
+
+                                               mAuth.signInWithEmailAndPassword("msn@msn.com", "123123")
+                                               .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
+                                                           @Override
+                                                           public void onComplete(@NonNull Task<AuthResult> task) {
+                                                               Log.d(TAG, "signIn:onComplete:" + task.isSuccessful());
+
+                                                               if (task.isSuccessful()) {
+                                                                   Util.onAuthSuccess(getActivity(), mDatabase, task.getResult().getUser());
+                                                               } else {
+                                                                   Toast.makeText(getActivity(), "Sign In Failed",
+                                                                           Toast.LENGTH_SHORT).show();
+                                                               }
+                                                           }
+                                                       });
+
+                                           }
+                                       }
+        );
+
+
+        prof = (Button) view.findViewById(R.id.prof);
+        prof.setOnClickListener(new View.OnClickListener() {
+                                      @Override
+                                      public void onClick(View v) {
+
+                                          mAuth.signInWithEmailAndPassword("yahoo@yahoo.com", "123123")
+                                                  .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
+                                                      @Override
+                                                      public void onComplete(@NonNull Task<AuthResult> task) {
+                                                          Log.d(TAG, "signIn:onComplete:" + task.isSuccessful());
+
+                                                          if (task.isSuccessful()) {
+                                                              Util.onAuthSuccess(getActivity(), mDatabase, task.getResult().getUser());
+                                                          } else {
+                                                              Toast.makeText(getActivity(), "Sign In Failed",
+                                                                      Toast.LENGTH_SHORT).show();
+                                                          }
+                                                      }
+                                                  });
+
+                                      }
+                                  }
+        );
+
 
         cadastrar = (Button) view.findViewById(R.id.button_cadastrar);
         cadastrar.setOnClickListener(new View.OnClickListener() {
