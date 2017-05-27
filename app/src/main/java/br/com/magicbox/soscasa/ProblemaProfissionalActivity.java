@@ -71,7 +71,7 @@ public class ProblemaProfissionalActivity extends AppCompatActivity {
 
     private void populateView() {
         problemaDescricao.setText(problema.getDescricao());
-        mDatabase.child("areas").child(problema.getAreaUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+        mDatabase.child("areas").child(problema.getArea().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 problemaArea.setText(dataSnapshot.getValue(Area.class).getNome());
@@ -81,7 +81,7 @@ public class ProblemaProfissionalActivity extends AppCompatActivity {
 
             }
         });
-        mDatabase.child("usuarios").child(problema.getClienteUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+        mDatabase.child("usuarios").child(problema.getCliente().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 problemaCliente.setText(dataSnapshot.getValue(Usuario.class).getNome());

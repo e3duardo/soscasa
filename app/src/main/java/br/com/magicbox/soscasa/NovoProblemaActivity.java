@@ -17,6 +17,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import br.com.magicbox.soscasa.models.Area;
@@ -73,16 +74,18 @@ public class NovoProblemaActivity extends BaseActivity {
         String key = getDatabase().child("problemas").push().getKey();
 
         Problema problema = new Problema();
+        problema.setUid(key);
         problema.setStatus(StatusProblema.SOLICITADO);
         problema.setDescricao(descricao);
-        problema.setAreaUid(area.getUid());
-        problema.setClienteUid(getUsuario().getUid());
+        problema.setArea(area);
+        problema.setCliente(getUsuario());
         problema.setLatitude(latitude);
         problema.setLongitude(longitude);
+        problema.setSolicitadoEm(new Date());
 
-        getDatabase().child("problemas").child(key).setValue(problema);
+        getDatabase().child("problemas").child(key).setValue(problema.toMap());
 
-        problema.setUid(key);
+
         //Toast.makeText(getActivity(), "novo problema: " + problema.getDescricao() + " " + area.getNome(), Toast.LENGTH_SHORT).show();
 
         Intent returnIntent = new Intent();

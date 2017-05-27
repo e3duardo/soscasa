@@ -31,8 +31,6 @@ public class ProblemaAdapter extends FirebaseRecyclerAdapter<Problema, ProblemaV
         this.usuario = usuario;
     }
 
-
-
     @Override
     protected Problema parseSnapshot(DataSnapshot snapshot) {
         Problema problema = super.parseSnapshot(snapshot);
@@ -42,26 +40,24 @@ public class ProblemaAdapter extends FirebaseRecyclerAdapter<Problema, ProblemaV
 
     @Override
     protected void populateViewHolder(final ProblemaViewHolder viewHolder, final Problema model, final int position) {
-        if(model.getStatus() != StatusProblema.CANCELADO && model.getStatus() != StatusProblema.RESOLVIDO) {
-            viewHolder.bindToView(model);
+        viewHolder.bindToView(model);
 
-            viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-                    Intent intent = null;
+                Intent intent = null;
 
-                    if (usuario.getEhProfissional())
-                        intent = new Intent(activity, ProblemaProfissionalActivity.class);
-                    else
-                        intent = new Intent(activity, ProblemaClienteActivity.class);
+                if (usuario.getEhProfissional())
+                    intent = new Intent(activity, ProblemaProfissionalActivity.class);
+                else
+                    intent = new Intent(activity, ProblemaClienteActivity.class);
 
-                    intent.putExtra("problema", model);
-                    intent.putExtra("usuario", usuario);
-                    activity.startActivity(intent);
+                intent.putExtra("problema", model);
+                intent.putExtra("usuario", usuario);
+                activity.startActivity(intent);
 
-                }
+            }
             });
-        }
     }
 }

@@ -11,6 +11,7 @@ import com.google.firebase.database.PropertyName;
 import com.google.firebase.database.ValueEventListener;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,23 +22,22 @@ import java.util.Map;
 @IgnoreExtraProperties
 public class Problema implements Serializable{
 
-    @Exclude
     private String uid;
-
     private String descricao;
-
     private StatusProblema status;
-
-    private String areaUid;
-
-    private String clienteUid;
-
+    private Area area;
+    private Usuario cliente;
     private Double latitude;
-
     private Double longitude;
+    private Date solicitadoEm;
+    private Date pendenteEm;
+    private Date resolvidoEm;
+    private Date canceladoEm;
+
 
     public Problema() {
     }
+
 
     public String getUid() {
         return uid;
@@ -63,6 +63,22 @@ public class Problema implements Serializable{
         this.status = status;
     }
 
+    public Area getArea() {
+        return area;
+    }
+
+    public void setArea(Area area) {
+        this.area = area;
+    }
+
+    public Usuario getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Usuario cliente) {
+        this.cliente = cliente;
+    }
+
     public Double getLatitude() {
         return latitude;
     }
@@ -79,25 +95,54 @@ public class Problema implements Serializable{
         this.longitude = longitude;
     }
 
-    @PropertyName(value = "area")
-    public String getAreaUid() {
-        return areaUid;
+    public Date getSolicitadoEm() {
+        return solicitadoEm;
     }
 
-    @PropertyName(value = "cliente")
-    public String getClienteUid() {
-        return clienteUid;
+    public void setSolicitadoEm(Date solicitadoEm) {
+        this.solicitadoEm = solicitadoEm;
     }
 
-    @PropertyName(value = "area")
-    public void setAreaUid(String areaUid) {
-        this.areaUid = areaUid;
+    public Date getPendenteEm() {
+        return pendenteEm;
     }
 
-    @PropertyName(value = "cliente")
-    public void setClienteUid(String clienteUid) {
-        this.clienteUid = clienteUid;
+    public void setPendenteEm(Date pendenteEm) {
+        this.pendenteEm = pendenteEm;
     }
 
+    public Date getResolvidoEm() {
+        return resolvidoEm;
+    }
+
+    public void setResolvidoEm(Date resolvidoEm) {
+        this.resolvidoEm = resolvidoEm;
+    }
+
+    public Date getCanceladoEm() {
+        return canceladoEm;
+    }
+
+    public void setCanceladoEm(Date canceladoEm) {
+        this.canceladoEm = canceladoEm;
+    }
+
+    @Exclude
+    public Map<String, Object> toMap() {
+        HashMap<String, Object> result = new HashMap<>();
+        //result.put("uid", uid);
+        result.put("descricao", descricao);
+        result.put("status", status);
+        result.put("area", area.getUid());
+        result.put("cliente", cliente.getUid());
+        result.put("latitude", latitude);
+        result.put("longitude", longitude);
+        result.put("solicitadoEm", String.valueOf(solicitadoEm));
+        result.put("pendenteEm", String.valueOf(pendenteEm));
+        result.put("resolvidoEm", String.valueOf(resolvidoEm));
+        result.put("canceladoEm", String.valueOf(canceladoEm));
+
+        return result;
+    }
 
 }

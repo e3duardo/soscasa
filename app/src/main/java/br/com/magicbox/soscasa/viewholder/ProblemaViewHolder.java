@@ -32,7 +32,7 @@ public class ProblemaViewHolder extends RecyclerView.ViewHolder {
 
         final DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
 
-        mDatabase.child("areas").child(problema.getAreaUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+        mDatabase.child("areas").child(problema.getArea().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 tvArea.setText(dataSnapshot.getValue(Area.class).getNome());

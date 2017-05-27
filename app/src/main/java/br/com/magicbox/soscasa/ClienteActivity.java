@@ -69,7 +69,7 @@ public class ClienteActivity extends BaseActivity  {
     }
 
     @Override
-    protected void onStart() {
+    protected void onResume() {
         super.onResume();
 
         final Query query = getDatabase().child("problemas")
