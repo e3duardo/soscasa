@@ -3,26 +3,58 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="8sp"
     android:background="@drawable/item_background"
-    >
+    android:padding="8sp">
 
-        <TextView
-            android:id="@+id/tv_item_problema_area"
-            style="@style/TextAppearance.AppCompat.Medium"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:textStyle="bold"
-            tools:text="My First Post" />
+    <TextView
+        android:id="@+id/tv_item_problema_status"
+        style="@style/TextAppearance.AppCompat.Medium"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:ellipsize="end"
+        android:maxLines="1"
+        tools:text="Solicitado"
+        android:gravity="right"
+        android:textSize="14sp"
+        />
 
-        <TextView
-            android:id="@+id/tv_item_problema_descricao"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_below="@+id/tv_item_problema_area"
-            tools:text="@string/lorem" />
+    <TextView
+        android:id="@+id/tv_item_problema_line2"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/tv_item_problema_area"
+        android:layout_marginTop="5dp"
+        android:maxLines="1"
+        android:textSize="12sp"
+        android:gravity="right"
+        tools:text="10/10/2010" />
+
+    <TextView
+        android:id="@+id/tv_item_problema_area"
+        style="@style/TextAppearance.AppCompat.Medium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@id/tv_item_problema_status"
+        android:layout_toStartOf="@id/tv_item_problema_status"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textStyle="bold"
+        tools:text="My First Post" />
+
+    <TextView
+        android:id="@+id/tv_item_problema_descricao"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_item_problema_area"
+        android:layout_marginTop="5dp"
+        android:layout_toLeftOf="@id/tv_item_problema_line2"
+        android:layout_toStartOf="@id/tv_item_problema_line2"
+        android:maxLines="1"
+        tools:text="@string/lorem" />
+
 
 </RelativeLayout>

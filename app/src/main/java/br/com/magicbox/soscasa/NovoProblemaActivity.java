@@ -2,7 +2,6 @@ package br.com.magicbox.soscasa;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -10,7 +9,6 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -77,13 +75,13 @@ public class NovoProblemaActivity extends BaseActivity {
         problema.setUid(key);
         problema.setStatus(StatusProblema.SOLICITADO);
         problema.setDescricao(descricao);
-        problema.setArea(area);
-        problema.setCliente(getUsuario());
+        problema.setAreaUid(area.getUid());
+        problema.setClienteUid(getUsuario().getUid());
         problema.setLatitude(latitude);
         problema.setLongitude(longitude);
         problema.setSolicitadoEm(new Date());
 
-        getDatabase().child("problemas").child(key).setValue(problema.toMap());
+        getDatabase().child("problemas").child(key).setValue(problema);
 
 
         //Toast.makeText(getActivity(), "novo problema: " + problema.getDescricao() + " " + area.getNome(), Toast.LENGTH_SHORT).show();

@@ -65,7 +65,7 @@ public class NegociacaoViewHolder extends RecyclerView.ViewHolder {
 
 
                     tvDescription.setText(problema.getDescricao());
-                    mDatabase.child("usuarios").child(problema.getCliente().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                    mDatabase.child("usuarios").child(problema.getClienteUid()).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             Usuario cliente = dataSnapshot.getValue(Usuario.class);

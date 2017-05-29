@@ -1,14 +1,8 @@
 package br.com.magicbox.soscasa.models;
 
-import android.support.v4.media.session.PlaybackStateCompat;
-
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
 import com.google.firebase.database.PropertyName;
-import com.google.firebase.database.ValueEventListener;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -25,8 +19,8 @@ public class Problema implements Serializable{
     private String uid;
     private String descricao;
     private StatusProblema status;
-    private Area area;
-    private Usuario cliente;
+    private String areaUid;
+    private String clienteUid;
     private Double latitude;
     private Double longitude;
     private Date solicitadoEm;
@@ -63,20 +57,24 @@ public class Problema implements Serializable{
         this.status = status;
     }
 
-    public Area getArea() {
-        return area;
+    @PropertyName("area")
+    public String getAreaUid() {
+        return areaUid;
     }
 
-    public void setArea(Area area) {
-        this.area = area;
+    @PropertyName("area")
+    public void setAreaUid(String areaUid) {
+        this.areaUid = areaUid;
     }
 
-    public Usuario getCliente() {
-        return cliente;
+    @PropertyName("cliente")
+    public String getClienteUid() {
+        return clienteUid;
     }
 
-    public void setCliente(Usuario cliente) {
-        this.cliente = cliente;
+    @PropertyName("cliente")
+    public void setClienteUid(String clienteUid) {
+        this.clienteUid = clienteUid;
     }
 
     public Double getLatitude() {
@@ -133,8 +131,8 @@ public class Problema implements Serializable{
         //result.put("uid", uid);
         result.put("descricao", descricao);
         result.put("status", status);
-        result.put("area", area.getUid());
-        result.put("cliente", cliente.getUid());
+        result.put("areaUid", areaUid);
+        result.put("clienteUid", clienteUid);
         result.put("latitude", latitude);
         result.put("longitude", longitude);
         result.put("solicitadoEm", String.valueOf(solicitadoEm));

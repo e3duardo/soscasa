@@ -26,7 +26,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -110,7 +109,7 @@ public class NegociacaoProfissionalActivity extends AppCompatActivity {
 
                 Problema problema = dataSnapshot.getValue(Problema.class);
 
-                mDatabase.child("usuarios").child(problema.getCliente().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                mDatabase.child("usuarios").child(problema.getClienteUid()).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         Usuario cliente = dataSnapshot.getValue(Usuario.class);
