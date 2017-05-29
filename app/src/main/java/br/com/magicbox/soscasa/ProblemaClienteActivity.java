@@ -22,7 +22,6 @@ import br.com.magicbox.soscasa.adapter.NegociacaoAdapter;
 import br.com.magicbox.soscasa.models.Area;
 import br.com.magicbox.soscasa.models.Negociacao;
 import br.com.magicbox.soscasa.models.Problema;
-import br.com.magicbox.soscasa.models.StatusNegociacao;
 import br.com.magicbox.soscasa.models.StatusProblema;
 import br.com.magicbox.soscasa.models.Usuario;
 import br.com.magicbox.soscasa.viewholder.NegociacaoViewHolder;
