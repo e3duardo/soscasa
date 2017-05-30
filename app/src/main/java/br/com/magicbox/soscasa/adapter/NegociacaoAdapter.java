@@ -13,6 +13,7 @@ import br.com.magicbox.soscasa.NegociacaoClienteActivity;
 import br.com.magicbox.soscasa.NegociacaoProfissionalActivity;
 import br.com.magicbox.soscasa.R;
 import br.com.magicbox.soscasa.models.Negociacao;
+import br.com.magicbox.soscasa.models.Problema;
 import br.com.magicbox.soscasa.models.Usuario;
 import br.com.magicbox.soscasa.viewholder.NegociacaoViewHolder;
 
@@ -25,11 +26,13 @@ public class NegociacaoAdapter extends FirebaseRecyclerAdapter<Negociacao, Negoc
 
     private final Activity activity;
     private Usuario usuario;
+    private Problema problema;
 
-    public NegociacaoAdapter(Activity activity, Query ref, Usuario usuario) {
+    public NegociacaoAdapter(Activity activity, Query ref, Usuario usuario, Problema problema) {
         super(Negociacao.class, R.layout.item_negociacao, NegociacaoViewHolder.class, ref);
         this.activity = activity;
         this.usuario = usuario;
+        this.problema = problema;
         Toast.makeText(activity, "sequence4", Toast.LENGTH_SHORT).show();
     }
 
@@ -37,6 +40,9 @@ public class NegociacaoAdapter extends FirebaseRecyclerAdapter<Negociacao, Negoc
     protected Negociacao parseSnapshot(DataSnapshot snapshot) {
         Negociacao negociacao = super.parseSnapshot(snapshot);
         negociacao.setUid(snapshot.getKey());
+
+        if(negociacao.getProblemaUid().equals(problema.getUid()))
+            negociacao.setProblema(problema);
         Toast.makeText(activity, "sequence5", Toast.LENGTH_SHORT).show();
         return negociacao;
     }

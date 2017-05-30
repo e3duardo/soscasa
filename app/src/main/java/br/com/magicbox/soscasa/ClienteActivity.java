@@ -153,13 +153,10 @@ public class ClienteActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_logout:
-                FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(this, EntrarActivity.class));
-                finish();
+                logout();
                 return true;
             case R.id.action_profile:
-                Intent intent = new Intent(ClienteActivity.this, PerfilActivity.class);
-                startActivityForResult(intent, 1);
+                editProfile();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -198,5 +195,6 @@ public class ClienteActivity extends BaseActivity {
     public static int RESULT_USUARIO_ALTERADO = 3;
     public static int RESULT_VOLTAR = Activity.RESULT_CANCELED;
 
+    public static int RESULT_NEGOCIACAO_APROVADA = 4;
 }
 

@@ -94,7 +94,7 @@ public class ProblemaClienteActivity extends AppCompatActivity {
         Query negociacoes = mDatabase.child("negociacoes")
                 .orderByChild("problema").equalTo(problema.getUid());
 
-        rvNegociacoes.setAdapter(new NegociacaoAdapter(this, negociacoes, usuario));
+        rvNegociacoes.setAdapter(new NegociacaoAdapter(this, negociacoes, usuario, problema));
 
         Toast.makeText(ProblemaClienteActivity.this, "sequence2", Toast.LENGTH_SHORT).show();
     }

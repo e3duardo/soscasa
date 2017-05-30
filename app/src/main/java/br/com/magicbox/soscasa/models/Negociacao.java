@@ -23,6 +23,18 @@ public class Negociacao implements Serializable {
 
     private Float valor;
 
+    @Exclude
+    private Problema problema;
+
+    @Exclude
+    public Problema getProblema() {
+        return problema;
+    }
+
+    @Exclude
+    public void setProblema(Problema problema) {
+        this.problema = problema;
+    }
 
     public String getUid() {
         return uid;

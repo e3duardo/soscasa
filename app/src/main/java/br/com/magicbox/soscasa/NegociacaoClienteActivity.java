@@ -1,6 +1,9 @@
 package br.com.magicbox.soscasa;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -29,6 +32,8 @@ import br.com.magicbox.soscasa.adapter.MensagemAdapter;
 import br.com.magicbox.soscasa.models.Mensagem;
 import br.com.magicbox.soscasa.models.Negociacao;
 import br.com.magicbox.soscasa.models.Problema;
+import br.com.magicbox.soscasa.models.StatusNegociacao;
+import br.com.magicbox.soscasa.models.StatusProblema;
 import br.com.magicbox.soscasa.models.Usuario;
 
 public class NegociacaoClienteActivity extends AppCompatActivity {
@@ -138,7 +143,40 @@ public class NegociacaoClienteActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_aprovar_negociacao:
-                Toast.makeText(NegociacaoClienteActivity.this, "criar logica de aprovacao aqui", Toast.LENGTH_SHORT).show();
+                AlertDialog.Builder dialog = new AlertDialog.Builder(NegociacaoClienteActivity.this);
+
+                dialog.setTitle("Atenção!")
+                        .setIcon(R.drawable.ic_warning_black_24dp)
+                        .setMessage("Deseja aprovar esta negociação?")
+                        .setNegativeButton("Não", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialoginterface, int i) {
+                                dialoginterface.cancel();
+                            }
+                        })
+                        .setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialoginterface, int i) {
+
+                                StatusNegociacao statusProplemaAntigo = negociacao.getStatus();
+                                if (negociacao.getProblema().getStatus() == StatusProblema.SOLICITADO &&
+                                                    negociacao.getStatus() == StatusNegociacao.ORCADA) {
+
+                                    DatabaseReference ref = mDatabase.child("problemas").child(negociacao.getProblema().getUid());
+                                    ref.child("status").setValue(StatusProblema.PENDENTE);
+                                    ref.child("pendenteEm").setValue(new Date());
+
+                                    DatabaseReference ref2 = mDatabase.child("negociacoes").child(negociacao.getUid());
+                                    ref2.child("status").setValue(StatusNegociacao.APROVADA);
+                                    //ref2.child("pendenteEm").setValue(new Date());
+
+                                    Intent returnIntent = new Intent();
+                                    returnIntent.putExtra("negociacao", negociacao);
+                                    setResult(ClienteActivity.RESULT_NEGOCIACAO_APROVADA, returnIntent);
+                                    finish();
+                                }
+
+                            }
+                        }).show();
+
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
