@@ -1,7 +1,7 @@
 package br.com.magicbox.soscasa;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -28,42 +28,28 @@ public class ProfissionalActivity extends BaseActivity {
         final FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.add(R.id.main_container_profissional, fragment).commit();
 
-        BottomNavigationView bottomNavigationView = (BottomNavigationView)
-                findViewById(R.id.bottom_navigation_profissional);
-
-        bottomNavigationView.setOnNavigationItemSelectedListener(
-                new BottomNavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(MenuItem item) {
-                        switch (item.getItemId()) {
-                            case R.id.procurar_problema:
-                                fragment = new ProcurarProblema();
-                                break;
-                            case R.id.meus_problemas_profissional:
-                                fragment = new MinhasNegociacoesFragment();
-                                break;
-                            case R.id.meu_perfil_profissional:
-                                //fragment = new MeuPerfilFragment();
-                                break;
-                        }
-                        final FragmentTransaction transaction = fragmentManager.beginTransaction();
-                        transaction.replace(R.id.main_container_profissional, fragment).commit();
-                        return true;
-                    }
-                });
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.navigation_cliente, menu);
+        inflater.inflate(R.menu.navigation_profissional, menu);
         return true;
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_logout:
-                //todo: acao de sair
+            case R.id.action_profissional_logout:
+                logout();
+                return true;
+            case R.id.action_profissional_negociacoes:
+                fragment = new MinhasNegociacoesFragment();
+                final FragmentTransaction transaction = fragmentManager.beginTransaction();
+                transaction.replace(R.id.main_container_profissional, fragment).commit();
+
+                return true;
+            case R.id.action_profissional_profile:
+                editProfile();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

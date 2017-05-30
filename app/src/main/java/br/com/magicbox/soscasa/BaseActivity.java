@@ -2,6 +2,7 @@ package br.com.magicbox.soscasa;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
@@ -68,6 +69,16 @@ public class BaseActivity extends AppCompatActivity implements LocationListener 
                     }
                 });
 
+    }
+
+    protected void logout() {
+        FirebaseAuth.getInstance().signOut();
+        startActivity(new Intent(this, EntrarActivity.class));
+        finish();
+    }
+    protected void editProfile() {
+        Intent intent = new Intent(BaseActivity.this, PerfilActivity.class);
+        startActivityForResult(intent, 1);
     }
 
     public Usuario getUsuario() {

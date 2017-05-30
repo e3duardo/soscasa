@@ -56,7 +56,7 @@ public class MinhasNegociacoesFragment extends Fragment {
         Query negociacoes = activity.getDatabase().child("negociacoes")
                 .orderByChild("profissional").equalTo(activity.getUsuario().getUid());
 
-        mRecycler.setAdapter(new NegociacaoAdapter(activity, negociacoes, activity.getUsuario()));
+        mRecycler.setAdapter(new NegociacaoAdapter(activity, negociacoes, activity.getUsuario(), null));
     }
 
     @Override

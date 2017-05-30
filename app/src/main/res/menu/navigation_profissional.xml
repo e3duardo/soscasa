@@ -1,19 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/procurar_problema"
-        android:icon="@drawable/ic_map_black_24dp"
-        android:title="@string/problemas" />
+        android:id="@+id/action_profissional_negociacoes"
+        android:title="Negociações"
+        android:visible="true"
+        android:icon="@drawable/ic_view_headline_white_24dp"
+        app:showAsAction="always" />
 
     <item
-        android:id="@+id/meus_problemas_profissional"
-        android:icon="@drawable/ic_assignment_black_24dp"
-        android:title="@string/negociacoes" />
+        android:id="@+id/action_profissional_profile"
+        android:title="Meu perfil"
+        android:visible="true"
+        android:icon="@drawable/ic_account_circle_white_24dp"
+        app:showAsAction="always" />
 
     <item
-        android:id="@+id/meu_perfil_profissional"
-        android:icon="@drawable/ic_account_circle_black_24dp"
-        android:title="@string/perfil" />
+        android:id="@+id/action_profissional_logout"
+        android:title="@string/menu_logout"
+        android:visible="true"
+        app:showAsAction="never" />
 
 </menu>

@@ -39,7 +39,8 @@ public class NegociacaoViewHolder extends RecyclerView.ViewHolder {
 
         if (!ehProfissional) {
 
-            tvDescription.setText(format.format(negociacao.getValor()));
+            if(negociacao.getValor()!= null)
+                tvDescription.setText(format.format(negociacao.getValor()));
 
             mDatabase.child("usuarios").child(negociacao.getProfissionalUid()).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
