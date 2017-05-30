@@ -143,4 +143,19 @@ public class Problema implements Serializable{
         return result;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Problema problema = (Problema) o;
+
+        return uid != null ? uid.equals(problema.uid) : problema.uid == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return uid != null ? uid.hashCode() : 0;
+    }
 }

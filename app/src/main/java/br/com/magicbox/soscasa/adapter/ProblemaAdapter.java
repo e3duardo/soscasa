@@ -1,18 +1,15 @@
 package br.com.magicbox.soscasa.adapter;
 
 import android.app.Activity;
-import android.content.Intent;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.Query;
+import java.util.List;
 
-import br.com.magicbox.soscasa.ProblemaClienteActivity;
-import br.com.magicbox.soscasa.ProblemaProfissionalActivity;
 import br.com.magicbox.soscasa.R;
 import br.com.magicbox.soscasa.models.Problema;
-import br.com.magicbox.soscasa.models.StatusProblema;
 import br.com.magicbox.soscasa.models.Usuario;
 import br.com.magicbox.soscasa.viewholder.ProblemaViewHolder;
 
@@ -20,44 +17,39 @@ import br.com.magicbox.soscasa.viewholder.ProblemaViewHolder;
  * Created by eduardo on 5/21/17.
  */
 
-public class ProblemaAdapter extends FirebaseRecyclerAdapter<Problema, ProblemaViewHolder> {
+public class ProblemaAdapter extends RecyclerView.Adapter {
 
-    private final Activity activity;
     private Usuario usuario;
+    private List<Problema> problemas;
+    private Activity activity;
 
-    public ProblemaAdapter(Activity activity, Query ref, Usuario usuario) {
-        super(Problema.class, R.layout.item_problema, ProblemaViewHolder.class, ref);
+    public ProblemaAdapter(Activity activity, List<Problema> problemas, Usuario usuario){
+        this.problemas = problemas;
         this.activity = activity;
         this.usuario = usuario;
     }
 
     @Override
-    protected Problema parseSnapshot(DataSnapshot snapshot) {
-        Problema problema = super.parseSnapshot(snapshot);
-        problema.setUid(snapshot.getKey());
-        return problema;
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(activity)
+                .inflate(R.layout.item_problema, parent, false);
+        return new ProblemaViewHolder(activity, view, usuario);
     }
 
     @Override
-    protected void populateViewHolder(final ProblemaViewHolder viewHolder, final Problema model, final int position) {
-        viewHolder.bindToView(model);
+    public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
 
-        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        ProblemaViewHolder holder = (ProblemaViewHolder) viewHolder;
 
-                Intent intent = null;
+        Problema livro  = problemas.get(position) ;
 
-                if (usuario.getEhProfissional())
-                    intent = new Intent(activity, ProblemaProfissionalActivity.class);
-                else
-                    intent = new Intent(activity, ProblemaClienteActivity.class);
+        holder.bindToView(livro);
 
-                intent.putExtra("problema", model);
-                intent.putExtra("usuario", usuario);
-                activity.startActivity(intent);
 
-            }
-            });
+    }
+
+    @Override
+    public int getItemCount() {
+        return problemas.size();
     }
 }

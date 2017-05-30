@@ -61,9 +61,9 @@ public class NegociacaoClienteActivity extends AppCompatActivity {
         tvNovaMensagem = (TextView) findViewById(R.id.negociacao_cliente_et_nova_mensagem);
 
         tvValor = (TextView) findViewById(R.id.negociacao_cliente_tv_valor);
-        if(negociacao.getValor() != null) {
+        if (negociacao.getValor() != null) {
             tvValor.setText(format.format(negociacao.getValor()));
-        }else{
+        } else {
             //findViewById(R.id.action_aprovar_negociacao).setVisibility(View.INVISIBLE);
             tvValor.setVisibility(View.GONE);
             findViewById(R.id.negociacao_cliente_l_valor).setVisibility(View.GONE);
@@ -73,7 +73,7 @@ public class NegociacaoClienteActivity extends AppCompatActivity {
         tvNovaMensagem.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_NULL  && event.getAction() == KeyEvent.ACTION_DOWN) {
+                if (actionId == EditorInfo.IME_NULL && event.getAction() == KeyEvent.ACTION_DOWN) {
                     cadastrarMensagem(tvNovaMensagem.getText().toString());
                     tvNovaMensagem.setText("");
                 }
@@ -129,10 +129,11 @@ public class NegociacaoClienteActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.navigation_negociacao_cliente, menu);
-        if(negociacao.getValor() == null)
+        if (negociacao.getValor() == null)
             menu.findItem(R.id.action_aprovar_negociacao).setVisible(false);
         return true;
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -154,7 +155,7 @@ public class NegociacaoClienteActivity extends AppCompatActivity {
 
         mDatabase.child("negociacoes").child(negociacao.getUid()).child("mensagens").child(key).setValue(mensagem);
 
-        Toast.makeText(NegociacaoClienteActivity.this, "nova mensagem" , Toast.LENGTH_SHORT).show();
+        Toast.makeText(NegociacaoClienteActivity.this, "nova mensagem", Toast.LENGTH_SHORT).show();
 
         mRecycler.smoothScrollToPosition(mRecycler.getAdapter().getItemCount());
     }

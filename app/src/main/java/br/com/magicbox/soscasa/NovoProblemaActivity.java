@@ -88,7 +88,7 @@ public class NovoProblemaActivity extends BaseActivity {
 
         Intent returnIntent = new Intent();
         returnIntent.putExtra("result",problema);
-        setResult(Activity.RESULT_OK,returnIntent);
+        setResult(ClienteActivity.RESULT_PROBLEMA_CRIADO,returnIntent);
         finish();
     }
 }

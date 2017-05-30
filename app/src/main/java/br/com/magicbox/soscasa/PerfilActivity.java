@@ -125,8 +125,8 @@ public class PerfilActivity extends AppCompatActivity {
                 //Toast.makeText(getActivity(), "Usuário salvo!", Toast.LENGTH_SHORT).show();
 
                 Intent returnIntent = new Intent();
-                //returnIntent.putExtra("result",problema);
-                setResult(Activity.RESULT_OK,returnIntent);
+                returnIntent.putExtra("result", usuario);
+                setResult(ClienteActivity.RESULT_USUARIO_ALTERADO,returnIntent);
                 finish();
             }
         });

@@ -1,6 +1,9 @@
 package br.com.magicbox.soscasa;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,6 +20,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.Date;
 
 import br.com.magicbox.soscasa.adapter.NegociacaoAdapter;
 import br.com.magicbox.soscasa.models.Area;
@@ -100,16 +105,40 @@ public class ProblemaClienteActivity extends AppCompatActivity {
         inflater.inflate(R.menu.navigation_problema_cliente, menu);
         return true;
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_cancelar_problema:
-                if(problema.getStatus() != StatusProblema.CANCELADO && problema.getStatus() != StatusProblema.RESOLVIDO) {
-                    mDatabase.child("problemas").child(problema.getUid()).child("status").setValue(StatusProblema.CANCELADO);
+                AlertDialog.Builder dialog = new AlertDialog.Builder(ProblemaClienteActivity.this);
 
-                }
-                //todo:mensagem
-                //Toast.makeText(NegociacaoClienteActivity.this, "criar logica de aprovacao aqui", Toast.LENGTH_SHORT).show();
+                dialog.setTitle("Atenção!")
+                        .setIcon(R.drawable.ic_warning_black_24dp)
+                        .setMessage("Deseja cancelar este problema?")
+                        .setNegativeButton("Não", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialoginterface, int i) {
+                                dialoginterface.cancel();
+                            }
+                        })
+                        .setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialoginterface, int i) {
+
+                                StatusProblema statusAntigo = problema.getStatus();
+                                if (problema.getStatus() != StatusProblema.CANCELADO && problema.getStatus() != StatusProblema.RESOLVIDO) {
+                                    DatabaseReference ref = mDatabase.child("problemas").child(problema.getUid());
+                                    ref.child("status").setValue(StatusProblema.CANCELADO);
+                                    ref.child("canceladoEm").setValue(new Date());
+
+                                    Intent returnIntent = new Intent();
+                                    returnIntent.putExtra("problema", problema);
+                                    returnIntent.putExtra("statusAntigo", statusAntigo);
+                                    setResult(ClienteActivity.RESULT_PROBLEMA_CANCELADO, returnIntent);
+                                    finish();
+                                }
+
+                            }
+                        }).show();
+
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
