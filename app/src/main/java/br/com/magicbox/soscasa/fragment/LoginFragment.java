@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -59,8 +60,8 @@ public class LoginFragment extends Fragment {
     private FragmentManager fragmentManager;
     private CallbackManager callbackManager;
 
-    private EditText email;
-    private EditText senha;
+    private AutoCompleteTextView email;
+    private AutoCompleteTextView senha;
     private Button continuar;
     private TextView redefinirSenha;
 
@@ -78,8 +79,8 @@ public class LoginFragment extends Fragment {
         callbackManager = CallbackManager.Factory.create();
 
 
-        email = (EditText) view.findViewById(R.id.editText_login_email);
-        senha = (EditText) view.findViewById(R.id.editText_login_senha);
+        email = (AutoCompleteTextView) view.findViewById(R.id.login_email);
+        senha = (AutoCompleteTextView) view.findViewById(R.id.login_senha);
         continuar = (Button) view.findViewById(R.id.button_login_email);
         progressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
         progressBar.setVisibility(View.GONE);

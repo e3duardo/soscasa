@@ -34,11 +34,8 @@ import br.com.magicbox.soscasa.viewholder.NegociacaoViewHolder;
 public class ProblemaClienteActivity extends AppCompatActivity {
 
     private DatabaseReference mDatabase;
-
     private Problema problema;
-
     private Usuario usuario;
-
     private TextView tvArea;
     private TextView tvDescricao;
     private TextView tvStatus;
