@@ -15,7 +15,8 @@
         android:id="@+id/text_reset_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="textEmailAddress">
+        android:inputType="textEmailAddress"
+        android:maxLines="1">
 
         <requestFocus />
 

@@ -5,8 +5,7 @@
     android:id="@+id/activity_client"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="br.com.magicbox.soscasa.ClienteActivity"
-    tools:menu="2">
+    tools:context="br.com.magicbox.soscasa.ClienteActivity">
 
 
     <android.support.v7.widget.RecyclerView

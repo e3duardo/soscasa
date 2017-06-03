@@ -21,7 +21,8 @@
                 android:layout_height="wrap_content"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
-                android:hint="@string/nome" />
+                android:hint="@string/nome"
+                android:maxLines="1" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -36,7 +37,8 @@
                 android:focusable="true"
                 android:focusableInTouchMode="true"
                 android:hint="@string/email"
-                android:inputType="textEmailAddress" />
+                android:inputType="textEmailAddress"
+                android:maxLines="1" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -50,7 +52,8 @@
                 android:focusable="true"
                 android:focusableInTouchMode="true"
                 android:hint="@string/celular"
-                android:inputType="phone" />
+                android:inputType="phone"
+                android:maxLines="1" />
         </android.support.design.widget.TextInputLayout>
 
 
@@ -63,13 +66,13 @@
 
 
             <TextView
+                style="@style/InputLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/area"
-                style="@style/InputLabel" />
+                android:text="@string/area" />
 
             <Spinner
-                android:id="@+id/spinner_perfil_area"
+                android:id="@+id/spinner_novo_problema_area"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </LinearLayout>

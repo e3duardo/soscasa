@@ -1,7 +1,6 @@
 package br.com.magicbox.soscasa;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Criteria;
@@ -9,26 +8,20 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import br.com.magicbox.soscasa.models.Usuario;
 
-import static android.content.ContentValues.TAG;
-
 /**
- * Created by eduardo on 5/20/17.
+ * Criado por eduardo em 5/20/17.
  */
 
 public class BaseActivity extends AppCompatActivity implements LocationListener {
@@ -52,9 +45,17 @@ public class BaseActivity extends AppCompatActivity implements LocationListener 
 
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
-        provider = locationManager.getBestProvider(new Criteria(), false);
-
         mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        if (checkLocationPermission()) {
+            if (ContextCompat.checkSelfPermission(this,
+                    android.Manifest.permission.ACCESS_FINE_LOCATION)
+                    == PackageManager.PERMISSION_GRANTED) {
+
+                requestProvider();
+                locationManager.requestLocationUpdates(provider, 400, 1, this);
+            }
+        }
     }
 
     protected void logout() {
@@ -62,6 +63,7 @@ public class BaseActivity extends AppCompatActivity implements LocationListener 
         startActivity(new Intent(this, EntrarActivity.class));
         finish();
     }
+
     protected void editProfile() {
         Intent intent = new Intent(BaseActivity.this, PerfilActivity.class);
         startActivityForResult(intent, 1);
@@ -75,57 +77,15 @@ public class BaseActivity extends AppCompatActivity implements LocationListener 
         return mDatabase;
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        if (checkLocationPermission()) {
-            if (ContextCompat.checkSelfPermission(this,
-                    android.Manifest.permission.ACCESS_FINE_LOCATION)
-                    == PackageManager.PERMISSION_GRANTED) {
-
-                //Request location updates:
-                locationManager.requestLocationUpdates(provider, 400, 1, this);
-            }
-        }
-
-    }
-
 
     public boolean checkLocationPermission() {
         if (ContextCompat.checkSelfPermission(this,
                 android.Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
 
-            // Should we show an explanation?
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                    android.Manifest.permission.ACCESS_FINE_LOCATION)) {
-
-                // Show an explanation to the user *asynchronously* -- don't block
-                // this thread waiting for the user's response! After the user
-                // sees the explanation, try again to request the permission.
-                new AlertDialog.Builder(this)
-                        .setTitle(R.string.title_location_permission)
-                        .setMessage(R.string.text_location_permission)
-                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                //Prompt the user once explanation has been shown
-                                ActivityCompat.requestPermissions(BaseActivity.this,
-                                        new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
-                                        MY_PERMISSIONS_REQUEST_LOCATION);
-                            }
-                        })
-                        .create()
-                        .show();
-
-
-            } else {
-                // No explanation needed, we can request the permission.
-                ActivityCompat.requestPermissions(this,
-                        new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
-                        MY_PERMISSIONS_REQUEST_LOCATION);
-            }
+            ActivityCompat.requestPermissions(this,
+                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                    MY_PERMISSIONS_REQUEST_LOCATION);
             return false;
         } else {
             return true;
@@ -134,33 +94,33 @@ public class BaseActivity extends AppCompatActivity implements LocationListener 
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
+                                           @NonNull String permissions[], @NonNull int[] grantResults) {
         switch (requestCode) {
             case MY_PERMISSIONS_REQUEST_LOCATION: {
-                // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
-                    // permission was granted, yay! Do the
-                    // location-related task you need to do.
                     if (ContextCompat.checkSelfPermission(this,
                             android.Manifest.permission.ACCESS_FINE_LOCATION)
                             == PackageManager.PERMISSION_GRANTED) {
 
-                        //Request location updates:
+                        requestProvider();
                         locationManager.requestLocationUpdates(provider, 400, 1, this);
                     }
 
                 } else {
-
-                    // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
-
+                    Toast.makeText(this, R.string.sem_permissao_localizacao, Toast.LENGTH_LONG).show();
                 }
-                return;
             }
 
         }
+    }
+
+    private void requestProvider() {
+        if (provider == null) {
+            provider = locationManager.getBestProvider(new Criteria(), false);
+        }
+
     }
 
     @Override

@@ -15,7 +15,7 @@
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/tv_problema_area"
+        android:id="@+id/text_problema_profissional_area"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="4dp"
@@ -60,7 +60,7 @@
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/tv_problema_descricao"
+        android:id="@+id/text_problema_profissional_descricao"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="4dp"

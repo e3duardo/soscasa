@@ -28,34 +28,46 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <activity android:name=".EntrarActivity"
+        <!--activities comuns-->
+        <activity
+            android:name=".EntrarActivity"
             android:theme="@style/SosTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".PerfilActivity"
+            android:label="@string/title_activity_perfil" />
+
+        <!--activities do cliente-->
         <activity
             android:name=".ClienteActivity"
             android:label="@string/title_activity_cliente" />
         <activity
+            android:name=".ProblemaClienteActivity"
+            android:label="@string/title_activity_problema_cliente" />
+        <activity
+            android:name=".NegociacaoClienteActivity"
+            android:label="@string/title_activity_negociacao_cliente" />
+        <activity
+            android:name=".NovoProblemaActivity"
+            android:label="@string/title_activity_novo_problema" />
+
+        <activity
             android:name=".ProfissionalActivity"
             android:label="@string/title_activity_profissional" />
         <activity
-            android:name=".ProblemaClienteActivity"
-            android:label="@string/title_activity_problema" />
-        <activity
             android:name=".ProblemaProfissionalActivity"
-            android:label="@string/title_activity_profissional" />
+            android:label="@string/title_activity_problema_profissional" />
         <activity
             android:name=".NegociacaoProfissionalActivity"
-            android:label="@string/title_activity_negociacao" />
+            android:label="@string/title_activity_negociacao_profissional" />
         <activity
-            android:name=".NegociacaoClienteActivity"
-            android:label="@string/title_activity_negociacao" />
-        <activity android:name=".NovoProblemaActivity" />
-        <activity android:name=".PerfilActivity" />
-        <activity android:name=".MinhasNegociacoesActivity" />
-    </application>
+            android:name=".MinhasNegociacoesActivity"
+            android:label="@string/title_activity_negociacao_cliente" />
 
+    </application>
 </manifest>

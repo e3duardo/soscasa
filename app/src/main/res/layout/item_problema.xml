@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/item_problema_id"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/item_problema_id"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/item_background"
@@ -15,11 +15,10 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:ellipsize="end"
+        android:gravity="end"
         android:maxLines="1"
-        tools:text="Solicitado"
-        android:gravity="right"
         android:textSize="14sp"
-        />
+        tools:text="{status}" />
 
     <TextView
         android:id="@+id/tv_item_problema_line2"
@@ -29,10 +28,10 @@
         android:layout_alignParentRight="true"
         android:layout_below="@+id/tv_item_problema_area"
         android:layout_marginTop="5dp"
+        android:gravity="end"
         android:maxLines="1"
         android:textSize="12sp"
-        android:gravity="right"
-        tools:text="10/10/2010" />
+        tools:text="{data}" />
 
     <TextView
         android:id="@+id/tv_item_problema_area"
@@ -44,7 +43,7 @@
         android:ellipsize="end"
         android:maxLines="1"
         android:textStyle="bold"
-        tools:text="My First Post" />
+        tools:text="{problema.nome}" />
 
     <TextView
         android:id="@+id/tv_item_problema_descricao"
@@ -55,7 +54,7 @@
         android:layout_toLeftOf="@id/tv_item_problema_line2"
         android:layout_toStartOf="@id/tv_item_problema_line2"
         android:maxLines="1"
-        tools:text="@string/lorem" />
+        tools:text="{descricao do problema}" />
 
 
 </RelativeLayout>

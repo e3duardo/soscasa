@@ -2,7 +2,6 @@ package br.com.magicbox.soscasa;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -21,27 +20,25 @@ import br.com.magicbox.soscasa.models.Area;
 import br.com.magicbox.soscasa.models.Problema;
 import br.com.magicbox.soscasa.models.StatusProblema;
 
-import static android.content.ContentValues.TAG;
-
 public class NovoProblemaActivity extends BaseActivity {
 
-    private Spinner sArea;
-    private AutoCompleteTextView actvProblema;
-    private Button bCadastrar;
+    private Spinner spinnerArea;
+    private AutoCompleteTextView textProblema;
+    private Button buttonCadastrar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_novo_problema);
 
-        sArea = (Spinner) findViewById(R.id.spinner_perfil_area);
-        actvProblema = (AutoCompleteTextView) findViewById(R.id.problemaEditText);
-        bCadastrar = (Button) findViewById(R.id.okButton);
+        spinnerArea = (Spinner) findViewById(R.id.spinner_novo_problema_area);
+        textProblema = (AutoCompleteTextView) findViewById(R.id.text_novo_problema_descricao);
+        buttonCadastrar = (Button) findViewById(R.id.button_novo_problema);
 
-        bCadastrar.setOnClickListener(new View.OnClickListener() {
+        buttonCadastrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cadastrarProblema(actvProblema.getText().toString(), (Area) sArea.getSelectedItem());
+                cadastrarProblema(textProblema.getText().toString(), (Area) spinnerArea.getSelectedItem());
             }
         });
 
@@ -57,12 +54,11 @@ public class NovoProblemaActivity extends BaseActivity {
 
                 ArrayAdapter<Area> adapter = new ArrayAdapter<>(NovoProblemaActivity.this, android.R.layout.simple_spinner_item, areas);
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                sArea.setAdapter(adapter);
+                spinnerArea.setAdapter(adapter);
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Log.w(TAG, "getAreas:onCancelled", databaseError.toException());
             }
         });
     }

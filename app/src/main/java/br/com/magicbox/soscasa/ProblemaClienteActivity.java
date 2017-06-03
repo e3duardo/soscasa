@@ -54,8 +54,8 @@ public class ProblemaClienteActivity extends AppCompatActivity {
         problema = (Problema) getIntent().getSerializableExtra("problema");
         usuario = (Usuario) getIntent().getSerializableExtra("usuario");
 
-        tvArea = (TextView) findViewById(R.id.tv_problema_area);
-        tvDescricao = (TextView) findViewById(R.id.tv_problema_descricao);
+        tvArea = (TextView) findViewById(R.id.text_problema_profissional_area);
+        tvDescricao = (TextView) findViewById(R.id.text_problema_profissional_descricao);
         tvStatus = (TextView) findViewById(R.id.tv_problema_status);
 
         rvNegociacoes = (RecyclerView) findViewById(R.id.rv_problema_negociacoes);

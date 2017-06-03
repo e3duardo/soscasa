@@ -52,7 +52,7 @@ public class PerfilActivity extends AppCompatActivity {
         textNome = (EditText) findViewById(R.id.text_perfil_nome);
         textEmail = (EditText) findViewById(R.id.text_perfil_email);
         textCelular = (EditText) findViewById(R.id.text_perfil_celular);
-        spinnerArea = (Spinner) findViewById(R.id.spinner_perfil_area);
+        spinnerArea = (Spinner) findViewById(R.id.spinner_novo_problema_area);
         buttonSalvar = (Button) findViewById(R.id.button_perfil_salvar);
 
         viewProfissional = findViewById(R.id.view_profissional);
