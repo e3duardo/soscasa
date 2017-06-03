@@ -41,8 +41,9 @@ public class NegociacaoAdapter extends FirebaseRecyclerAdapter<Negociacao, Negoc
         Negociacao negociacao = super.parseSnapshot(snapshot);
         negociacao.setUid(snapshot.getKey());
 
-        if(negociacao.getProblemaUid().equals(problema.getUid()))
+        if(problema != null && negociacao.getProblemaUid().equals(problema.getUid()))
             negociacao.setProblema(problema);
+
         Toast.makeText(activity, "sequence5", Toast.LENGTH_SHORT).show();
         return negociacao;
     }
