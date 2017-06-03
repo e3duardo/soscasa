@@ -6,8 +6,6 @@ import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -21,7 +19,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -36,15 +33,15 @@ import static android.content.ContentValues.TAG;
 
 public class ClienteActivity extends BaseActivity {
 
-
-    private Fragment fragment;
-    private FragmentManager fragmentManager;
+    public static int RESULT_PROBLEMA_CRIADO = 1;
+    public static int RESULT_PROBLEMA_CANCELADO = 2;
+    public static int RESULT_USUARIO_ALTERADO = 3;
+    public static int RESULT_VOLTAR = Activity.RESULT_CANCELED;
+    public static int RESULT_NEGOCIACAO_APROVADA = 4;
 
     private RecyclerView mRecycler;
     private LinearLayoutManager mManager;
-
     private List<Problema> problemas;
-
     private CoordinatorLayout layout;
     private FloatingActionButton fab;
 
@@ -68,8 +65,9 @@ public class ClienteActivity extends BaseActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            Intent intent = new Intent(v.getContext(), NovoProblemaActivity.class);
-            startActivityForResult(intent, 1);
+                Intent intent = new Intent(v.getContext(), NovoProblemaActivity.class);
+                intent.putExtra("usuario", getUsuario());
+                startActivityForResult(intent, 1);
             }
         });
     }
@@ -78,7 +76,7 @@ public class ClienteActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
 
-        problemas = new ArrayList<Problema>();
+        problemas = new ArrayList<>();
 
         final String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         getDatabase().child("usuarios").child(userId).addListenerForSingleValueEvent(
@@ -96,7 +94,7 @@ public class ClienteActivity extends BaseActivity {
                                 Problema problema = dataSnapshot.getValue(Problema.class);
                                 problema.setUid(dataSnapshot.getKey());
                                 if (StatusProblema.SOLICITADO.equals(problema.getStatus()) || StatusProblema.PENDENTE.equals(problema.getStatus())) {
-                                    if(!problemas.contains(problema)) {
+                                    if (!problemas.contains(problema)) {
                                         problemas.add(problema);
                                         mRecycler.setAdapter(new ProblemaAdapter(ClienteActivity.this, problemas, usuario));
                                     }
@@ -109,8 +107,8 @@ public class ClienteActivity extends BaseActivity {
                                 problema.setUid(dataSnapshot.getKey());
                                 if (!StatusProblema.SOLICITADO.equals(problema.getStatus()) && !StatusProblema.PENDENTE.equals(problema.getStatus())) {
                                     problemas.remove(problema);
-                                }else{
-                                    if(!problemas.contains(problema)) {
+                                } else {
+                                    if (!problemas.contains(problema)) {
                                         problemas.add(problema);
                                     }
                                 }
@@ -141,7 +139,6 @@ public class ClienteActivity extends BaseActivity {
                 });
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -168,13 +165,13 @@ public class ClienteActivity extends BaseActivity {
 
         if (requestCode == 1) {
             if (resultCode == ClienteActivity.RESULT_PROBLEMA_CRIADO) {
-                Snackbar.make(layout, "Problema criado!", Snackbar.LENGTH_LONG).show();
+                Snackbar.make(layout, R.string.problema_criado, Snackbar.LENGTH_LONG).show();
             }
             if (resultCode == ClienteActivity.RESULT_PROBLEMA_CANCELADO) {
                 final Problema problema1 = (Problema) data.getSerializableExtra("problema");
                 final StatusProblema statusAntigo = (StatusProblema) data.getSerializableExtra("statusAntigo");
 
-                Snackbar.make(layout, "Problema cancelado", Snackbar.LENGTH_LONG).setAction("Desfazer", new View.OnClickListener() {
+                Snackbar.make(layout, R.string.problema_cancelado, Snackbar.LENGTH_LONG).setAction(R.string.desfazer, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         getDatabase().child("problemas").child(problema1.getUid()).child("status").setValue(statusAntigo);
@@ -182,19 +179,12 @@ public class ClienteActivity extends BaseActivity {
                 }).show();
             }
             if (resultCode == ClienteActivity.RESULT_USUARIO_ALTERADO) {
-                Snackbar.make(layout, "Perfil atualizado", Snackbar.LENGTH_LONG).show();
+                Snackbar.make(layout, R.string.perfil_atualizado, Snackbar.LENGTH_LONG).show();
             }
             if (resultCode == ClienteActivity.RESULT_VOLTAR) {
 
             }
         }
     }
-
-    public static int RESULT_PROBLEMA_CRIADO = 1;
-    public static int RESULT_PROBLEMA_CANCELADO = 2;
-    public static int RESULT_USUARIO_ALTERADO = 3;
-    public static int RESULT_VOLTAR = Activity.RESULT_CANCELED;
-
-    public static int RESULT_NEGOCIACAO_APROVADA = 4;
 }
 

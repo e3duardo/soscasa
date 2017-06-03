@@ -8,7 +8,7 @@
     android:padding="8sp">
 
     <TextView
-        android:id="@+id/tv_item_problema_status"
+        android:id="@+id/text_item_problema_status"
         style="@style/TextAppearance.AppCompat.Medium"
         android:layout_width="70dp"
         android:layout_height="wrap_content"
@@ -21,12 +21,12 @@
         tools:text="{status}" />
 
     <TextView
-        android:id="@+id/tv_item_problema_line2"
+        android:id="@+id/text_item_problema_line2"
         android:layout_width="70dp"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/tv_item_problema_area"
+        android:layout_below="@+id/text_item_problema_area"
         android:layout_marginTop="5dp"
         android:gravity="end"
         android:maxLines="1"
@@ -34,25 +34,25 @@
         tools:text="{data}" />
 
     <TextView
-        android:id="@+id/tv_item_problema_area"
+        android:id="@+id/text_item_problema_area"
         style="@style/TextAppearance.AppCompat.Medium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toLeftOf="@id/tv_item_problema_status"
-        android:layout_toStartOf="@id/tv_item_problema_status"
+        android:layout_toLeftOf="@id/text_item_problema_status"
+        android:layout_toStartOf="@id/text_item_problema_status"
         android:ellipsize="end"
         android:maxLines="1"
         android:textStyle="bold"
         tools:text="{problema.nome}" />
 
     <TextView
-        android:id="@+id/tv_item_problema_descricao"
+        android:id="@+id/text_item_problema_descricao"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_item_problema_area"
+        android:layout_below="@+id/text_item_problema_area"
         android:layout_marginTop="5dp"
-        android:layout_toLeftOf="@id/tv_item_problema_line2"
-        android:layout_toStartOf="@id/tv_item_problema_line2"
+        android:layout_toLeftOf="@id/text_item_problema_line2"
+        android:layout_toStartOf="@id/text_item_problema_line2"
         android:maxLines="1"
         tools:text="{descricao do problema}" />
 

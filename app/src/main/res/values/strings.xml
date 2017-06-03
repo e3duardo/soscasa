@@ -60,6 +60,10 @@
     <string name="selecione_uma_rea">Selecione uma área</string>
     <string name="negociar">Negociar</string>
     <string name="sem_permissao_localizacao">\"Sem permissão para achar sua localização!\"</string>
+    <string name="problema_criado">Problema criado!</string>
+    <string name="problema_cancelado">Problema cancelado!</string>
+    <string name="perfil_atualizado">Perfil atualizado!</string>
+    <string name="desfazer">Desfazer</string>
 
 
 </resources>

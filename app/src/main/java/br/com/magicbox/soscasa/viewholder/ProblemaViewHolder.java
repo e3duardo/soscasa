@@ -12,6 +12,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
 import br.com.magicbox.soscasa.ProblemaClienteActivity;
@@ -37,11 +38,11 @@ public class ProblemaViewHolder extends RecyclerView.ViewHolder {
     public ProblemaViewHolder(Activity activity, View itemView, Usuario usuario) {
         super(itemView);
 
-        this.tvArea = (TextView) itemView.findViewById(R.id.tv_item_problema_area);
-        this.tvDescricao = (TextView) itemView.findViewById(R.id.tv_item_problema_descricao);
-        this.tvStatus = (TextView) itemView.findViewById(R.id.tv_item_problema_status);
-        this.tvLine2 = (TextView) itemView.findViewById(R.id.tv_item_problema_line2);
-        this.item = (View) itemView;
+        this.tvArea = (TextView) itemView.findViewById(R.id.text_item_problema_area);
+        this.tvDescricao = (TextView) itemView.findViewById(R.id.text_item_problema_descricao);
+        this.tvStatus = (TextView) itemView.findViewById(R.id.text_item_problema_status);
+        this.tvLine2 = (TextView) itemView.findViewById(R.id.text_item_problema_line2);
+        this.item = itemView;
         this.usuario = usuario;
         this.activity = activity;
     }
@@ -65,10 +66,10 @@ public class ProblemaViewHolder extends RecyclerView.ViewHolder {
         tvDescricao.setText(problema.getDescricao());
         tvStatus.setText(problema.getStatus().getI18n());
 
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+
 
         if (problema.getSolicitadoEm() != null)
-            tvLine2.setText(sdf.format(problema.getSolicitadoEm()));
+            tvLine2.setText(DateFormat.getDateInstance().format(problema.getSolicitadoEm()));
 
         item.setOnClickListener(new View.OnClickListener() {
             @Override

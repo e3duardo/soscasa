@@ -14,7 +14,7 @@ import br.com.magicbox.soscasa.models.Usuario;
 import br.com.magicbox.soscasa.viewholder.ProblemaViewHolder;
 
 /**
- * Created by eduardo on 5/21/17.
+ * Criado por eduardo em 5/21/17.
  */
 
 public class ProblemaAdapter extends RecyclerView.Adapter {
@@ -33,6 +33,7 @@ public class ProblemaAdapter extends RecyclerView.Adapter {
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(activity)
                 .inflate(R.layout.item_problema, parent, false);
+
         return new ProblemaViewHolder(activity, view, usuario);
     }
 
