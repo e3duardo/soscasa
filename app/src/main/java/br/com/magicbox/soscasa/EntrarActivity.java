@@ -55,7 +55,7 @@ public class EntrarActivity extends AppCompatActivity /*implements View.OnClickL
 //
 //        // Check auth on Activity start
 //       // if (mAuth.getCurrentUser() != null) {
-//       //     onAuthSuccess(mAuth.getCurrentUser());
+//       //     onAuthSuccessFirebase(mAuth.getCurrentUser());
 //      //e3duardo  }
 //    }
 //
@@ -77,7 +77,7 @@ public class EntrarActivity extends AppCompatActivity /*implements View.OnClickL
 //                        hideProgressDialog();
 //
 //                        if (task.isSuccessful()) {
-//                            onAuthSuccess(task.getResult().getUser());
+//                            onAuthSuccessFirebase(task.getResult().getUser());
 //                        } else {
 //                            Toast.makeText(EntrarActivity.this, "Sign In Failed",
 //                                    Toast.LENGTH_SHORT).show();
@@ -104,7 +104,7 @@ public class EntrarActivity extends AppCompatActivity /*implements View.OnClickL
 //                        hideProgressDialog();
 //
 //                        if (task.isSuccessful()) {
-//                            onAuthSuccess(task.getResult().getUser());
+//                            onAuthSuccessFirebase(task.getResult().getUser());
 //                        } else {
 //                            Toast.makeText(EntrarActivity.this, "Sign Up Failed",
 //                                    Toast.LENGTH_SHORT).show();
@@ -113,7 +113,7 @@ public class EntrarActivity extends AppCompatActivity /*implements View.OnClickL
 //                });
 //    }
 //
-//    private void onAuthSuccess(FirebaseUser user) {
+//    private void onAuthSuccessFirebase(FirebaseUser user) {
 //        String username = usernameFromEmail(user.getEmail());
 //
 //        // Write new user

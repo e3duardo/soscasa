@@ -55,6 +55,7 @@
             android:label="@string/title_activity_negociacao" />
         <activity android:name=".NovoProblemaActivity" />
         <activity android:name=".PerfilActivity" />
+        <activity android:name=".MinhasNegociacoesActivity" />
     </application>
 
 </manifest>

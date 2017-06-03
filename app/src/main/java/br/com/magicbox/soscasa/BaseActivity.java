@@ -48,27 +48,13 @@ public class BaseActivity extends AppCompatActivity implements LocationListener 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        usuario = (Usuario) getIntent().getSerializableExtra("usuario");
+
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
         provider = locationManager.getBestProvider(new Criteria(), false);
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
-
-        final String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        mDatabase.child("usuarios").child(userId).addListenerForSingleValueEvent(
-                new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        usuario = dataSnapshot.getValue(Usuario.class);
-                        usuario.setUid(dataSnapshot.getKey());
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        Log.w(TAG, "getUser:onCancelled", databaseError.toException());
-                    }
-                });
-
     }
 
     protected void logout() {
@@ -181,21 +167,17 @@ public class BaseActivity extends AppCompatActivity implements LocationListener 
     public void onLocationChanged(Location location) {
         latitude = location.getLatitude();
         longitude = location.getLongitude();
-        Toast.makeText(BaseActivity.this, "teste2", Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
-
     }
 
     @Override
     public void onProviderEnabled(String provider) {
-
     }
 
     @Override
     public void onProviderDisabled(String provider) {
-
     }
 }

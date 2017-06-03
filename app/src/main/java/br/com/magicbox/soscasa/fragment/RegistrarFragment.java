@@ -85,7 +85,7 @@ public class RegistrarFragment extends Fragment {
             public void onComplete(@NonNull Task<AuthResult> task) {
 
                 if (task.isSuccessful()) {
-                    Util.onAuthSuccess(getActivity(), mDatabase, task.getResult().getUser(), usuario);
+                    Util.onAuthSuccessUsuario(getActivity(), mDatabase, task.getResult().getUser(), usuario);
                 } else {
                     unlock();
                     textError.setText(R.string.cadastrar_error);

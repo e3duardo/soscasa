@@ -9,7 +9,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-import br.com.magicbox.soscasa.fragment.MinhasNegociacoesFragment;
 import br.com.magicbox.soscasa.fragment.ProcurarProblema;
 
 public class ProfissionalActivity extends BaseActivity {
@@ -43,10 +42,9 @@ public class ProfissionalActivity extends BaseActivity {
                 logout();
                 return true;
             case R.id.action_profissional_negociacoes:
-                fragment = new MinhasNegociacoesFragment();
-                final FragmentTransaction transaction = fragmentManager.beginTransaction();
-                transaction.replace(R.id.main_container_profissional, fragment).commit();
-
+                Intent intent = new Intent(ProfissionalActivity.this, MinhasNegociacoesActivity.class);
+                intent.putExtra("usuario", getUsuario());
+                startActivityForResult(intent, 1);
                 return true;
             case R.id.action_profissional_profile:
                 editProfile();

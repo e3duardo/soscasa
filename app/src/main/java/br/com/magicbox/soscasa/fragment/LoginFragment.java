@@ -217,7 +217,7 @@ public class LoginFragment extends Fragment {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
-                Util.onAuthSuccess(getActivity(), mDatabase, user);
+                Util.onAuthSuccessFirebase(getActivity(), mDatabase, user);
             }
         };
 
@@ -263,7 +263,7 @@ public class LoginFragment extends Fragment {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
-                    Util.onAuthSuccess(getActivity(), mDatabase, task.getResult().getUser());
+                    Util.onAuthSuccessFirebase(getActivity(), mDatabase, task.getResult().getUser());
                 } else {
                     unlock();
                     textError.setText(R.string.login_error);

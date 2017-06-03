@@ -8,6 +8,6 @@
         android:id="@+id/action_enviar_valor_negociacao"
         android:title="@string/definir_valor"
         android:visible="true"
-        android:icon="@drawable/ic_attach_money_black_24dp"
+        android:icon="@drawable/ic_attach_money_white_24dp"
         app:showAsAction="always" />
 </menu>
