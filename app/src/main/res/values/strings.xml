@@ -46,5 +46,10 @@
     <string name="novo_problema">Novo problema</string>
     <string name="definir_valor">Definir valor</string>
     <string name="cancelar">Cancelar</string>
+    <string name="cadastrar">Cadastrar</string>
+    <string name="redefinir_senha">Redefinir senha</string>
+    <string name="email">E-mail</string>
+    <string name="senha">Senha</string>
+    <string name="entrar">Entrar</string>
 
 </resources>

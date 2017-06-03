@@ -1,128 +1,128 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:facebook="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:facebook="http://schemas.android.com/apk/res-auto"
-    android:padding="16sp"
     android:background="@mipmap/background"
+    android:padding="16sp"
     tools:context="br.com.magicbox.soscasa.fragment.LoginFragment">
+
+    <Button
+        android:id="@+id/client"
+        android:layout_width="wrap_content"
+        android:layout_height="34dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:text="cliente" />
+
+    <Button
+        android:id="@+id/prof"
+        android:layout_width="wrap_content"
+        android:layout_height="34dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:text="profissional" />
+
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="match_parent"
+        android:layout_height="magtch_parent"
+        android:layout_gravity="center"
+        android:padding="120dp"
+        android:visibility="gone" />
 
     <ImageView
         android:id="@+id/icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="30sp"
-        android:src="@mipmap/ic_launcher"
-        android:layout_gravity="center_horizontal"
-        />
+        android:layout_marginBottom="40dp"
+        android:contentDescription="@string/app_name"
+        android:scaleX=".5"
+        android:scaleY=".5"
+        android:src="@mipmap/image_normal" />
 
 
-        <LinearLayout
-            android:layout_width="match_parent"
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/to_text_input_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/icon"
+        android:textColorHint="#FFF">
+
+        <AutoCompleteTextView
+            android:id="@+id/login_email"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:orientation="vertical"
-            android:weightSum="1"
-            android:layout_marginTop="74dp"
-            android:layout_below="@+id/icon"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true">
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:hint="@string/email" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/login_senha_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/to_text_input_layout"
+        android:textColorHint="#FFF">
+
+        <AutoCompleteTextView
+            android:id="@+id/login_senha"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:hint="@string/senha" />
 
 
-            <Button
-                android:text="clienteUid"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:id="@+id/client"
-                />
+    </android.support.design.widget.TextInputLayout>
 
-            <Button
-                android:text="profissional"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:id="@+id/prof"
-                />
+    <Button
+        android:id="@+id/button_login_email"
+        android:layout_width="150dp"
+        android:layout_height="38dp"
+        android:layout_below="@id/login_senha_layout"
+        android:text="@string/entrar" />
 
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/to_text_input_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:textColorHint="#FFF">
-
-                <AutoCompleteTextView
-                    android:id="@+id/login_email"
-                    android:layout_width="fill_parent"
-                    android:focusable="true"
-                    android:focusableInTouchMode="true"
-                    android:layout_height="wrap_content"
-                    android:gravity="top"
-                    android:hint="E-mail"/>
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColorHint="#FFF">
-
-            <AutoCompleteTextView
-                android:id="@+id/login_senha"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:gravity="top"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:hint="Senha"/>
-                />
-            </android.support.design.widget.TextInputLayout>
-
-            <ProgressBar
-                android:id="@+id/progress_bar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:visibility="gone"
-                />
-
-            <Button
-                android:layout_marginTop="50dp"
-                android:id="@+id/button_login_email"
-                android:layout_width="150dp"
-                android:layout_height="40dp"
-                android:layout_gravity="right"
-                android:text="Entrar"/>
-
-            <com.facebook.login.widget.LoginButton
-                android:id="@+id/button_entrar_facebook"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:layout_marginTop="-32dp"
-                android:padding="0dp"
-                facebook:com_facebook_login_text="Entrar"/>
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/button_entrar_facebook"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/login_senha_layout"
+        android:layout_marginEnd="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginTop="6dp"
+        facebook:com_facebook_login_text="Entrar" />
 
 
+    <TextView
+        android:id="@+id/button_cadastrar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@id/button_login_email"
+        android:layout_alignLeft="@id/button_login_email"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@id/button_login_email"
+        android:layout_alignStart="@id/button_login_email"
+        android:gravity="center"
+        android:text="@string/cadastrar"
+        android:textColor="#FFF" />
 
-            <TextView
-                android:id="@+id/button_cadastrar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:onClick="button_cadastrar"
-                android:textColor="#FFF"
-                android:text="Cadastrar"
-                android:gravity="left"/>
-
-            <TextView
-                android:id="@+id/redefinir_senha"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Redefinir Senha"
-                android:textColor="#FFF"
-                android:gravity="right"/>
-
-        </LinearLayout>
+    <TextView
+        android:id="@+id/redefinir_senha"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@id/button_entrar_facebook"
+        android:layout_alignLeft="@id/button_entrar_facebook"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@id/button_entrar_facebook"
+        android:layout_alignStart="@id/button_entrar_facebook"
+        android:gravity="center"
+        android:text="@string/redefinir_senha"
+        android:textColor="#FFF" />
 
 
 </RelativeLayout>
