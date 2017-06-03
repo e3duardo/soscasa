@@ -4,25 +4,20 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -38,20 +33,21 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import br.com.magicbox.soscasa.EntrarActivity;
 import br.com.magicbox.soscasa.R;
 import br.com.magicbox.soscasa.Util;
-
-import static android.content.ContentValues.TAG;
 
 
 public class LoginFragment extends Fragment {
 
-    private LoginButton entrarFacebook;
-    private Button entrarEmail;
-    private TextView cadastrar;
-    private Button client;
-    private Button prof;
+    private AutoCompleteTextView textEmail;
+    private AutoCompleteTextView textSenha;
+
+    private TextView textError;
+
+    private LoginButton buttonEntrarFacebook;
+    private Button buttonEntrarEmail;
+    private Button buttonRedefinirSenha;
+    private Button buttonCadastrar;
 
     private ProgressBar progressBar;
     private FragmentActivity myContext;
@@ -60,15 +56,10 @@ public class LoginFragment extends Fragment {
     private FragmentManager fragmentManager;
     private CallbackManager callbackManager;
 
-    private AutoCompleteTextView email;
-    private AutoCompleteTextView senha;
-    private Button continuar;
-    private TextView redefinirSenha;
-
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
-
     private FirebaseAuth.AuthStateListener mAuthStateListener;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -77,138 +68,83 @@ public class LoginFragment extends Fragment {
 
         fragmentManager = myContext.getSupportFragmentManager();
         callbackManager = CallbackManager.Factory.create();
-
-
-        email = (AutoCompleteTextView) view.findViewById(R.id.login_email);
-        senha = (AutoCompleteTextView) view.findViewById(R.id.login_senha);
-        continuar = (Button) view.findViewById(R.id.button_login_email);
-        progressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
-        progressBar.setVisibility(View.GONE);
-
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
 
-        entrarFacebook = (LoginButton) view.findViewById(R.id.button_entrar_facebook);
-        entrarFacebook.setReadPermissions("email");
-        entrarFacebook.setFragment(this);
-        entrarFacebook.setReadPermissions("email", "public_profile");
-        entrarFacebook.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+
+        textEmail = (AutoCompleteTextView) view.findViewById(R.id.text_login_email);
+        textSenha = (AutoCompleteTextView) view.findViewById(R.id.text_login_senha);
+        textError = (TextView) view.findViewById(R.id.text_login_error);
+
+        buttonEntrarEmail = (Button) view.findViewById(R.id.button_login_entrar_email);
+        buttonEntrarFacebook = (LoginButton) view.findViewById(R.id.button_login_entrar_facebook);
+        buttonRedefinirSenha = (Button) view.findViewById(R.id.button_login_redefinir_senha);
+        buttonCadastrar = (Button) view.findViewById(R.id.button_login_cadastrar);
+
+        progressBar = (ProgressBar) view.findViewById(R.id.progress_login);
+        unlock();
+
+
+        buttonEntrarFacebook.setReadPermissions("textEmail");
+        buttonEntrarFacebook.setFragment(this);
+        buttonEntrarFacebook.setReadPermissions("textEmail", "public_profile");
+        buttonEntrarFacebook.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                Toast.makeText(getContext(), "facebook login", Toast.LENGTH_LONG).show();
+                AuthCredential credential =
+                        FacebookAuthProvider.getCredential(loginResult.getAccessToken().getToken());
 
-                handleFacebookAccessToken(loginResult.getAccessToken());
+                mAuth.signInWithCredential(credential).addOnCompleteListener(getActivity(), fazerLogin());
             }
 
             @Override
             public void onCancel() {
-                // App code
             }
 
             @Override
             public void onError(FacebookException exception) {
-                // App code
+                unlock();
+                textError.setText(R.string.login_error);
+                textError.setVisibility(View.VISIBLE);
             }
         });
 
-        entrarEmail = (Button) view.findViewById(R.id.button_login_email);
-        entrarEmail.setOnClickListener(new View.OnClickListener() {
-                                           @Override
-                                           public void onClick(View v) {
-                                               if (!validateForm()) {
-                                                   return;
+
+        buttonEntrarEmail.setOnClickListener(new View.OnClickListener() {
+                                                 @Override
+                                                 public void onClick(View v) {
+                                                     if (!validateForm()) {
+                                                         return;
+                                                     }
+
+                                                     lock();
+
+                                                     mAuth.signInWithEmailAndPassword(textEmail.getText().toString(), textSenha.getText().toString())
+                                                             .addOnCompleteListener(getActivity(), fazerLogin());
+
+                                                 }
+                                             }
+        );
+
+
+        buttonCadastrar.setOnClickListener(new View.OnClickListener() {
+                                               @Override
+                                               public void onClick(View v) {
+                                                   fragment = new RegistrarFragment();
+
+                                                   final FragmentTransaction transaction = fragmentManager.beginTransaction();
+                                                   transaction.replace(R.id.entrar_container, fragment);
+                                                   transaction.addToBackStack(fragment.getClass().getName());
+                                                   transaction.commit();
                                                }
-
-                                               mAuth.signInWithEmailAndPassword(email.getText().toString(), senha.getText().toString())
-                                                       .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
-                                                           @Override
-                                                           public void onComplete(@NonNull Task<AuthResult> task) {
-                                                               Log.d(TAG, "signIn:onComplete:" + task.isSuccessful());
-
-                                                               if (task.isSuccessful()) {
-                                                                   Util.onAuthSuccess(getActivity(), mDatabase, task.getResult().getUser());
-                                                               } else {
-                                                                   Toast.makeText(getActivity(), "Sign In Failed",
-                                                                           Toast.LENGTH_SHORT).show();
-                                                               }
-                                                           }
-                                                       });
-
                                            }
-                                       }
-        );
-
-        client = (Button) view.findViewById(R.id.client);
-        client.setOnClickListener(new View.OnClickListener() {
-                                           @Override
-                                           public void onClick(View v) {
-
-                                               mAuth.signInWithEmailAndPassword("msn@msn.com", "123123")
-                                               .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
-                                                           @Override
-                                                           public void onComplete(@NonNull Task<AuthResult> task) {
-                                                               Log.d(TAG, "signIn:onComplete:" + task.isSuccessful());
-                                                                   progressBar.setVisibility(View.VISIBLE);
-
-                                                               if (task.isSuccessful()) {
-                                                                   Util.onAuthSuccess(getActivity(), mDatabase, task.getResult().getUser());
-                                                               } else {
-                                                                   Toast.makeText(getActivity(), "Sign In Failed",
-                                                                           Toast.LENGTH_SHORT).show();
-                                                               }
-                                                           }
-                                                       });
-
-                                           }
-                                       }
         );
 
 
-        prof = (Button) view.findViewById(R.id.prof);
-        prof.setOnClickListener(new View.OnClickListener() {
-                                      @Override
-                                      public void onClick(View v) {
-
-                                          mAuth.signInWithEmailAndPassword("yahoo@yahoo.com", "123123")
-                                                  .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
-                                                      @Override
-                                                      public void onComplete(@NonNull Task<AuthResult> task) {
-                                                          Log.d(TAG, "signIn:onComplete:" + task.isSuccessful());
-                                                          progressBar.setVisibility(View.VISIBLE);
-                                                          if (task.isSuccessful()) {
-                                                              Util.onAuthSuccess(getActivity(), mDatabase, task.getResult().getUser());
-
-                                                          } else {
-                                                              Toast.makeText(getActivity(), "Sign In Failed",
-                                                                      Toast.LENGTH_SHORT).show();
-                                                          }
-                                                      }
-                                                  });
-
-                                      }
-                                  }
-        );
-
-
-        cadastrar = (TextView) view.findViewById(R.id.button_cadastrar);
-        cadastrar.setOnClickListener(new View.OnClickListener() {
-                                         @Override
-                                         public void onClick(View v) {
-                                             fragment = new RegistrarFragment();
-
-                                             final FragmentTransaction transaction = fragmentManager.beginTransaction();
-                                             transaction.replace(R.id.entrar_container, fragment);
-                                             transaction.addToBackStack(fragment.getClass().getName());
-                                             transaction.commit();
-                                         }
-                                     }
-        );
-
-        redefinirSenha = (TextView) view.findViewById(R.id.redefinir_senha);
-        redefinirSenha.setOnClickListener(new View.OnClickListener() {
+        buttonRedefinirSenha.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final Snackbar mySnackbar = Snackbar.make(getView(), "Sucesso", 200);
+
                 LayoutInflater inflater = LayoutInflater.from(getActivity());
                 View promptsView = inflater.inflate(R.layout.dialog_reset, null);
 
@@ -218,71 +154,125 @@ public class LoginFragment extends Fragment {
                 alertDialogBuilder.setView(promptsView);
 
                 final TextView userInput = (TextView) promptsView
-                        .findViewById(R.id.email_reset);
+                        .findViewById(R.id.text_reset_email);
 
-                // set dialog message
                 alertDialogBuilder
                         .setCancelable(false)
-                        .setPositiveButton("Redefinir",
+                        .setPositiveButton(R.string.redefinir,
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
-                                        mAuth
-                                        .sendPasswordResetEmail( userInput.getText().toString() )
+
+                                        lock();
+
+                                        mAuth.sendPasswordResetEmail(userInput.getText().toString())
                                                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                                                     @Override
                                                     public void onComplete(@NonNull Task<Void> task) {
 
+                                                        unlock();
                                                         if (task.isSuccessful()) {
-//                                                            Toast.makeText(getActivity(),"Recuperação de acesso iniciada. Email enviado.", Toast.LENGTH_LONG).show();
-                                                            mySnackbar.show();
+                                                            new AlertDialog.Builder(
+                                                                    getActivity())
+                                                                    .setTitle(R.string.redefinir_success_title)
+                                                                    .setMessage(R.string.redefinir_success_message)
+                                                                    .setNegativeButton(R.string.cancelar,
+                                                                            new DialogInterface.OnClickListener() {
+                                                                                public void onClick(DialogInterface dialog, int id) {
+                                                                                    dialog.cancel();
+                                                                                }
+                                                                            })
+                                                                    .create().show();
+                                                        } else {
+                                                            new AlertDialog.Builder(
+                                                                    getActivity())
+                                                                    .setTitle(R.string.redefinir_error_title)
+                                                                    .setMessage(R.string.redefinir_error_message)
+                                                                    .setNegativeButton(R.string.ok,
+                                                                            new DialogInterface.OnClickListener() {
+                                                                                public void onClick(DialogInterface dialog, int id) {
+                                                                                    dialog.cancel();
+                                                                                }
+                                                                            })
+                                                                    .create().show();
                                                         }
-                                                        else
-                                                        Toast.makeText(
-                                                                getActivity(),
-                                                                "Falhou! Tente novamente",
-                                                                Toast.LENGTH_SHORT
-                                                        ).show();
+
                                                     }
                                                 });
                                     }
-                                });
+                                }).setNegativeButton(R.string.cancelar,
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+                ;
                 AlertDialog alertDialog = alertDialogBuilder.create();
                 alertDialog.show();
 
             }
-            });
+        });
 
         mAuthStateListener = new FirebaseAuth.AuthStateListener() {
 
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
-
                 Util.onAuthSuccess(getActivity(), mDatabase, user);
-
             }
         };
+
+
+        //to exclude
+        Button client = (Button) view.findViewById(R.id.client);
+        client.setOnClickListener(new View.OnClickListener() {
+                                      @Override
+                                      public void onClick(View v) {
+
+                                          lock();
+
+                                          mAuth.signInWithEmailAndPassword("msn@msn.com", "123123")
+                                                  .addOnCompleteListener(getActivity(), fazerLogin());
+
+                                      }
+                                  }
+        );
+
+
+        Button prof = (Button) view.findViewById(R.id.prof);
+        prof.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+
+                                        lock();
+
+                                        mAuth.signInWithEmailAndPassword("yahoo@yahoo.com", "123123")
+                                                .addOnCompleteListener(getActivity(), fazerLogin());
+
+                                    }
+                                }
+        );
+        /////end to exclude
 
 
         return view;
     }
 
-    private void handleFacebookAccessToken(AccessToken token) {
-        AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
-        mAuth.signInWithCredential(credential).addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
-
+    @NonNull
+    private OnCompleteListener<AuthResult> fazerLogin() {
+        return new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
                     Util.onAuthSuccess(getActivity(), mDatabase, task.getResult().getUser());
                 } else {
-                    Toast.makeText(getActivity(), "Sign In Failed",
-                            Toast.LENGTH_SHORT).show();
+                    unlock();
+                    textError.setText(R.string.login_error);
+                    textError.setVisibility(View.VISIBLE);
                 }
-
             }
-        });
+        };
     }
+
 
     @Override
     public void onAttach(Activity activity) {
@@ -292,21 +282,48 @@ public class LoginFragment extends Fragment {
 
     private boolean validateForm() {
         boolean result = true;
-        if (TextUtils.isEmpty(email.getText().toString())) {
-            email.setError("Required");
+        if (TextUtils.isEmpty(textEmail.getText().toString())) {
+            textEmail.setError(getString(R.string.camporequerido));
             result = false;
         } else {
-            email.setError(null);
+            textEmail.setError(null);
         }
 
-        if (TextUtils.isEmpty(senha.getText().toString())) {
-            senha.setError("Required");
+        if (TextUtils.isEmpty(textSenha.getText().toString())) {
+            textSenha.setError(getString(R.string.camporequerido));
             result = false;
         } else {
-            senha.setError(null);
+            textSenha.setError(null);
         }
 
         return result;
+    }
+
+    private void lock() {
+        textError.setText("");
+        textError.setVisibility(View.GONE);
+
+        progressBar.setVisibility(View.VISIBLE);
+
+        textEmail.setEnabled(false);
+        textSenha.setEnabled(false);
+
+        buttonEntrarFacebook.setEnabled(false);
+        buttonEntrarEmail.setEnabled(false);
+        buttonRedefinirSenha.setEnabled(false);
+        buttonCadastrar.setEnabled(false);
+    }
+
+    private void unlock() {
+        progressBar.setVisibility(View.GONE);
+
+        textEmail.setEnabled(true);
+        textSenha.setEnabled(true);
+
+        buttonEntrarFacebook.setEnabled(true);
+        buttonEntrarEmail.setEnabled(true);
+        buttonRedefinirSenha.setEnabled(true);
+        buttonCadastrar.setEnabled(true);
     }
 
 

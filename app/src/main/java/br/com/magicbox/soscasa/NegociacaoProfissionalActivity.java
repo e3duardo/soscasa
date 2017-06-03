@@ -157,7 +157,7 @@ public class NegociacaoProfissionalActivity extends AppCompatActivity {
                 alertDialogBuilder.setView(promptsView);
 
                 final EditText userInput = (EditText) promptsView
-                        .findViewById(R.id.editTextDialogUserInput);
+                        .findViewById(R.id.text_precificar_valor);
 
                 // set dialog message
                 alertDialogBuilder

@@ -2,44 +2,95 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="10sp"
     tools:context="br.com.magicbox.soscasa.fragment.RegistrarFragment">
+
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-    <EditText
-        android:id="@+id/editText_registrar_nome"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Nome completo"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp">
 
-        <EditText
-            android:id="@+id/editText_registrar_email"
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <AutoCompleteTextView
+                android:id="@+id/text_registrar_nome"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:hint="@string/nome" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <AutoCompleteTextView
+                android:id="@+id/text_registrar_email"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:hint="@string/email"
+                android:inputType="textEmailAddress" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <AutoCompleteTextView
+                android:id="@+id/text_registrar_celular"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:hint="@string/celular"
+                android:inputType="phone" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <AutoCompleteTextView
+                android:id="@+id/text_registrar_senha"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:hint="@string/senha"
+                android:inputType="textPassword" />
+        </android.support.design.widget.TextInputLayout>
+
+
+        <TextView
+            android:id="@+id/text_registrar_error"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="E-mail"/>
+            android:textColor="#FF0000"
+            android:visibility="gone" />
 
-        <EditText
-            android:id="@+id/editText_registrar_celular"
+        <Button
+            android:id="@+id/button_registrar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Celular"/>
+            android:layout_gravity="bottom"
+            android:text="Cadastrar" />
 
-    <EditText
-        android:id="@+id/editText_registrar_senha"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textPassword"
-        android:hint="Senha"/>
     </LinearLayout>
 
-    <Button
-        android:id="@+id/button_registrar"
+    <ProgressBar
+        android:id="@+id/progress_registrar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Cadastrar"
-        android:layout_gravity="bottom"/>
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:background="#66ffffff"
+        android:visibility="gone"
+        android:padding="130dp" />
 
 </FrameLayout>

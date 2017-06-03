@@ -9,11 +9,10 @@
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Type Your Message : "
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:text="@string/request_preco"/>
 
     <EditText
-        android:id="@+id/editTextDialogUserInput"
+        android:id="@+id/text_precificar_valor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="numberDecimal">

@@ -2,5 +2,13 @@
 <resources>
     <style name="SosTheme" parent="Theme.AppCompat.Light.DarkActionBar" >
         <item name="android:colorAccent">@color/primary_color</item>
+        <item name="colorAccent">@color/primary_color</item>
+        <item name="colorPrimary">@color/base_light</item>
+        <item name="colorPrimaryDark">@color/base_dark</item>
+    </style>
+
+    <style name="SosTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
 </resources>

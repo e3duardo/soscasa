@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp">
 
     <TextView
         android:id="@+id/textView1"
-
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Email "
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:text="@string/email" />
 
     <EditText
-        android:id="@+id/email_reset"
-        android:layout_marginTop="20dp"
+        android:id="@+id/text_reset_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textEmailAddress">
@@ -22,4 +21,4 @@
 
     </EditText>
 
-</RelativeLayout>
+</LinearLayout>

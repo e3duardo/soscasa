@@ -1,128 +1,150 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:facebook="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@mipmap/background"
-    android:padding="16sp"
     tools:context="br.com.magicbox.soscasa.fragment.LoginFragment">
 
-    <Button
-        android:id="@+id/client"
-        android:layout_width="wrap_content"
-        android:layout_height="34dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:text="cliente" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#66000000" />
 
-    <Button
-        android:id="@+id/prof"
-        android:layout_width="wrap_content"
-        android:layout_height="34dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:text="profissional" />
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp">
+
+        <Button
+            android:id="@+id/client"
+            android:layout_width="wrap_content"
+            android:layout_height="34dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:text="cliente" />
+
+        <Button
+            android:id="@+id/prof"
+            android:layout_width="wrap_content"
+            android:layout_height="34dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+
+            android:text="profissional" />
+
+        <ImageView
+            android:id="@+id/icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="40dp"
+            android:contentDescription="@string/app_name"
+            android:scaleX=".5"
+            android:scaleY=".5"
+            android:src="@mipmap/image_normal" />
+
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/to_text_input_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/icon"
+            android:textColorHint="#FFF">
+
+            <AutoCompleteTextView
+                android:id="@+id/text_login_email"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:hint="@string/email"
+                android:inputType="textEmailAddress"
+                android:textColor="#fff" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/login_senha_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/to_text_input_layout"
+            android:textColorHint="#FFF">
+
+            <AutoCompleteTextView
+                android:id="@+id/text_login_senha"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:hint="@string/senha"
+                android:textColor="#fff" />
+        </android.support.design.widget.TextInputLayout>
+
+        <TextView
+            android:id="@+id/text_login_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#FF0000"
+            android:layout_below="@id/login_senha_layout"
+            android:visibility="gone"/>
+
+        <Button
+            android:id="@+id/button_login_entrar_email"
+            android:layout_width="150dp"
+            android:layout_height="38dp"
+            android:layout_below="@id/text_login_error"
+            android:text="@string/entrar" />
+
+        <com.facebook.login.widget.LoginButton
+            android:id="@+id/button_login_entrar_facebook"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/text_login_error"
+            android:layout_marginEnd="4dp"
+            android:layout_marginRight="4dp"
+            android:layout_marginTop="6dp"
+            facebook:com_facebook_login_text="Entrar" />
+
+
+        <Button
+            android:id="@+id/button_login_cadastrar"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@id/button_login_entrar_email"
+            android:layout_alignLeft="@id/button_login_entrar_email"
+            android:layout_alignParentBottom="true"
+            android:layout_alignRight="@id/button_login_entrar_email"
+            android:layout_alignStart="@id/button_login_entrar_email"
+            android:gravity="center"
+            android:text="@string/cadastrar"
+            android:textColor="#FFF" />
+
+        <Button
+            android:id="@+id/button_login_redefinir_senha"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@id/button_login_entrar_facebook"
+            android:layout_alignLeft="@id/button_login_entrar_facebook"
+            android:layout_alignParentBottom="true"
+            android:layout_alignRight="@id/button_login_entrar_facebook"
+            android:layout_alignStart="@id/button_login_entrar_facebook"
+            android:gravity="center"
+            android:text="@string/redefinir_senha"
+            android:textColor="#FFF" />
+
+    </RelativeLayout>
 
     <ProgressBar
-        android:id="@+id/progress_bar"
+        android:id="@+id/progress_login"
         android:layout_width="match_parent"
-        android:layout_height="magtch_parent"
+        android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:padding="120dp"
-        android:visibility="gone" />
-
-    <ImageView
-        android:id="@+id/icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="40dp"
-        android:contentDescription="@string/app_name"
-        android:scaleX=".5"
-        android:scaleY=".5"
-        android:src="@mipmap/image_normal" />
-
-
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/to_text_input_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/icon"
-        android:textColorHint="#FFF">
-
-        <AutoCompleteTextView
-            android:id="@+id/login_email"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:hint="@string/email" />
-    </android.support.design.widget.TextInputLayout>
-
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/login_senha_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/to_text_input_layout"
-        android:textColorHint="#FFF">
-
-        <AutoCompleteTextView
-            android:id="@+id/login_senha"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:hint="@string/senha" />
-
-
-    </android.support.design.widget.TextInputLayout>
-
-    <Button
-        android:id="@+id/button_login_email"
-        android:layout_width="150dp"
-        android:layout_height="38dp"
-        android:layout_below="@id/login_senha_layout"
-        android:text="@string/entrar" />
-
-    <com.facebook.login.widget.LoginButton
-        android:id="@+id/button_entrar_facebook"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@id/login_senha_layout"
-        android:layout_marginEnd="4dp"
-        android:layout_marginRight="4dp"
-        android:layout_marginTop="6dp"
-        facebook:com_facebook_login_text="Entrar" />
-
-
-    <TextView
-        android:id="@+id/button_cadastrar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignEnd="@id/button_login_email"
-        android:layout_alignLeft="@id/button_login_email"
-        android:layout_alignParentBottom="true"
-        android:layout_alignRight="@id/button_login_email"
-        android:layout_alignStart="@id/button_login_email"
-        android:gravity="center"
-        android:text="@string/cadastrar"
-        android:textColor="#FFF" />
-
-    <TextView
-        android:id="@+id/redefinir_senha"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignEnd="@id/button_entrar_facebook"
-        android:layout_alignLeft="@id/button_entrar_facebook"
-        android:layout_alignParentBottom="true"
-        android:layout_alignRight="@id/button_entrar_facebook"
-        android:layout_alignStart="@id/button_entrar_facebook"
-        android:gravity="center"
-        android:text="@string/redefinir_senha"
-        android:textColor="#FFF" />
-
-
-</RelativeLayout>
+        android:background="#66ffffff"
+        android:visibility="gone"
+        android:padding="130dp" />
+</FrameLayout>
