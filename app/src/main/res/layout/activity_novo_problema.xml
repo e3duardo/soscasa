@@ -19,7 +19,7 @@
             android:textSize="12sp"/>
 
         <Spinner
-            android:id="@+id/areaSpinner"
+            android:id="@+id/spinner_perfil_area"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"></Spinner>
 

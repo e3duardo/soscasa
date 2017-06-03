@@ -48,5 +48,10 @@
     <string name="redefinir_success_title">Sucesso</string>
     <string name="redefinir_error_message">Ocorreu um problema ao enviar o email!</string>
     <string name="redefinir_error_title">Erro</string>
+    <string name="sou_um_profissional">Sou um profissional</string>
+    <string name="confirmacao_sou_profissional">Deseja realmente converter seu perfil para profissional?</string>
+    <string name="atencao">Atenção</string>
+    <string name="salvar">Salvar</string>
+    <string name="area">Área</string>
 
 </resources>

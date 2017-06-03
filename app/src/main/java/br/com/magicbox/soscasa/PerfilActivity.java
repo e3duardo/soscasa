@@ -1,16 +1,18 @@
 package br.com.magicbox.soscasa;
 
-import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -25,18 +27,16 @@ import java.util.List;
 import br.com.magicbox.soscasa.models.Area;
 import br.com.magicbox.soscasa.models.Usuario;
 
-import static android.content.ContentValues.TAG;
-
 public class PerfilActivity extends AppCompatActivity {
 
-    private EditText nome;
-    private EditText email;
-    // EditText senha;
-    private EditText celular;
-    private Spinner area;
-    private Button botao;
-    private Button profissional;
+    private EditText textNome;
+    private EditText textEmail;
+    private EditText textCelular;
+    private Spinner spinnerArea;
+    private Button buttonSalvar;
 
+    private View viewProfissional;
+    private MenuItem menuProfissional;
     private Usuario usuario;
 
     private DatabaseReference mDatabase;
@@ -49,14 +49,13 @@ public class PerfilActivity extends AppCompatActivity {
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
-        nome = (EditText) findViewById(R.id.editText_perfil_nome);
-        email = (EditText) findViewById(R.id.editText_perfil_email);
-        celular = (EditText) findViewById(R.id.editText_perfil_celular);
-        area = (Spinner) findViewById(R.id.areaSpinner);
-        botao = (Button) findViewById(R.id.button_perfil_ok);
-        profissional = (Button) findViewById(R.id.button_perfil_profissional);
+        textNome = (EditText) findViewById(R.id.text_perfil_nome);
+        textEmail = (EditText) findViewById(R.id.text_perfil_email);
+        textCelular = (EditText) findViewById(R.id.text_perfil_celular);
+        spinnerArea = (Spinner) findViewById(R.id.spinner_perfil_area);
+        buttonSalvar = (Button) findViewById(R.id.button_perfil_salvar);
 
-        final View camposProfissional = findViewById(R.id.campos_profissional);
+        viewProfissional = findViewById(R.id.view_profissional);
 
         final String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
@@ -67,14 +66,20 @@ public class PerfilActivity extends AppCompatActivity {
                         usuario = dataSnapshot.getValue(Usuario.class);
 
                         if (usuario != null) {
-                            nome.setText(usuario.getNome());
-                            email.setText(usuario.getEmail());
-                            celular.setText(usuario.getCelular());
+                            usuario.setUid(dataSnapshot.getKey());
+
+                            textNome.setText(usuario.getNome());
+                            textEmail.setText(usuario.getEmail());
+                            textCelular.setText(usuario.getCelular());
 
                             if (usuario.getEhProfissional()) {
-                                camposProfissional.setVisibility(View.VISIBLE);
-                                profissional.setVisibility(View.GONE);
+                                menuProfissional.setVisible(false);
+                                viewProfissional.setVisibility(View.VISIBLE);
+                            } else {
+                                menuProfissional.setVisible(true);
+                                viewProfissional.setVisibility(View.GONE);
                             }
+
 
                             mDatabase.child("areas").addValueEventListener(new ValueEventListener() {
                                 @Override
@@ -88,59 +93,87 @@ public class PerfilActivity extends AppCompatActivity {
 
                                     ArrayAdapter<Area> adapter = new ArrayAdapter<>(PerfilActivity.this, android.R.layout.simple_spinner_item, areas);
                                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                                    area.setAdapter(adapter);
+                                    spinnerArea.setAdapter(adapter);
 
-                                    area.setSelection(adapter.getPosition(new Area(usuario.getAreaUid())));
+                                    spinnerArea.setSelection(adapter.getPosition(new Area(usuario.getAreaUid())));
 
                                 }
 
                                 @Override
                                 public void onCancelled(DatabaseError databaseError) {
-                                    Log.w(TAG, "getAreas:onCancelled", databaseError.toException());
                                 }
                             });
                         }
-
                     }
 
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
-
                     }
                 });
 
-        botao.setOnClickListener(new View.OnClickListener() {
+        buttonSalvar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                usuario.setNome(nome.getText().toString());
-                usuario.setEmail(email.getText().toString());
-                usuario.setCelular(celular.getText().toString());
+                usuario.setNome(textNome.getText().toString());
+                usuario.setEmail(textEmail.getText().toString());
+                usuario.setCelular(textCelular.getText().toString());
 
-                Area areaAtual = (Area) area.getSelectedItem();
-                if(areaAtual!=null)
+                Area areaAtual = (Area) spinnerArea.getSelectedItem();
+                if (areaAtual != null)
                     usuario.setAreaUid(areaAtual.getUid());
 
                 Util.writeNewUser(mDatabase, userId, usuario);
 
-                //Toast.makeText(getActivity(), "Usuário salvo!", Toast.LENGTH_SHORT).show();
-
                 Intent returnIntent = new Intent();
                 returnIntent.putExtra("result", usuario);
-                setResult(ClienteActivity.RESULT_USUARIO_ALTERADO,returnIntent);
+                setResult(ClienteActivity.RESULT_USUARIO_ALTERADO, returnIntent);
                 finish();
             }
         });
-        profissional.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-                usuario.setEhProfissional(true);
 
-                Util.writeNewUser(mDatabase, userId, usuario);
+    }
 
-                camposProfissional.setVisibility(View.VISIBLE);
-                profissional.setVisibility(View.GONE);
-            }
-        });
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.navigation_perfil, menu);
+
+        menuProfissional = menu.findItem(R.id.action_sou_profissional);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_sou_profissional:
+
+
+                new AlertDialog.Builder(PerfilActivity.this)
+                        .setTitle(R.string.atencao)
+                        .setMessage(R.string.confirmacao_sou_profissional)
+                        .setPositiveButton(R.string.ok,
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        usuario.setEhProfissional(true);
+
+                                        Util.writeNewUser(mDatabase, usuario.getUid(), usuario);
+
+                                        menuProfissional.setVisible(false);
+                                        viewProfissional.setVisibility(View.VISIBLE);
+                                    }
+                                })
+                        .setNegativeButton(R.string.cancelar,
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        dialog.cancel();
+                                    }
+                                })
+                        .create().show();
+
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

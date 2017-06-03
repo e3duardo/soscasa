@@ -1,6 +1,5 @@
 package br.com.magicbox.soscasa;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -35,7 +34,7 @@ public class NovoProblemaActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_novo_problema);
 
-        sArea = (Spinner) findViewById(R.id.areaSpinner);
+        sArea = (Spinner) findViewById(R.id.spinner_perfil_area);
         actvProblema = (AutoCompleteTextView) findViewById(R.id.problemaEditText);
         bCadastrar = (Button) findViewById(R.id.okButton);
 
