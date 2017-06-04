@@ -11,7 +11,7 @@ import android.view.MenuItem;
 
 import br.com.magicbox.soscasa.fragment.ProcurarProblema;
 
-public class ProfissionalActivity extends BaseActivity {
+public class ProfissionalActivity extends BaseLocationActivity {
 
 
     private Fragment fragment;

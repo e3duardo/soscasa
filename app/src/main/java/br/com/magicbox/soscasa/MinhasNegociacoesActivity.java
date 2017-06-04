@@ -4,13 +4,12 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.Query;
 
 import br.com.magicbox.soscasa.adapter.NegociacaoAdapter;
 
 /**
- * Created by eduardo on 03/06/17.
+ * Criado por eduardo em 03/06/17.
  */
 
 public class MinhasNegociacoesActivity extends BaseActivity {
@@ -31,18 +30,12 @@ public class MinhasNegociacoesActivity extends BaseActivity {
         mManager.setStackFromEnd(true);
         mRecycler.setLayoutManager(mManager);
 
-
-
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
         Query negociacoes = getDatabase().child("negociacoes")
-                .orderByChild("profissional").equalTo(FirebaseAuth.getInstance().getCurrentUser().getUid());
-        //.orderByChild("profissional").equalTo(getUsuario().getUid());
+                .orderByChild("profissional").equalTo(getUsuario().getUid());
 
         mRecycler.setAdapter(new NegociacaoAdapter(MinhasNegociacoesActivity.this, negociacoes, getUsuario(), null));
+
+
     }
+
 }

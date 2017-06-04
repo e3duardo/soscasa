@@ -21,13 +21,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import br.com.magicbox.soscasa.models.Area;
 import br.com.magicbox.soscasa.models.Usuario;
 
-public class PerfilActivity extends AppCompatActivity {
+public class PerfilActivity extends BaseActivity {
 
     private EditText textNome;
     private EditText textEmail;
@@ -57,9 +58,7 @@ public class PerfilActivity extends AppCompatActivity {
 
         viewProfissional = findViewById(R.id.view_profissional);
 
-        final String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
-        mDatabase.child("usuarios").child(userId).addListenerForSingleValueEvent(
+        mDatabase.child("usuarios").child(getUsuario().getUid()).addListenerForSingleValueEvent(
                 new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -122,7 +121,7 @@ public class PerfilActivity extends AppCompatActivity {
                 if (areaAtual != null)
                     usuario.setAreaUid(areaAtual.getUid());
 
-                Util.writeNewUser(mDatabase, userId, usuario);
+                Util.cadastrarUsuario(mDatabase, getUsuario().getUid(), usuario);
 
                 Intent returnIntent = new Intent();
                 returnIntent.putExtra("result", usuario);
@@ -157,7 +156,7 @@ public class PerfilActivity extends AppCompatActivity {
                                     public void onClick(DialogInterface dialog, int id) {
                                         usuario.setEhProfissional(true);
 
-                                        Util.writeNewUser(mDatabase, usuario.getUid(), usuario);
+                                        Util.cadastrarUsuario(mDatabase, usuario.getUid(), usuario);
 
                                         menuProfissional.setVisible(false);
                                         viewProfissional.setVisibility(View.VISIBLE);

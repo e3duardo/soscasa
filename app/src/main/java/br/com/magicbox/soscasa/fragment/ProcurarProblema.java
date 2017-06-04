@@ -1,7 +1,6 @@
 package br.com.magicbox.soscasa.fragment;
 
 import android.content.Intent;
-import android.graphics.BlurMaskFilter;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -20,7 +19,6 @@ import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -62,7 +60,7 @@ public class ProcurarProblema extends Fragment implements OnMapReadyCallback, Go
         super.onStart();
 
         activity.getDatabase().child("negociacoes")
-                .orderByChild("profissional").equalTo(FirebaseAuth.getInstance().getCurrentUser().getUid()).addChildEventListener(new ChildEventListener() {
+                .orderByChild("profissional").equalTo(activity.getUsuario().getUid()).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 problemasEnvolvidosUid.add(dataSnapshot.getValue(Negociacao.class).getProblemaUid());
@@ -109,10 +107,9 @@ public class ProcurarProblema extends Fragment implements OnMapReadyCallback, Go
         circle = mMap.addCircle(new CircleOptions()
                 .center(new LatLng(activity.latitude, activity.longitude))
                 .radius(600)
-                .strokeColor(Color.argb(180,51,51,78))
-                .strokeWidth(5).fillColor(Color.argb(60,51,51,78)));
+                .strokeColor(Color.argb(180, 51, 51, 78))
+                .strokeWidth(5).fillColor(Color.argb(60, 51, 51, 78)));
         circle.isVisible();
-
 
 
         activity.getDatabase().child("problemas")
@@ -163,6 +160,7 @@ public class ProcurarProblema extends Fragment implements OnMapReadyCallback, Go
     public boolean onMarkerClick(Marker marker) {
         Intent intent = new Intent(getActivity(), ProblemaProfissionalActivity.class);
         intent.putExtra("problema", (Serializable) marker.getTag());
+        intent.putExtra("usuario", activity.getUsuario());
         startActivity(intent);
 
         return false;

@@ -15,7 +15,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -31,12 +30,12 @@ import br.com.magicbox.soscasa.models.Usuario;
 
 import static android.content.ContentValues.TAG;
 
-public class ClienteActivity extends BaseActivity {
+public class ClienteActivity extends BaseLocationActivity {
 
     public static int RESULT_PROBLEMA_CRIADO = 1;
     public static int RESULT_PROBLEMA_CANCELADO = 2;
     public static int RESULT_USUARIO_ALTERADO = 3;
-    public static int RESULT_VOLTAR = Activity.RESULT_CANCELED;
+    //public static int RESULT_VOLTAR = Activity.RESULT_CANCELED;
     public static int RESULT_NEGOCIACAO_APROVADA = 4;
 
     private RecyclerView mRecycler;
@@ -78,8 +77,7 @@ public class ClienteActivity extends BaseActivity {
 
         problemas = new ArrayList<>();
 
-        final String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        getDatabase().child("usuarios").child(userId).addListenerForSingleValueEvent(
+        getDatabase().child("usuarios").child(getUsuario().getUid()).addListenerForSingleValueEvent(
                 new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -117,24 +115,20 @@ public class ClienteActivity extends BaseActivity {
 
                             @Override
                             public void onChildRemoved(DataSnapshot dataSnapshot) {
-                                Toast.makeText(ClienteActivity.this, "on child removed", Toast.LENGTH_SHORT).show();
                             }
 
                             @Override
                             public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-                                Toast.makeText(ClienteActivity.this, "on child moved", Toast.LENGTH_SHORT).show();
                             }
 
                             @Override
                             public void onCancelled(DatabaseError databaseError) {
-                                Toast.makeText(ClienteActivity.this, "on child canceled", Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
 
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
-                        Log.w(TAG, "getUser:onCancelled", databaseError.toException());
                     }
                 });
     }
@@ -181,9 +175,9 @@ public class ClienteActivity extends BaseActivity {
             if (resultCode == ClienteActivity.RESULT_USUARIO_ALTERADO) {
                 Snackbar.make(layout, R.string.perfil_atualizado, Snackbar.LENGTH_LONG).show();
             }
-            if (resultCode == ClienteActivity.RESULT_VOLTAR) {
-
-            }
+//            if (resultCode == ClienteActivity.RESULT_VOLTAR) {
+//
+//            }
         }
     }
 }

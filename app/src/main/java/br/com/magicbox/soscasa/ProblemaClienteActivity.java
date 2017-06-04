@@ -31,11 +31,9 @@ import br.com.magicbox.soscasa.models.StatusProblema;
 import br.com.magicbox.soscasa.models.Usuario;
 import br.com.magicbox.soscasa.viewholder.NegociacaoViewHolder;
 
-public class ProblemaClienteActivity extends AppCompatActivity {
+public class ProblemaClienteActivity extends BaseActivity {
 
-    private DatabaseReference mDatabase;
     private Problema problema;
-    private Usuario usuario;
     private TextView tvArea;
     private TextView tvDescricao;
     private TextView tvStatus;
@@ -49,10 +47,8 @@ public class ProblemaClienteActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_problema_cliente);
 
-        mDatabase = FirebaseDatabase.getInstance().getReference();
 
         problema = (Problema) getIntent().getSerializableExtra("problema");
-        usuario = (Usuario) getIntent().getSerializableExtra("usuario");
 
         tvArea = (TextView) findViewById(R.id.text_problema_profissional_area);
         tvDescricao = (TextView) findViewById(R.id.text_problema_profissional_descricao);
@@ -76,7 +72,7 @@ public class ProblemaClienteActivity extends AppCompatActivity {
         tvStatus.setText(problema.getStatus().getI18n());
         tvDescricao.setText(problema.getDescricao());
 
-        mDatabase.child("areas").child(problema.getAreaUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+        getDatabase().child("areas").child(problema.getAreaUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 tvArea.setText(dataSnapshot.getValue(Area.class).getNome());
@@ -88,10 +84,10 @@ public class ProblemaClienteActivity extends AppCompatActivity {
             }
         });
 
-        Query negociacoes = mDatabase.child("negociacoes")
+        Query negociacoes = getDatabase().child("negociacoes")
                 .orderByChild("problema").equalTo(problema.getUid());
 
-        rvNegociacoes.setAdapter(new NegociacaoAdapter(this, negociacoes, usuario, problema));
+        rvNegociacoes.setAdapter(new NegociacaoAdapter(this, negociacoes, getUsuario(), problema));
 
         Toast.makeText(ProblemaClienteActivity.this, "sequence2", Toast.LENGTH_SHORT).show();
     }
@@ -109,20 +105,20 @@ public class ProblemaClienteActivity extends AppCompatActivity {
             case R.id.action_cancelar_problema:
                 AlertDialog.Builder dialog = new AlertDialog.Builder(ProblemaClienteActivity.this);
 
-                dialog.setTitle("Atenção!")
+                dialog.setTitle(R.string.atencao)
                         .setIcon(R.drawable.ic_warning_black_24dp)
-                        .setMessage("Deseja cancelar este problema?")
-                        .setNegativeButton("Não", new DialogInterface.OnClickListener() {
+                        .setMessage(R.string.deseja_cancelar_problema)
+                        .setNegativeButton(R.string.nao, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialoginterface, int i) {
                                 dialoginterface.cancel();
                             }
                         })
-                        .setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+                        .setPositiveButton(R.string.sim, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialoginterface, int i) {
 
                                 StatusProblema statusAntigo = problema.getStatus();
                                 if (problema.getStatus() != StatusProblema.CANCELADO && problema.getStatus() != StatusProblema.RESOLVIDO) {
-                                    DatabaseReference ref = mDatabase.child("problemas").child(problema.getUid());
+                                    DatabaseReference ref = getDatabase().child("problemas").child(problema.getUid());
                                     ref.child("status").setValue(StatusProblema.CANCELADO);
                                     ref.child("canceladoEm").setValue(new Date());
 

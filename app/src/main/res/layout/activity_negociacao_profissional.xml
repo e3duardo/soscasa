@@ -20,7 +20,7 @@
         android:layout_alignParentStart="true"/>
 
     <TextView
-        android:id="@+id/negociacao_profissional_tv_cliente"
+        android:id="@+id/text_negociacao_profissional_cliente"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/negociacao_profissional_l_cliente"
@@ -41,7 +41,7 @@
         android:layout_alignParentRight="true"/>
 
     <TextView
-        android:id="@+id/negociacao_profissional_tv_status"
+        android:id="@+id/text_negociacao_profissional_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/negociacao_profissional_l_status"
@@ -56,13 +56,13 @@
         android:id="@+id/negociacao_profissional_l_valor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/negociacao_profissional_tv_cliente"
+        android:layout_below="@id/text_negociacao_profissional_cliente"
         android:layout_marginTop="10dp"
         android:text="Valor"
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/negociacao_profissional_tv_valor"
+        android:id="@+id/text_negociacao_profissional_valor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/negociacao_profissional_l_valor"
@@ -73,20 +73,20 @@
         android:id="@+id/negociacao_profissional_l_mensagens"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/negociacao_profissional_tv_valor"
+        android:layout_below="@id/text_negociacao_profissional_valor"
         android:layout_marginTop="10dp"
         android:text="Mensagens"
         android:textStyle="bold" />
 
     <EditText
-        android:id="@+id/negociacao_profissional_et_nova_mensagem"
+        android:id="@+id/text_negociacao_profissional_nova_mensagem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginRight="30sp" />
 
     <ImageButton
-        android:id="@+id/negociacao_profissional_b_enviar_mensagem"
+        android:id="@+id/button_negociacao_profissional_enviar_mensagem"
         android:layout_width="30sp"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -99,7 +99,7 @@
         android:id="@+id/negociacao_profissional_rv_mensagens"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/negociacao_profissional_et_nova_mensagem"
+        android:layout_above="@id/text_negociacao_profissional_nova_mensagem"
         android:layout_below="@+id/negociacao_profissional_l_mensagens"
         android:layout_marginLeft="2dp"
         android:layout_marginRight="2dp"

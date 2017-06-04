@@ -12,7 +12,7 @@ import com.google.firebase.database.ValueEventListener;
 import br.com.magicbox.soscasa.models.Usuario;
 
 /**
- * Created by eduardo on 01/05/17.
+ * Criado por eduardo em 01/05/17.
  */
 
 public class Util {
@@ -35,9 +35,9 @@ public class Util {
 
 
     public static void onAuthSuccessUsuario(Activity context, DatabaseReference mDatabase, FirebaseUser user, Usuario usuario) {
-        writeNewUser(mDatabase, user.getUid(), usuario);
+        cadastrarUsuario(mDatabase, user.getUid(), usuario);
 
-        Intent intent = null;
+        Intent intent;
         if (usuario.getEhProfissional()) {
             intent = new Intent(context, ProfissionalActivity.class);
 
@@ -50,9 +50,7 @@ public class Util {
     }
 
 
-
-
-    public static void writeNewUser(DatabaseReference mDatabase, String usuarioId, Usuario usuario) {
+    public static void cadastrarUsuario(DatabaseReference mDatabase, String usuarioId, Usuario usuario) {
         mDatabase.child("usuarios").child(usuarioId).setValue(usuario);
         usuario.setUid(usuarioId);
     }

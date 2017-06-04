@@ -3,7 +3,6 @@ package br.com.magicbox.soscasa;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
@@ -37,7 +36,7 @@ import br.com.magicbox.soscasa.models.Problema;
 import br.com.magicbox.soscasa.models.StatusNegociacao;
 import br.com.magicbox.soscasa.models.Usuario;
 
-public class NegociacaoProfissionalActivity extends AppCompatActivity {
+public class NegociacaoProfissionalActivity extends BaseActivity {
 
     private DatabaseReference mDatabase;
 
@@ -57,17 +56,17 @@ public class NegociacaoProfissionalActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_negociacao_profissional);
 
-        NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
+        NumberFormat format = NumberFormat.getCurrencyInstance();
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
         negociacao = (Negociacao) getIntent().getSerializableExtra("negociacao");
 
-        tvCliente = (TextView) findViewById(R.id.negociacao_profissional_tv_cliente);
-        tvValor = (TextView) findViewById(R.id.negociacao_profissional_tv_valor);
-        tvStatus = (TextView) findViewById(R.id.negociacao_profissional_tv_status);
-        etNovaMensagem = (EditText) findViewById(R.id.negociacao_profissional_et_nova_mensagem);
-        bEnviarMensagem = (ImageButton) findViewById(R.id.negociacao_profissional_b_enviar_mensagem);
+        tvCliente = (TextView) findViewById(R.id.text_negociacao_profissional_cliente);
+        tvValor = (TextView) findViewById(R.id.text_negociacao_profissional_valor);
+        tvStatus = (TextView) findViewById(R.id.text_negociacao_profissional_status);
+        etNovaMensagem = (EditText) findViewById(R.id.text_negociacao_profissional_nova_mensagem);
+        bEnviarMensagem = (ImageButton) findViewById(R.id.button_negociacao_profissional_enviar_mensagem);
 
         etNovaMensagem.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -91,7 +90,7 @@ public class NegociacaoProfissionalActivity extends AppCompatActivity {
             tvValor.setText(String.valueOf(format.format(negociacao.getValor())));
         } else {
             tvValor.setVisibility(View.GONE);
-            findViewById(R.id.negociacao_profissional_tv_valor).setVisibility(View.GONE);
+            findViewById(R.id.text_negociacao_profissional_valor).setVisibility(View.GONE);
         }
 
         mManager = new LinearLayoutManager(this);

@@ -67,7 +67,7 @@
             android:label="@string/title_activity_negociacao_profissional" />
         <activity
             android:name=".MinhasNegociacoesActivity"
-            android:label="@string/title_activity_negociacao_cliente" />
+            android:label="@string/title_activity_negociacoes_profissional" />
 
     </application>
 </manifest>

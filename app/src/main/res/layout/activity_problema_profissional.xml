@@ -9,19 +9,9 @@
 
 
     <TextView
-        android:id="@+id/text_problema_profissional_area"
-        style="@style/TextAppearance.AppCompat.Medium"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ellipsize="end"
-        android:maxLines="1"
-        android:textStyle="bold"
-        tools:text="{area}" />
-
-    <TextView
         android:id="@+id/text_problema_profissional_cliente"
         style="@style/TextAppearance.AppCompat.Medium"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:maxLines="1"
@@ -29,8 +19,17 @@
         tools:text="{cliente}" />
 
     <TextView
+        android:id="@+id/text_problema_profissional_data"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        tools:text="{data}" />
+
+    <TextView
         android:id="@+id/text_problema_profissional_descricao"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         tools:text="{descricao do problema}" />

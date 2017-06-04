@@ -69,7 +69,7 @@ public class ProblemaViewHolder extends RecyclerView.ViewHolder {
 
 
         if (problema.getSolicitadoEm() != null)
-            tvLine2.setText(DateFormat.getDateInstance().format(problema.getSolicitadoEm()));
+            tvLine2.setText(DateFormat.getDateInstance(DateFormat.SHORT).format(problema.getSolicitadoEm()));
 
         item.setOnClickListener(new View.OnClickListener() {
             @Override
