@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by pedro on 31/03/17.
+ * Criado por pedro em 31/03/17.
  */
 
 @IgnoreExtraProperties

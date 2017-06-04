@@ -5,7 +5,7 @@
     tools:context=".NegociacaoProfissionalActivity">
 
     <item
-        android:id="@+id/action_enviar_valor_negociacao"
+        android:id="@+id/action_profissional_enviar_valor_negociacao"
         android:title="@string/definir_valor"
         android:visible="true"
         android:icon="@drawable/ic_attach_money_white_24dp"

@@ -11,6 +11,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.DateFormat;
+import java.util.Date;
 
 import br.com.magicbox.soscasa.models.Negociacao;
 import br.com.magicbox.soscasa.models.Problema;
@@ -68,10 +69,11 @@ public class ProblemaProfissionalActivity extends BaseActivity {
         negociacao.setProblemaUid(problema.getUid());
         negociacao.setProfissionalUid(getSessao().getUsuarioUid());
         negociacao.setStatus(StatusNegociacao.ABERTA);
+        negociacao.setAbertoEm(new Date());
 
         getDatabase().child("negociacoes").child(key).setValue(negociacao);
 
-        Intent intent = new Intent(ProblemaProfissionalActivity.this, NegociacaoProfissionalActivity.class);
+        Intent intent = new Intent(ProblemaProfissionalActivity.this, NegociacaoActivity.class);
         intent.putExtra("sessao", getSessao());
         intent.putExtra("negociacao", negociacao);
         startActivityForResult(intent, 1);

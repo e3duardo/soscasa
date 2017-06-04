@@ -1,15 +1,14 @@
 package br.com.magicbox.soscasa.models;
 
-/**
- * Created by pedro on 31/03/17.
- */
-
 public enum StatusNegociacao {
     ABERTA("Aberta"),
     ORCADA("Orçada"),
     APROVADA("Aprovada"),
     CANCELADA("Cancelada");
 
+    /**
+     * Criado por pedro em 31/03/17.
+     */
     private String i18n;
 
     StatusNegociacao(String i18n) {

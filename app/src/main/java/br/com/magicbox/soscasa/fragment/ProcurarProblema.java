@@ -18,9 +18,9 @@ import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -59,25 +59,12 @@ public class ProcurarProblema extends Fragment implements OnMapReadyCallback, Go
         super.onStart();
 
         activity.getDatabase().child("negociacoes")
-                .orderByChild("profissional").equalTo(activity.getSessao().getUsuarioUid()).addChildEventListener(new ChildEventListener() {
+                .orderByChild("profissional").equalTo(activity.getSessao().getUsuarioUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                problemasEnvolvidosUid.add(dataSnapshot.getValue(Negociacao.class).getProblemaUid());
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot data : dataSnapshot.getChildren()) {
+                    problemasEnvolvidosUid.add(data.getValue(Negociacao.class).getProblemaUid());
+                }
             }
 
             @Override
@@ -112,36 +99,28 @@ public class ProcurarProblema extends Fragment implements OnMapReadyCallback, Go
 
 
         activity.getDatabase().child("problemas")
-                .orderByChild("area").equalTo(activity.getSessao().getUsuarioUid())
-                .addChildEventListener(new ChildEventListener() {
-                    @Override
-                    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                        Problema problema = dataSnapshot.getValue(Problema.class);
-                        problema.setUid(dataSnapshot.getKey());
+                .orderByChild("area").equalTo(activity.getSessao().getUsuario().getAreaUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot data : dataSnapshot.getChildren()) {
 
-                        if (StatusProblema.SOLICITADO.equals(problema.getStatus()) && !problemasEnvolvidosUid.contains(problema.getUid())) {
-                            LatLng mark = new LatLng(problema.getLatitude(), problema.getLongitude());
-                            MarkerOptions marker = new MarkerOptions().position(mark).title(problema.getDescricao());
-                            mMap.addMarker(marker).setTag(problema);
-                        }
-                    }
+                    Problema problema = data.getValue(Problema.class);
+                    problema.setUid(data.getKey());
 
-                    @Override
-                    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                    if (StatusProblema.SOLICITADO.equals(problema.getStatus()) && !problemasEnvolvidosUid.contains(problema.getUid())) {
+                        LatLng mark = new LatLng(problema.getLatitude(), problema.getLongitude());
+                        MarkerOptions marker = new MarkerOptions().position(mark).title(problema.getDescricao());
+                        mMap.addMarker(marker).setTag(problema);
                     }
+                }
+            }
 
-                    @Override
-                    public void onChildRemoved(DataSnapshot dataSnapshot) {
-                    }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
 
-                    @Override
-                    public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-                    }
+            }
+        });
 
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                    }
-                });
 
         LatLng atual = new LatLng(activity.latitude, activity.longitude);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(atual));

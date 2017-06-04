@@ -6,7 +6,6 @@ import com.google.firebase.database.PropertyName;
 
 import java.io.Serializable;
 
-// [START blog_user_class]
 @IgnoreExtraProperties
 public class Usuario implements Serializable {
 

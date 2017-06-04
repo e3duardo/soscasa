@@ -25,6 +25,7 @@ import br.com.magicbox.soscasa.models.StatusProblema;
 
 public class ClienteActivity extends BaseLocationActivity {
 
+    public static int RESULT_PROBLEMA_APROVADO = 5;
     public static int RESULT_PROBLEMA_CRIADO = 1;
     public static int RESULT_PROBLEMA_CANCELADO = 2;
     public static int RESULT_USUARIO_ALTERADO = 3;
@@ -147,6 +148,17 @@ public class ClienteActivity extends BaseLocationActivity {
                 final StatusProblema statusAntigo = (StatusProblema) data.getSerializableExtra("statusAntigo");
 
                 Snackbar.make(layout, R.string.problema_cancelado, Snackbar.LENGTH_LONG).setAction(R.string.desfazer, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        getDatabase().child("problemas").child(problema1.getUid()).child("status").setValue(statusAntigo);
+                    }
+                }).show();
+            }
+            if (resultCode == ClienteActivity.RESULT_PROBLEMA_APROVADO) {
+                final Problema problema1 = (Problema) data.getSerializableExtra("problema");
+                final StatusProblema statusAntigo = (StatusProblema) data.getSerializableExtra("statusAntigo");
+
+                Snackbar.make(layout, R.string.problema_aprovado, Snackbar.LENGTH_LONG).setAction(R.string.desfazer, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         getDatabase().child("problemas").child(problema1.getUid()).child("status").setValue(statusAntigo);

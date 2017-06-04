@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -11,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="Área: "
+        android:text="@string/area"
         android:textStyle="bold" />
 
     <TextView
@@ -22,14 +23,14 @@
         android:layout_marginRight="4dp"
         android:ellipsize="end"
         android:maxLines="1"
-        tools:text="..." />
+        tools:text="{area}" />
 
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="Status: "
+        android:text="@string/status"
         android:textStyle="bold" />
 
     <TextView
@@ -40,7 +41,7 @@
         android:layout_marginRight="4dp"
         android:ellipsize="end"
         android:maxLines="1"
-        tools:text="..." />
+        tools:text="{status}" />
 
     <!-- <TextView
          android:id="@+id/problema_detail_cliente"
@@ -56,7 +57,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="Descrição: "
+        android:text="@string/descricao"
         android:textStyle="bold" />
 
     <TextView
@@ -65,14 +66,15 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="4dp"
         android:layout_marginRight="4dp"
-        tools:text="..." />
+        tools:text="{descricao}" />
 
 
     <TextView
+        android:id="@+id/label_problema_cliente_negociacao"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="Negociações: "
+        android:text="@string/negociacoes"
         android:textStyle="bold" />
 
     <android.support.v7.widget.RecyclerView
@@ -83,6 +85,71 @@
         android:layout_marginRight="2dp"
         android:clipToPadding="false"
         android:scrollbars="vertical"
+        android:visibility="visible"
         tools:listitem="@layout/item_negociacao" />
+
+    <LinearLayout
+        android:id="@+id/view_problema_cliente_negociacao2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/profissional"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/text_problema_cliente_profissional"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            tools:text="{descricao}" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/valor"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/text_problema_cliente_valor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            tools:text="{descricao}" />
+
+        <TextView
+            android:id="@+id/negociacao_profissional_l_mensagens"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/mensagens"
+            android:textStyle="bold" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_mensagens_problema"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:clipToPadding="false"
+                android:scrollbars="vertical"
+                android:layout_above="@+id/text_nova_mensagem"
+                tools:listitem="@layout/item_mensagem" />
+        </RelativeLayout>
+
+
+    </LinearLayout>
 
 </LinearLayout>

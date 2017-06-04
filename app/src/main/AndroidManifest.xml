@@ -50,9 +50,6 @@
             android:name=".ProblemaClienteActivity"
             android:label="@string/title_activity_problema_cliente" />
         <activity
-            android:name=".NegociacaoClienteActivity"
-            android:label="@string/title_activity_negociacao_cliente" />
-        <activity
             android:name=".NovoProblemaActivity"
             android:label="@string/title_activity_novo_problema" />
 
@@ -63,11 +60,12 @@
             android:name=".ProblemaProfissionalActivity"
             android:label="@string/title_activity_problema_profissional" />
         <activity
-            android:name=".NegociacaoProfissionalActivity"
-            android:label="@string/title_activity_negociacao_profissional" />
-        <activity
             android:name=".MinhasNegociacoesActivity"
             android:label="@string/title_activity_negociacoes_profissional" />
+
+        <activity
+            android:name=".NegociacaoActivity"
+            android:label="@string/title_activity_negociacao" />
 
     </application>
 </manifest>

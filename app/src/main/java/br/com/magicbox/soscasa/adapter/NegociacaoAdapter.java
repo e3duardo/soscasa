@@ -1,69 +1,56 @@
 package br.com.magicbox.soscasa.adapter;
 
 import android.app.Activity;
-import android.content.Intent;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.Query;
+import java.util.List;
 
-import br.com.magicbox.soscasa.NegociacaoClienteActivity;
-import br.com.magicbox.soscasa.NegociacaoProfissionalActivity;
 import br.com.magicbox.soscasa.R;
 import br.com.magicbox.soscasa.Sessao;
 import br.com.magicbox.soscasa.models.Negociacao;
-import br.com.magicbox.soscasa.models.Problema;
 import br.com.magicbox.soscasa.viewholder.NegociacaoViewHolder;
 
 /**
  * Criado por eduardo em 5/21/17.
  */
 
-public class NegociacaoAdapter extends FirebaseRecyclerAdapter<Negociacao, NegociacaoViewHolder> {
+public class NegociacaoAdapter extends RecyclerView.Adapter {
 
     private final Activity activity;
+    private List<Negociacao> negociacoes;
     private Sessao sessao;
-    private Problema problema;
 
-    public NegociacaoAdapter(Activity activity, Query ref, Sessao sessao, Problema problema) {
-        super(Negociacao.class, R.layout.item_negociacao, NegociacaoViewHolder.class, ref);
+    public NegociacaoAdapter(Activity activity, List<Negociacao> negociacoes, Sessao sessao) {
         this.activity = activity;
+        this.negociacoes = negociacoes;
         this.sessao = sessao;
-        this.problema = problema;
     }
 
     @Override
-    protected Negociacao parseSnapshot(DataSnapshot snapshot) {
-        Negociacao negociacao = super.parseSnapshot(snapshot);
-        negociacao.setUid(snapshot.getKey());
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(activity)
+                .inflate(R.layout.item_negociacao, parent, false);
 
-        if (problema != null && negociacao.getProblemaUid().equals(problema.getUid()))
-            negociacao.setProblema(problema);
-
-        return negociacao;
+        return new NegociacaoViewHolder(activity, view, sessao);
     }
 
     @Override
-    protected void populateViewHolder
-            (final NegociacaoViewHolder viewHolder, final Negociacao model, final int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
 
-        viewHolder.bindToView(model, sessao.usuarioEhProfissional());
+        NegociacaoViewHolder holder = (NegociacaoViewHolder) viewHolder;
 
-        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent;
+        Negociacao negociacao = negociacoes.get(position);
 
-                if (sessao.usuarioEhProfissional())
-                    intent = new Intent(activity, NegociacaoProfissionalActivity.class);
-                else
-                    intent = new Intent(activity, NegociacaoClienteActivity.class);
+        holder.bindToView(negociacao);
 
-                intent.putExtra("negociacao", model);
-                intent.putExtra("sessao", sessao);
-                activity.startActivity(intent);
-            }
-        });
     }
+
+    @Override
+    public int getItemCount() {
+        return negociacoes.size();
+    }
+
 }

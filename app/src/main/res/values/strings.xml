@@ -10,7 +10,7 @@
     <string name="title_activity_cliente">@string/app_name</string>
     <string name="title_activity_novo_problema">Novo problema</string>
     <string name="title_activity_problema_cliente">Problema</string>
-    <string name="title_activity_negociacao_cliente">Negociação</string>
+    <string name="title_activity_negociacao">Negociação</string>
 
     <string name="title_activity_profissional">@string/app_name</string>
     <string name="title_activity_problema_profissional">Problema</string>
@@ -67,9 +67,19 @@
     <string name="desfazer">Desfazer</string>
     <string name="nao">Não</string>
     <string name="sim">Sim</string>
-    <string name="deseja_aprovar_negociacao">Deseja aprovar esta negociação?</string>
+    <string name="deseja_aprovar_negociacao">Deseja aprovar esta negociação, seu problema foi resolvido?</string>
     <string name="deseja_cancelar_problema">Deseja cancelar este problema?</string>
     <string name="cliente">Cliente</string>
+    <string name="valor">Valor</string>
+    <string name="status">Status</string>
+    <string name="mensagens">Mensagens</string>
+    <string name="cliente2">Cliente</string>
+    <string name="profissional">Profissional</string>
+    <string name="data">Data</string>
+    <string name="deseja_aprovar_problema">Deseja marcar este problema como concluído?</string>
+    <string name="problema_aprovado">Problema aprovado!</string>
+    <string name="negociacao">Negociação</string>
+    <string name="descricao">Descrição</string>
 
 
 </resources>

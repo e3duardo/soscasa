@@ -5,9 +5,9 @@
     tools:context=".NegociacaoClienteActivity">
 
     <item
-        android:id="@+id/action_aprovar_negociacao"
+        android:id="@+id/action_cliente_aprovar_negociacao"
         android:title="@string/aprovar"
         android:visible="true"
-        android:icon="@drawable/ic_done_black_24dp"
+        android:icon="@drawable/ic_done_white_24dp"
         app:showAsAction="always" />
 </menu>

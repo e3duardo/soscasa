@@ -5,6 +5,12 @@
     tools:context=".ProblemaClienteActivity">
 
     <item
+        android:id="@+id/action_aprovar_problema"
+        android:title="@string/aprovar"
+        android:visible="true"
+        android:icon="@drawable/ic_done_white_24dp"
+        app:showAsAction="always" />
+    <item
         android:id="@+id/action_cancelar_problema"
         android:title="@string/cancelar"
         android:visible="true"

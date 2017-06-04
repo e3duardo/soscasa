@@ -4,9 +4,10 @@ import com.google.firebase.database.Exclude;
 import com.google.firebase.database.PropertyName;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
- * Created by pedro on 31/03/17.
+ * Criado por pedro em 31/03/17.
  */
 
 public class Negociacao implements Serializable {
@@ -24,6 +25,11 @@ public class Negociacao implements Serializable {
 
     @Exclude
     private Problema problema;
+
+    private Date abertoEm;
+    private Date orcadaEm;
+    private Date aprovadaEm;
+    private Date canceladaEm;
 
     public Negociacao() {
 
@@ -87,5 +93,37 @@ public class Negociacao implements Serializable {
 
     public void setValor(Float valor) {
         this.valor = valor;
+    }
+
+    public Date getAbertoEm() {
+        return abertoEm;
+    }
+
+    public void setAbertoEm(Date abertoEm) {
+        this.abertoEm = abertoEm;
+    }
+
+    public Date getOrcadaEm() {
+        return orcadaEm;
+    }
+
+    public void setOrcadaEm(Date orcadaEm) {
+        this.orcadaEm = orcadaEm;
+    }
+
+    public Date getAprovadaEm() {
+        return aprovadaEm;
+    }
+
+    public void setAprovadaEm(Date aprovadaEm) {
+        this.aprovadaEm = aprovadaEm;
+    }
+
+    public Date getCanceladaEm() {
+        return canceladaEm;
+    }
+
+    public void setCanceladaEm(Date canceladaEm) {
+        this.canceladaEm = canceladaEm;
     }
 }

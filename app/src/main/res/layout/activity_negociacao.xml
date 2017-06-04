@@ -6,27 +6,27 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
-    tools:context="br.com.magicbox.soscasa.NegociacaoProfissionalActivity">
+    tools:context="br.com.magicbox.soscasa.NegociacaoActivity">
 
 
     <TextView
-        android:id="@+id/negociacao_profissional_l_cliente"
+        android:id="@+id/label_negociacao_cliente"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="@string/cliente"
+        tools:text="{cliente/profissional}"
         android:textStyle="bold"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"/>
 
     <TextView
-        android:id="@+id/text_negociacao_profissional_cliente"
+        android:id="@+id/text_negociacao_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/negociacao_profissional_l_cliente"
+        android:layout_below="@id/label_negociacao_cliente"
         android:ellipsize="end"
         android:maxLines="1"
-        tools:text="nome_do_cliente"
+        tools:text="{nome}"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"/>
 
@@ -35,79 +35,107 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="Status"
+        android:text="@string/status"
         android:textStyle="bold"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"/>
 
     <TextView
-        android:id="@+id/text_negociacao_profissional_status"
+        android:id="@+id/text_negociacao_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/negociacao_profissional_l_status"
         android:ellipsize="end"
         android:maxLines="1"
-        tools:text="status"
+        tools:text="{status}"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"/>
 
 
     <TextView
-        android:id="@+id/negociacao_profissional_l_valor"
+        android:id="@+id/label_negociacao_valor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/text_negociacao_profissional_cliente"
+        android:layout_below="@id/text_negociacao_title"
         android:layout_marginTop="10dp"
-        android:text="Valor"
-        android:textStyle="bold" />
+        android:text="@string/valor"
+        android:textStyle="bold"
+        />
 
     <TextView
-        android:id="@+id/text_negociacao_profissional_valor"
-        android:layout_width="match_parent"
+        android:id="@+id/text_negociacao_valor"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/negociacao_profissional_l_valor"
+        android:layout_below="@id/label_negociacao_valor"
         android:layout_marginTop="5dp"
-        tools:text="R$0,00" />
+        tools:text="{R$0,00}"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"/>
+
+    <TextView
+        android:id="@+id/negociacao_profissional_l_data"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/data"
+        android:layout_below="@+id/text_negociacao_status"
+        android:textStyle="bold"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"/>
+
+    <TextView
+        android:id="@+id/text_negociacao_data"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/negociacao_profissional_l_data"
+        android:ellipsize="end"
+        android:maxLines="1"
+        tools:text="{data}"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"/>
+
+
 
     <TextView
         android:id="@+id/negociacao_profissional_l_mensagens"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/text_negociacao_profissional_valor"
+        android:layout_below="@id/text_negociacao_data"
         android:layout_marginTop="10dp"
-        android:text="Mensagens"
+        android:text="@string/mensagens"
         android:textStyle="bold" />
 
     <EditText
-        android:id="@+id/text_negociacao_profissional_nova_mensagem"
+        android:id="@+id/text_nova_mensagem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginRight="30sp" />
+        android:layout_marginEnd="30sp"
+        android:layout_marginRight="30sp"
+        android:inputType="textLongMessage" />
 
     <ImageButton
-        android:id="@+id/button_negociacao_profissional_enviar_mensagem"
+        android:id="@+id/button_enviar_mensagem"
         android:layout_width="30sp"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_marginBottom="6sp"
         android:background="@android:color/transparent"
         app:srcCompat="@drawable/ic_send_black_24dp" />
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/negociacao_profissional_rv_mensagens"
+        android:id="@+id/recycler_mensagens"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/text_negociacao_profissional_nova_mensagem"
+        android:layout_above="@id/text_nova_mensagem"
         android:layout_below="@+id/negociacao_profissional_l_mensagens"
         android:layout_marginLeft="2dp"
         android:layout_marginRight="2dp"
         android:clipToPadding="false"
         android:scrollbars="vertical"
-        tools:listitem="@layout/item_mensagem"
-
-        />
+        tools:listitem="@layout/item_mensagem" />
 
 
 </RelativeLayout>
