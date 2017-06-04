@@ -9,8 +9,8 @@ import android.view.ViewGroup;
 import java.util.List;
 
 import br.com.magicbox.soscasa.R;
+import br.com.magicbox.soscasa.Sessao;
 import br.com.magicbox.soscasa.models.Problema;
-import br.com.magicbox.soscasa.models.Usuario;
 import br.com.magicbox.soscasa.viewholder.ProblemaViewHolder;
 
 /**
@@ -19,14 +19,14 @@ import br.com.magicbox.soscasa.viewholder.ProblemaViewHolder;
 
 public class ProblemaAdapter extends RecyclerView.Adapter {
 
-    private Usuario usuario;
+    private Sessao sessao;
     private List<Problema> problemas;
     private Activity activity;
 
-    public ProblemaAdapter(Activity activity, List<Problema> problemas, Usuario usuario){
+    public ProblemaAdapter(Activity activity, List<Problema> problemas, Sessao sessao) {
         this.problemas = problemas;
         this.activity = activity;
-        this.usuario = usuario;
+        this.sessao = sessao;
     }
 
     @Override
@@ -34,7 +34,7 @@ public class ProblemaAdapter extends RecyclerView.Adapter {
         View view = LayoutInflater.from(activity)
                 .inflate(R.layout.item_problema, parent, false);
 
-        return new ProblemaViewHolder(activity, view, usuario);
+        return new ProblemaViewHolder(activity, view, sessao);
     }
 
     @Override
@@ -42,7 +42,7 @@ public class ProblemaAdapter extends RecyclerView.Adapter {
 
         ProblemaViewHolder holder = (ProblemaViewHolder) viewHolder;
 
-        Problema livro  = problemas.get(position) ;
+        Problema livro = problemas.get(position);
 
         holder.bindToView(livro);
 

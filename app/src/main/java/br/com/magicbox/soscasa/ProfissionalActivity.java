@@ -2,8 +2,6 @@ package br.com.magicbox.soscasa;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -14,19 +12,14 @@ import br.com.magicbox.soscasa.fragment.ProcurarProblema;
 public class ProfissionalActivity extends BaseLocationActivity {
 
 
-    private Fragment fragment;
-    private FragmentManager fragmentManager;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profissional);
 
-        fragmentManager = getSupportFragmentManager();
-        fragment = new ProcurarProblema();
-        final FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.add(R.id.main_container_profissional, fragment).commit();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
+        transaction.add(R.id.main_container_profissional, new ProcurarProblema()).commit();
     }
 
     @Override
@@ -35,6 +28,7 @@ public class ProfissionalActivity extends BaseLocationActivity {
         inflater.inflate(R.menu.navigation_profissional, menu);
         return true;
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -43,7 +37,7 @@ public class ProfissionalActivity extends BaseLocationActivity {
                 return true;
             case R.id.action_profissional_negociacoes:
                 Intent intent = new Intent(ProfissionalActivity.this, MinhasNegociacoesActivity.class);
-                intent.putExtra("usuario", getUsuario());
+                intent.putExtra("sessao", getSessao());
                 startActivityForResult(intent, 1);
                 return true;
             case R.id.action_profissional_profile:

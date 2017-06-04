@@ -4,31 +4,23 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.Date;
 
 import br.com.magicbox.soscasa.adapter.NegociacaoAdapter;
-import br.com.magicbox.soscasa.models.Area;
 import br.com.magicbox.soscasa.models.Negociacao;
 import br.com.magicbox.soscasa.models.Problema;
 import br.com.magicbox.soscasa.models.StatusProblema;
-import br.com.magicbox.soscasa.models.Usuario;
 import br.com.magicbox.soscasa.viewholder.NegociacaoViewHolder;
 
 public class ProblemaClienteActivity extends BaseActivity {
@@ -47,7 +39,6 @@ public class ProblemaClienteActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_problema_cliente);
 
-
         problema = (Problema) getIntent().getSerializableExtra("problema");
 
         tvArea = (TextView) findViewById(R.id.text_problema_profissional_area);
@@ -61,35 +52,15 @@ public class ProblemaClienteActivity extends BaseActivity {
         mManager.setReverseLayout(true);
         mManager.setStackFromEnd(true);
         rvNegociacoes.setLayoutManager(mManager);
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        Toast.makeText(ProblemaClienteActivity.this, "sequence1", Toast.LENGTH_SHORT).show();
 
         tvStatus.setText(problema.getStatus().getI18n());
         tvDescricao.setText(problema.getDescricao());
-
-        getDatabase().child("areas").child(problema.getAreaUid()).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                tvArea.setText(dataSnapshot.getValue(Area.class).getNome());
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
+        tvArea.setText(getSessao().getAreaBy(problema.getAreaUid()).getNome());
 
         Query negociacoes = getDatabase().child("negociacoes")
                 .orderByChild("problema").equalTo(problema.getUid());
 
-        rvNegociacoes.setAdapter(new NegociacaoAdapter(this, negociacoes, getUsuario(), problema));
-
-        Toast.makeText(ProblemaClienteActivity.this, "sequence2", Toast.LENGTH_SHORT).show();
+        rvNegociacoes.setAdapter(new NegociacaoAdapter(this, negociacoes, getSessao(), problema));
     }
 
     @Override

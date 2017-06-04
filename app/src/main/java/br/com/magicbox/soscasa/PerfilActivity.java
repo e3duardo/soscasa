@@ -4,7 +4,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -13,17 +12,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
-import java.io.ByteArrayInputStream;
-import java.util.ArrayList;
-import java.util.List;
 
 import br.com.magicbox.soscasa.models.Area;
 import br.com.magicbox.soscasa.models.Usuario;
@@ -38,17 +26,13 @@ public class PerfilActivity extends BaseActivity {
 
     private View viewProfissional;
     private MenuItem menuProfissional;
-    private Usuario usuario;
 
-    private DatabaseReference mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_perfil);
 
-
-        mDatabase = FirebaseDatabase.getInstance().getReference();
 
         textNome = (EditText) findViewById(R.id.text_perfil_nome);
         textEmail = (EditText) findViewById(R.id.text_perfil_email);
@@ -58,57 +42,27 @@ public class PerfilActivity extends BaseActivity {
 
         viewProfissional = findViewById(R.id.view_profissional);
 
-        mDatabase.child("usuarios").child(getUsuario().getUid()).addListenerForSingleValueEvent(
-                new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        usuario = dataSnapshot.getValue(Usuario.class);
+        final Usuario usuario = getSessao().getUsuario();
 
-                        if (usuario != null) {
-                            usuario.setUid(dataSnapshot.getKey());
+        textNome.setText(usuario.getNome());
+        textEmail.setText(usuario.getEmail());
+        textCelular.setText(usuario.getCelular());
 
-                            textNome.setText(usuario.getNome());
-                            textEmail.setText(usuario.getEmail());
-                            textCelular.setText(usuario.getCelular());
-
-                            if (usuario.getEhProfissional()) {
-                                menuProfissional.setVisible(false);
-                                viewProfissional.setVisibility(View.VISIBLE);
-                            } else {
-                                menuProfissional.setVisible(true);
-                                viewProfissional.setVisibility(View.GONE);
-                            }
+        if (usuario.getEhProfissional()) {
+            menuProfissional.setVisible(false);
+            viewProfissional.setVisibility(View.VISIBLE);
+        } else {
+            menuProfissional.setVisible(true);
+            viewProfissional.setVisibility(View.GONE);
+        }
 
 
-                            mDatabase.child("areas").addValueEventListener(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(DataSnapshot dataSnapshot) {
-                                    List<Area> areas = new ArrayList<>();
-                                    for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                                        Area area = postSnapshot.getValue(Area.class);
-                                        area.setUid(postSnapshot.getKey());
-                                        areas.add(area);
-                                    }
+        ArrayAdapter<Area> adapter = new ArrayAdapter<>(PerfilActivity.this, android.R.layout.simple_spinner_item, getSessao().getAreas());
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerArea.setAdapter(adapter);
 
-                                    ArrayAdapter<Area> adapter = new ArrayAdapter<>(PerfilActivity.this, android.R.layout.simple_spinner_item, areas);
-                                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                                    spinnerArea.setAdapter(adapter);
+        spinnerArea.setSelection(adapter.getPosition(new Area(usuario.getAreaUid())));
 
-                                    spinnerArea.setSelection(adapter.getPosition(new Area(usuario.getAreaUid())));
-
-                                }
-
-                                @Override
-                                public void onCancelled(DatabaseError databaseError) {
-                                }
-                            });
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                    }
-                });
 
         buttonSalvar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -121,7 +75,7 @@ public class PerfilActivity extends BaseActivity {
                 if (areaAtual != null)
                     usuario.setAreaUid(areaAtual.getUid());
 
-                Util.cadastrarUsuario(mDatabase, getUsuario().getUid(), usuario);
+                Util.cadastrarUsuario(getDatabase(), getSessao().getUsuarioUid(), usuario);
 
                 Intent returnIntent = new Intent();
                 returnIntent.putExtra("result", usuario);
@@ -154,9 +108,12 @@ public class PerfilActivity extends BaseActivity {
                         .setPositiveButton(R.string.ok,
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
+
+                                        final Usuario usuario = getSessao().getUsuario();
+
                                         usuario.setEhProfissional(true);
 
-                                        Util.cadastrarUsuario(mDatabase, usuario.getUid(), usuario);
+                                        Util.cadastrarUsuario(getDatabase(), usuario.getUid(), usuario);
 
                                         menuProfissional.setVisible(false);
                                         viewProfissional.setVisibility(View.VISIBLE);

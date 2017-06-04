@@ -12,7 +12,7 @@ public enum StatusProblema {
 
     private String i18n;
 
-    StatusProblema(String i18n){
+    StatusProblema(String i18n) {
 
         this.i18n = i18n;
     }
@@ -24,4 +24,5 @@ public enum StatusProblema {
     public void setI18n(String i18n) {
         this.i18n = i18n;
     }
+
 }

@@ -14,7 +14,7 @@ public class MensagemViewHolder extends RecyclerView.ViewHolder {
 
     //private TextView tvUsuario;
     private TextView tvMensagem;
-    private View viewDestinatario= itemView.findViewById(R.id.l_mensagem_destinatatio);
+    private View viewDestinatario = itemView.findViewById(R.id.l_mensagem_destinatatio);
     private View viewRemetente = itemView.findViewById(R.id.l_mensagem_remetente);
 
     public MensagemViewHolder(View itemView) {
@@ -25,13 +25,13 @@ public class MensagemViewHolder extends RecyclerView.ViewHolder {
 
     public void bindToView(Mensagem mensagem) {
 
-        if(mensagem.getUsuarioUid().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+        if (mensagem.getUsuarioUid().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
             //tvUsuario = (TextView) itemView.findViewById(R.id.tv_mensavem_usuario_remetente);
             tvMensagem = (TextView) itemView.findViewById(R.id.tv_mensagem_texto_remetente);
             viewRemetente.setVisibility(View.VISIBLE);
             viewDestinatario.setVisibility(View.GONE);
 
-        }else{
+        } else {
             //tvUsuario = (TextView) itemView.findViewById(R.id.tv_mensavem_usuario_destinatario);
             tvMensagem = (TextView) itemView.findViewById(R.id.tv_mensagem_texto_destinatario);
             viewRemetente.setVisibility(View.GONE);

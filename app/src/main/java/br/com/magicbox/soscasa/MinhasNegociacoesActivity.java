@@ -31,11 +31,9 @@ public class MinhasNegociacoesActivity extends BaseActivity {
         mRecycler.setLayoutManager(mManager);
 
         Query negociacoes = getDatabase().child("negociacoes")
-                .orderByChild("profissional").equalTo(getUsuario().getUid());
+                .orderByChild("profissional").equalTo(getSessao().getUsuarioUid());
 
-        mRecycler.setAdapter(new NegociacaoAdapter(MinhasNegociacoesActivity.this, negociacoes, getUsuario(), null));
-
-
+        mRecycler.setAdapter(new NegociacaoAdapter(MinhasNegociacoesActivity.this, negociacoes, getSessao(), null));
     }
 
 }

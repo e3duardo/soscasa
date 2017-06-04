@@ -6,21 +6,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
 import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 
 import br.com.magicbox.soscasa.ProblemaClienteActivity;
 import br.com.magicbox.soscasa.ProblemaProfissionalActivity;
 import br.com.magicbox.soscasa.R;
-import br.com.magicbox.soscasa.models.Area;
+import br.com.magicbox.soscasa.Sessao;
 import br.com.magicbox.soscasa.models.Problema;
-import br.com.magicbox.soscasa.models.Usuario;
 
 
 public class ProblemaViewHolder extends RecyclerView.ViewHolder {
@@ -32,10 +24,10 @@ public class ProblemaViewHolder extends RecyclerView.ViewHolder {
     private View item;
     private Activity activity;
 
-    private Usuario usuario;
+    private Sessao sessao;
 
 
-    public ProblemaViewHolder(Activity activity, View itemView, Usuario usuario) {
+    public ProblemaViewHolder(Activity activity, View itemView, Sessao sessao) {
         super(itemView);
 
         this.tvArea = (TextView) itemView.findViewById(R.id.text_item_problema_area);
@@ -43,29 +35,15 @@ public class ProblemaViewHolder extends RecyclerView.ViewHolder {
         this.tvStatus = (TextView) itemView.findViewById(R.id.text_item_problema_status);
         this.tvLine2 = (TextView) itemView.findViewById(R.id.text_item_problema_line2);
         this.item = itemView;
-        this.usuario = usuario;
+        this.sessao = sessao;
         this.activity = activity;
     }
 
     public void bindToView(final Problema problema) {
 
-        final DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
-
-        mDatabase.child("areas").child(problema.getAreaUid()).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                tvArea.setText(dataSnapshot.getValue(Area.class).getNome());
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
+        tvArea.setText(sessao.getAreaBy(problema.getAreaUid()).getNome());
         tvDescricao.setText(problema.getDescricao());
         tvStatus.setText(problema.getStatus().getI18n());
-
 
 
         if (problema.getSolicitadoEm() != null)
@@ -75,16 +53,15 @@ public class ProblemaViewHolder extends RecyclerView.ViewHolder {
             @Override
             public void onClick(View v) {
 
-                Intent intent = null;
+                Intent intent;
 
-
-                if (usuario.getEhProfissional())
+                if (sessao.usuarioEhProfissional())
                     intent = new Intent(activity, ProblemaProfissionalActivity.class);
                 else
                     intent = new Intent(activity, ProblemaClienteActivity.class);
 
                 intent.putExtra("problema", problema);
-                intent.putExtra("usuario", usuario);
+                intent.putExtra("sessao", sessao);
                 activity.startActivityForResult(intent, 1);
 
             }

@@ -8,8 +8,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import br.com.magicbox.soscasa.models.Usuario;
-
 /**
  * Criado por eduardo em 5/20/17.
  */
@@ -21,15 +19,15 @@ public class BaseActivity extends AppCompatActivity {
     public double longitude = -41.9047604;
 
     private DatabaseReference mDatabase;
-    private Usuario usuario;
+    private Sessao sessao;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        usuario = (Usuario) getIntent().getSerializableExtra("usuario");
-        if (usuario == null)
+        sessao = (Sessao) getIntent().getSerializableExtra("sessao");
+        if (sessao == null)
             throw new NullPointerException("Esqueceu de passar o usuário como extra no intent?");
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -43,12 +41,13 @@ public class BaseActivity extends AppCompatActivity {
 
     protected void editProfile() {
         Intent intent = new Intent(BaseActivity.this, PerfilActivity.class);
-        intent.putExtra("usuario", getUsuario());
+        intent.putExtra("usuario", getSessao());
         startActivityForResult(intent, 1);
     }
 
-    public Usuario getUsuario() {
-        return usuario;
+
+    public Sessao getSessao() {
+        return sessao;
     }
 
     public DatabaseReference getDatabase() {

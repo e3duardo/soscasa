@@ -107,6 +107,8 @@ public class NegociacaoClienteActivity extends BaseActivity {
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         Usuario cliente = dataSnapshot.getValue(Usuario.class);
                         tvProfissional.setText(cliente.getNome());
+
+                        //todo: loading
                     }
 
                     @Override
@@ -182,8 +184,8 @@ public class NegociacaoClienteActivity extends BaseActivity {
     private void cadastrarMensagem(String texto) {
         String key = getDatabase().child("negociacoes").child(negociacao.getUid()).child("mensagens").push().getKey();
 
-        Mensagem mensagem = new Mensagem();
-        mensagem.setUsuarioUid(getUsuario().getUid());
+        Mensagem mensagem = new Mensagem(key);
+        mensagem.setUsuarioUid(getSessao().getUsuarioUid());
         mensagem.setData(new Date());
         mensagem.setMensagem(texto);
 

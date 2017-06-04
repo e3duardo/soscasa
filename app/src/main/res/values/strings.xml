@@ -46,7 +46,7 @@
     <string name="nome">Nome</string>
     <string name="celular">Celular</string>
     <string name="cadastrar_error">Houve um problema ao cadastrar</string>
-    <string name="request_preco">Digite o preço</string>
+    <string name="request_preco">Informe o preço da negociação</string>
     <string name="redefinir">Redefinir</string>
     <string name="redefinir_success_message">Foi enviado um email com as instruções de recuperação de senha</string>
     <string name="redefinir_success_title">Sucesso</string>
@@ -60,7 +60,7 @@
     <string name="informe_seu_problema">Informe seu problema</string>
     <string name="selecione_uma_rea">Selecione uma área</string>
     <string name="negociar">Negociar</string>
-    <string name="sem_permissao_localizacao">\"Sem permissão para achar sua localização!\"</string>
+    <string name="sem_permissao_localizacao">Sem permissão para achar sua localização!</string>
     <string name="problema_criado">Problema criado!</string>
     <string name="problema_cancelado">Problema cancelado!</string>
     <string name="perfil_atualizado">Perfil atualizado!</string>
@@ -69,6 +69,7 @@
     <string name="sim">Sim</string>
     <string name="deseja_aprovar_negociacao">Deseja aprovar esta negociação?</string>
     <string name="deseja_cancelar_problema">Deseja cancelar este problema?</string>
+    <string name="cliente">Cliente</string>
 
 
 </resources>

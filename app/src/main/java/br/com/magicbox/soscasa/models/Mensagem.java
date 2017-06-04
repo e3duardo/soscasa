@@ -9,12 +9,10 @@ import java.util.Date;
  * Created by pedro on 31/03/17.
  */
 
-public class Mensagem  {
+public class Mensagem {
 
     @Exclude
     private String uid;
-
-    //private String negociacaoUid;
 
     private String usuarioUid;
 
@@ -22,23 +20,24 @@ public class Mensagem  {
 
     private String mensagem;
 
+
+    public Mensagem() {
+
+    }
+
+    public Mensagem(String uid) {
+        this.uid = uid;
+    }
+
+    @Exclude
     public String getUid() {
         return uid;
     }
 
+    @Exclude
     public void setUid(String uid) {
         this.uid = uid;
     }
-
-//    @PropertyName(value = "negociacao")
-//    public String getNegociacaoUid() {
-//        return negociacaoUid;
-//    }
-//
-//    @PropertyName(value = "negociacao")
-//    public void setNegociacaoUid(String negociacaoUid) {
-//        this.negociacaoUid = negociacaoUid;
-//    }
 
     @PropertyName(value = "usuario")
     public String getUsuarioUid() {

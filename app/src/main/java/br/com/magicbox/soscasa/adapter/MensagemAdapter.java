@@ -1,27 +1,22 @@
 package br.com.magicbox.soscasa.adapter;
 
 import android.app.Activity;
-import android.support.v7.widget.RecyclerView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.Query;
 
 import br.com.magicbox.soscasa.R;
 import br.com.magicbox.soscasa.models.Mensagem;
-import br.com.magicbox.soscasa.models.Usuario;
 import br.com.magicbox.soscasa.viewholder.MensagemViewHolder;
 
 /**
- * Created by eduardo on 5/21/17.
+ * Criado por eduardo em 5/21/17.
  */
 
 public class MensagemAdapter extends FirebaseRecyclerAdapter<Mensagem, MensagemViewHolder> {
 
-
     private final Activity activity;
-    private Usuario usuario;
 
     public MensagemAdapter(Activity activity, Query ref) {
         super(Mensagem.class, R.layout.item_mensagem, MensagemViewHolder.class, ref);

@@ -1,5 +1,6 @@
 package br.com.magicbox.soscasa;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -30,53 +31,50 @@ public class ProblemaProfissionalActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_problema_profissional);
 
-
         problema = (Problema) getIntent().getSerializableExtra("problema");
 
         problemaData = (TextView) findViewById(R.id.text_problema_profissional_data);
         problemaDescricao = (TextView) findViewById(R.id.text_problema_profissional_descricao);
         problemaCliente = (TextView) findViewById(R.id.text_problema_profissional_cliente);
-
         negociarBotao = (Button) findViewById(R.id.button_problema_profissional_negociar);
 
-
-        populateView();
-    }
-
-    private void populateView() {
         problemaData.setText(DateFormat.getDateInstance(DateFormat.MEDIUM).format(problema.getSolicitadoEm()));
         problemaDescricao.setText(problema.getDescricao());
+
         getDatabase().child("usuarios").child(problema.getClienteUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 problemaCliente.setText(dataSnapshot.getValue(Usuario.class).getNome());
+                //todo: loading
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
             }
         });
-
 
         negociarBotao.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                writeNewProblema();
+                cadastrarNovoProblema();
             }
         });
     }
 
-    private void writeNewProblema() {
+    private void cadastrarNovoProblema() {
         String key = getDatabase().child("negociacoes").push().getKey();
 
-        Negociacao negociacao = new Negociacao();
+        Negociacao negociacao = new Negociacao(key);
         negociacao.setProblemaUid(problema.getUid());
-        negociacao.setProfissionalUid(getUsuario().getUid());
+        negociacao.setProfissionalUid(getSessao().getUsuarioUid());
         negociacao.setStatus(StatusNegociacao.ABERTA);
 
         getDatabase().child("negociacoes").child(key).setValue(negociacao);
 
-        //mensagem
+        Intent intent = new Intent(ProblemaProfissionalActivity.this, NegociacaoProfissionalActivity.class);
+        intent.putExtra("sessao", getSessao());
+        intent.putExtra("negociacao", negociacao);
+        startActivityForResult(intent, 1);
+        finish();
     }
 }

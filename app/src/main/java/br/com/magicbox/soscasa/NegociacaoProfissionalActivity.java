@@ -15,9 +15,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -27,7 +25,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.text.NumberFormat;
 import java.util.Date;
-import java.util.Locale;
 
 import br.com.magicbox.soscasa.adapter.MensagemAdapter;
 import br.com.magicbox.soscasa.models.Mensagem;
@@ -44,12 +41,14 @@ public class NegociacaoProfissionalActivity extends BaseActivity {
 
     private TextView tvCliente;
     private TextView tvValor;
+    private TextView tvValorLabel;
     private TextView tvStatus;
     private EditText etNovaMensagem;
     private ImageButton bEnviarMensagem;
 
     private RecyclerView mRecycler;
     private LinearLayoutManager mManager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +63,7 @@ public class NegociacaoProfissionalActivity extends BaseActivity {
 
         tvCliente = (TextView) findViewById(R.id.text_negociacao_profissional_cliente);
         tvValor = (TextView) findViewById(R.id.text_negociacao_profissional_valor);
+        tvValorLabel = (TextView) findViewById(R.id.negociacao_profissional_l_valor);
         tvStatus = (TextView) findViewById(R.id.text_negociacao_profissional_status);
         etNovaMensagem = (EditText) findViewById(R.id.text_negociacao_profissional_nova_mensagem);
         bEnviarMensagem = (ImageButton) findViewById(R.id.button_negociacao_profissional_enviar_mensagem);
@@ -86,16 +86,15 @@ public class NegociacaoProfissionalActivity extends BaseActivity {
 
         tvStatus.setText(negociacao.getStatus().getI18n());
 
-        if (negociacao.getValor() != null) {
+        if (negociacao.getValor() != null && negociacao.getValor() != 0) {
             tvValor.setText(String.valueOf(format.format(negociacao.getValor())));
         } else {
+            tvValorLabel.setVisibility(View.GONE);
             tvValor.setVisibility(View.GONE);
             findViewById(R.id.text_negociacao_profissional_valor).setVisibility(View.GONE);
         }
 
         mManager = new LinearLayoutManager(this);
-        //mManager.set
-        //mManager.setReverseLayout(true);
         mManager.setStackFromEnd(true);
 
         mRecycler = (RecyclerView) findViewById(R.id.negociacao_profissional_rv_mensagens);
@@ -113,6 +112,8 @@ public class NegociacaoProfissionalActivity extends BaseActivity {
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         Usuario cliente = dataSnapshot.getValue(Usuario.class);
                         tvCliente.setText(cliente.getNome());
+
+                        //todo: loading
                     }
 
                     @Override
@@ -158,17 +159,16 @@ public class NegociacaoProfissionalActivity extends BaseActivity {
                 final EditText userInput = (EditText) promptsView
                         .findViewById(R.id.text_precificar_valor);
 
-                // set dialog message
                 alertDialogBuilder
                         .setCancelable(false)
-                        .setPositiveButton("Ok",
+                        .setPositiveButton(R.string.ok,
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
                                         mDatabase.child("negociacoes").child(negociacao.getUid()).child("status").setValue(StatusNegociacao.ORCADA);
                                         mDatabase.child("negociacoes").child(negociacao.getUid()).child("valor").setValue(new Float(userInput.getText().toString()));
                                     }
                                 })
-                        .setNegativeButton("Cancel",
+                        .setNegativeButton(R.string.cancelar,
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
                                         dialog.cancel();
@@ -187,14 +187,12 @@ public class NegociacaoProfissionalActivity extends BaseActivity {
     private void cadastrarMensagem(String texto) {
         String key = mDatabase.child("negociacoes").child(negociacao.getUid()).child("mensagens").push().getKey();
 
-        Mensagem mensagem = new Mensagem();
-        mensagem.setUsuarioUid(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        Mensagem mensagem = new Mensagem(key);
+        mensagem.setUsuarioUid(getSessao().getUsuarioUid());
         mensagem.setData(new Date());
         mensagem.setMensagem(texto);
 
         mDatabase.child("negociacoes").child(negociacao.getUid()).child("mensagens").child(key).setValue(mensagem);
-
-        Toast.makeText(NegociacaoProfissionalActivity.this, "nova mensagem", Toast.LENGTH_SHORT).show();
 
         mRecycler.smoothScrollToPosition(mRecycler.getAdapter().getItemCount());
 

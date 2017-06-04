@@ -12,7 +12,7 @@ public enum StatusNegociacao {
 
     private String i18n;
 
-    StatusNegociacao(String i18n){
+    StatusNegociacao(String i18n) {
 
         this.i18n = i18n;
     }

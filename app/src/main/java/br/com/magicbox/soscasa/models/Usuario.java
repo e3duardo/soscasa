@@ -1,7 +1,5 @@
 package br.com.magicbox.soscasa.models;
 
-import android.widget.EditText;
-
 import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
 import com.google.firebase.database.PropertyName;
@@ -10,7 +8,7 @@ import java.io.Serializable;
 
 // [START blog_user_class]
 @IgnoreExtraProperties
-public class Usuario implements Serializable{
+public class Usuario implements Serializable {
 
     @Exclude
     private String uid;
@@ -24,7 +22,10 @@ public class Usuario implements Serializable{
     private Boolean ehProfissional;
 
     public Usuario() {
-        // Default constructor required for calls to DataSnapshot.getValue(Usuario.class)
+    }
+
+    public Usuario(String uid) {
+        this.uid = uid;
     }
 
     public Usuario(String nome, String email, String celular) {
@@ -78,12 +79,14 @@ public class Usuario implements Serializable{
         this.ehProfissional = ehProfissional;
     }
 
+    @Exclude
     public String getUid() {
         return uid;
     }
 
-    public void setUid(String gui) {
-        this.uid = gui;
+    @Exclude
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 }
 

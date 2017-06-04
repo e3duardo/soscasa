@@ -4,7 +4,6 @@ import com.google.firebase.database.Exclude;
 import com.google.firebase.database.PropertyName;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 
 /**
  * Created by pedro on 31/03/17.
@@ -26,6 +25,14 @@ public class Negociacao implements Serializable {
     @Exclude
     private Problema problema;
 
+    public Negociacao() {
+
+    }
+
+    public Negociacao(String uid) {
+        this.uid = uid;
+    }
+
     @Exclude
     public Problema getProblema() {
         return problema;
@@ -36,10 +43,12 @@ public class Negociacao implements Serializable {
         this.problema = problema;
     }
 
+    @Exclude
     public String getUid() {
         return uid;
     }
 
+    @Exclude
     public void setUid(String uid) {
         this.uid = uid;
     }

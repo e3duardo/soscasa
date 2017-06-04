@@ -3,7 +3,6 @@ package br.com.magicbox.soscasa.adapter;
 import android.app.Activity;
 import android.content.Intent;
 import android.view.View;
-import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.DataSnapshot;
@@ -12,28 +11,26 @@ import com.google.firebase.database.Query;
 import br.com.magicbox.soscasa.NegociacaoClienteActivity;
 import br.com.magicbox.soscasa.NegociacaoProfissionalActivity;
 import br.com.magicbox.soscasa.R;
+import br.com.magicbox.soscasa.Sessao;
 import br.com.magicbox.soscasa.models.Negociacao;
 import br.com.magicbox.soscasa.models.Problema;
-import br.com.magicbox.soscasa.models.Usuario;
 import br.com.magicbox.soscasa.viewholder.NegociacaoViewHolder;
 
 /**
- * Created by eduardo on 5/21/17.
+ * Criado por eduardo em 5/21/17.
  */
 
 public class NegociacaoAdapter extends FirebaseRecyclerAdapter<Negociacao, NegociacaoViewHolder> {
 
-
     private final Activity activity;
-    private Usuario usuario;
+    private Sessao sessao;
     private Problema problema;
 
-    public NegociacaoAdapter(Activity activity, Query ref, Usuario usuario, Problema problema) {
+    public NegociacaoAdapter(Activity activity, Query ref, Sessao sessao, Problema problema) {
         super(Negociacao.class, R.layout.item_negociacao, NegociacaoViewHolder.class, ref);
         this.activity = activity;
-        this.usuario = usuario;
+        this.sessao = sessao;
         this.problema = problema;
-        Toast.makeText(activity, "sequence4", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -41,10 +38,9 @@ public class NegociacaoAdapter extends FirebaseRecyclerAdapter<Negociacao, Negoc
         Negociacao negociacao = super.parseSnapshot(snapshot);
         negociacao.setUid(snapshot.getKey());
 
-        if(problema != null && negociacao.getProblemaUid().equals(problema.getUid()))
+        if (problema != null && negociacao.getProblemaUid().equals(problema.getUid()))
             negociacao.setProblema(problema);
 
-        Toast.makeText(activity, "sequence5", Toast.LENGTH_SHORT).show();
         return negociacao;
     }
 
@@ -52,19 +48,20 @@ public class NegociacaoAdapter extends FirebaseRecyclerAdapter<Negociacao, Negoc
     protected void populateViewHolder
             (final NegociacaoViewHolder viewHolder, final Negociacao model, final int position) {
 
-        viewHolder.bindToView(model, usuario.getEhProfissional());
+        viewHolder.bindToView(model, sessao.usuarioEhProfissional());
 
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = null;
+                Intent intent;
 
-                if (usuario.getEhProfissional())
+                if (sessao.usuarioEhProfissional())
                     intent = new Intent(activity, NegociacaoProfissionalActivity.class);
                 else
                     intent = new Intent(activity, NegociacaoClienteActivity.class);
 
                 intent.putExtra("negociacao", model);
+                intent.putExtra("sessao", sessao);
                 activity.startActivity(intent);
             }
         });

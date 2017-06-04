@@ -8,7 +8,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -60,7 +59,7 @@ public class ProcurarProblema extends Fragment implements OnMapReadyCallback, Go
         super.onStart();
 
         activity.getDatabase().child("negociacoes")
-                .orderByChild("profissional").equalTo(activity.getUsuario().getUid()).addChildEventListener(new ChildEventListener() {
+                .orderByChild("profissional").equalTo(activity.getSessao().getUsuarioUid()).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 problemasEnvolvidosUid.add(dataSnapshot.getValue(Negociacao.class).getProblemaUid());
@@ -113,10 +112,7 @@ public class ProcurarProblema extends Fragment implements OnMapReadyCallback, Go
 
 
         activity.getDatabase().child("problemas")
-                //.equalTo(activity.getUsuario().getAreaUid(),"area")
-                //.orderByChild("status").equalTo(StatusProblema.SOLICITADO.toString())
-
-                .orderByChild("area").equalTo(activity.getUsuario().getAreaUid())
+                .orderByChild("area").equalTo(activity.getSessao().getUsuarioUid())
                 .addChildEventListener(new ChildEventListener() {
                     @Override
                     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
@@ -132,22 +128,18 @@ public class ProcurarProblema extends Fragment implements OnMapReadyCallback, Go
 
                     @Override
                     public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                        Toast.makeText(getActivity(), "change", Toast.LENGTH_LONG).show();
                     }
 
                     @Override
                     public void onChildRemoved(DataSnapshot dataSnapshot) {
-                        Toast.makeText(getActivity(), "removed", Toast.LENGTH_LONG).show();
                     }
 
                     @Override
                     public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-                        Toast.makeText(getActivity(), "moved", Toast.LENGTH_LONG).show();
                     }
 
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
-                        Toast.makeText(getActivity(), "canceled", Toast.LENGTH_LONG).show();
                     }
                 });
 
@@ -160,7 +152,7 @@ public class ProcurarProblema extends Fragment implements OnMapReadyCallback, Go
     public boolean onMarkerClick(Marker marker) {
         Intent intent = new Intent(getActivity(), ProblemaProfissionalActivity.class);
         intent.putExtra("problema", (Serializable) marker.getTag());
-        intent.putExtra("usuario", activity.getUsuario());
+        intent.putExtra("sessao", activity.getSessao());
         startActivity(intent);
 
         return false;

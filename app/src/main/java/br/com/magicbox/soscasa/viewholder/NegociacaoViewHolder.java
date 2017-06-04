@@ -21,8 +21,8 @@ import br.com.magicbox.soscasa.models.Usuario;
 
 public class NegociacaoViewHolder extends RecyclerView.ViewHolder {
 
-    public TextView tvTitle;
-    public TextView tvDescription;
+    private TextView tvTitle;
+    private TextView tvDescription;
 
     public NegociacaoViewHolder(View itemView) {
         super(itemView);
@@ -39,7 +39,7 @@ public class NegociacaoViewHolder extends RecyclerView.ViewHolder {
 
         if (!ehProfissional) {
 
-            if(negociacao.getValor()!= null)
+            if (negociacao.getValor() != null)
                 tvDescription.setText(format.format(negociacao.getValor()));
 
             mDatabase.child("usuarios").child(negociacao.getProfissionalUid()).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -47,6 +47,7 @@ public class NegociacaoViewHolder extends RecyclerView.ViewHolder {
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     Usuario cliente = dataSnapshot.getValue(Usuario.class);
                     tvTitle.setText(cliente.getNome());
+                    //todo: loading
                 }
 
                 @Override
@@ -71,6 +72,7 @@ public class NegociacaoViewHolder extends RecyclerView.ViewHolder {
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             Usuario cliente = dataSnapshot.getValue(Usuario.class);
                             tvTitle.setText(cliente.getNome());
+                            //todo: loading
                         }
 
                         @Override

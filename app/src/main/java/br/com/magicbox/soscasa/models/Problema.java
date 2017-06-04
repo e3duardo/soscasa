@@ -14,8 +14,9 @@ import java.util.Map;
  */
 
 @IgnoreExtraProperties
-public class Problema implements Serializable{
+public class Problema implements Serializable {
 
+    @Exclude
     private String uid;
     private String descricao;
     private StatusProblema status;
@@ -32,11 +33,16 @@ public class Problema implements Serializable{
     public Problema() {
     }
 
+    public Problema(String uid) {
+        this.uid = uid;
+    }
 
+    @Exclude
     public String getUid() {
         return uid;
     }
 
+    @Exclude
     public void setUid(String uid) {
         this.uid = uid;
     }
