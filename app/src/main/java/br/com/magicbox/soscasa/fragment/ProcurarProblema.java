@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -59,12 +60,13 @@ public class ProcurarProblema extends Fragment implements OnMapReadyCallback, Go
         super.onStart();
 
         activity.getDatabase().child("negociacoes")
-                .orderByChild("profissional").equalTo(activity.getSessao().getUsuarioUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                .orderByChild("profissional").equalTo(activity.getSessao().getUsuarioUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot data : dataSnapshot.getChildren()) {
                     problemasEnvolvidosUid.add(data.getValue(Negociacao.class).getProblemaUid());
                 }
+                Toast.makeText(activity, "envolvidos", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -97,9 +99,9 @@ public class ProcurarProblema extends Fragment implements OnMapReadyCallback, Go
                 .strokeWidth(5).fillColor(Color.argb(60, 51, 51, 78)));
         circle.isVisible();
 
-
+        Toast.makeText(activity, activity.getSessao().getUsuario().getAreaUid(), Toast.LENGTH_SHORT).show();
         activity.getDatabase().child("problemas")
-                .orderByChild("area").equalTo(activity.getSessao().getUsuario().getAreaUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                .orderByChild("area").equalTo(activity.getSessao().getUsuario().getAreaUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot data : dataSnapshot.getChildren()) {
@@ -113,6 +115,7 @@ public class ProcurarProblema extends Fragment implements OnMapReadyCallback, Go
                         mMap.addMarker(marker).setTag(problema);
                     }
                 }
+                Toast.makeText(activity, "problemas", Toast.LENGTH_SHORT).show();
             }
 
             @Override

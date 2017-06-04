@@ -42,9 +42,9 @@ public class ProblemaAdapter extends RecyclerView.Adapter {
 
         ProblemaViewHolder holder = (ProblemaViewHolder) viewHolder;
 
-        Problema livro = problemas.get(position);
+        Problema problema = problemas.get(position);
 
-        holder.bindToView(livro);
+        holder.bindToView(problema);
 
 
     }

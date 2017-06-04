@@ -81,8 +81,6 @@
         android:id="@+id/rv_problema_negociacoes"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="2dp"
-        android:layout_marginRight="2dp"
         android:clipToPadding="false"
         android:scrollbars="vertical"
         android:visibility="visible"

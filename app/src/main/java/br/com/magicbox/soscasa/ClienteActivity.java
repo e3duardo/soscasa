@@ -63,11 +63,6 @@ public class ClienteActivity extends BaseLocationActivity {
                 startActivityForResult(intent, 1);
             }
         });
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
 
         problemas = new ArrayList<>();
 
@@ -112,7 +107,6 @@ public class ClienteActivity extends BaseLocationActivity {
             public void onCancelled(DatabaseError databaseError) {
             }
         });
-
     }
 
     @Override

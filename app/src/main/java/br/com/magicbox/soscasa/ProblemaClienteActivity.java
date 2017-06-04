@@ -33,7 +33,11 @@ import br.com.magicbox.soscasa.models.Usuario;
 
 public class ProblemaClienteActivity extends BaseActivity {
 
+    private String problemaUid;
     private Problema problema;
+
+    private Menu menu;
+
     private TextView tvArea;
     private TextView tvDescricao;
     private TextView tvStatus;
@@ -47,7 +51,7 @@ public class ProblemaClienteActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_problema_cliente);
 
-        problema = (Problema) getIntent().getSerializableExtra("problema");
+        problemaUid = getIntent().getStringExtra("problemaUid");
 
         tvArea = (TextView) findViewById(R.id.text_problema_profissional_area);
         tvDescricao = (TextView) findViewById(R.id.text_problema_profissional_descricao);
@@ -62,71 +66,87 @@ public class ProblemaClienteActivity extends BaseActivity {
         mManager.setStackFromEnd(true);
         rvNegociacoes.setLayoutManager(mManager);
 
-        tvStatus.setText(problema.getStatus().getI18n());
-        tvDescricao.setText(problema.getDescricao());
-        tvArea.setText(getSessao().getAreaBy(problema.getAreaUid()).getNome());
 
-        getDatabase().child("negociacoes")
-                .orderByChild("problema").equalTo(problema.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+        getDatabase().child("problemas").child(problemaUid).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                problema = dataSnapshot.getValue(Problema.class);
+                problema.setUid(dataSnapshot.getKey());
 
-                List<Negociacao> negociacoes = new ArrayList<>();
+                tvStatus.setText(problema.getStatus().getI18n());
+                tvDescricao.setText(problema.getDescricao());
+                tvArea.setText(getSessao().getAreaBy(problema.getAreaUid()).getNome());
 
-                for (DataSnapshot data : dataSnapshot.getChildren()) {
-                    Negociacao negociacao = data.getValue(Negociacao.class);
-                    negociacao.setUid(data.getKey());
+                getDatabase().child("negociacoes")
+                        .orderByChild("problema").equalTo(problema.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
 
-                    if (problema != null && negociacao.getProblemaUid().equals(problema.getUid())) {
-                        negociacao.setProblema(problema);
-                        negociacoes.add(negociacao);
+                        List<Negociacao> negociacoes = new ArrayList<>();
+
+                        for (DataSnapshot data : dataSnapshot.getChildren()) {
+                            Negociacao negociacao = data.getValue(Negociacao.class);
+                            negociacao.setUid(data.getKey());
+                            negociacao.setProblema(problema);
+                            negociacoes.add(negociacao);
+                        }
+
+                        Negociacao negociacaoAprovada = null;
+                        for (Negociacao n : negociacoes) {
+                            if (StatusNegociacao.APROVADA.equals(n.getStatus())) {
+                                negociacaoAprovada = n;
+                            }
+                        }
+
+                        if (negociacaoAprovada != null && StatusProblema.PENDENTE.equals(problema.getStatus())) {
+                            labelNegociacao.setVisibility(View.GONE);
+                            rvNegociacoes.setVisibility(View.GONE);
+
+                            findViewById(R.id.view_problema_cliente_negociacao2).setVisibility(View.VISIBLE);
+
+                            ((TextView) findViewById(R.id.text_problema_cliente_valor))
+                                    .setText(NumberFormat.getCurrencyInstance().format(negociacaoAprovada.getValor()));
+
+
+                            getDatabase().child("usuarios").child(negociacaoAprovada.getProfissionalUid())
+                                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(DataSnapshot dataSnapshot) {
+                                            Usuario cliente = dataSnapshot.getValue(Usuario.class);
+                                            ((TextView) findViewById(R.id.text_problema_cliente_profissional))
+                                                    .setText(cliente.getNome());
+                                        }
+
+                                        @Override
+                                        public void onCancelled(DatabaseError databaseError) {
+                                        }
+                                    });
+
+                            Query query = getDatabase().child("negociacoes").child(negociacaoAprovada.getUid()).child("mensagens");
+
+                            ((RecyclerView) findViewById(R.id.recycler_mensagens_problema)).setAdapter(new MensagemAdapter(ProblemaClienteActivity.this, query));
+
+                        } else {
+                            findViewById(R.id.view_problema_cliente_negociacao2).setVisibility(View.GONE);
+
+                            rvNegociacoes.setAdapter(new NegociacaoAdapter(ProblemaClienteActivity.this, negociacoes, getSessao()));
+                        }
+
+                        if(menu != null){
+                            menu.findItem(R.id.action_aprovar_problema).setVisible(
+                                    problema.getStatus() == StatusProblema.PENDENTE);
+                        }
                     }
-                }
 
-                Negociacao negociacaoAprovada = null;
-                for (Negociacao n : negociacoes) {
-                    if (StatusNegociacao.APROVADA.equals(n.getStatus())) {
-                        negociacaoAprovada = n;
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
                     }
-                }
-
-                if (negociacaoAprovada != null && StatusProblema.PENDENTE.equals(problema.getStatus())) {
-                    labelNegociacao.setVisibility(View.GONE);
-                    rvNegociacoes.setVisibility(View.GONE);
-
-                    findViewById(R.id.view_problema_cliente_negociacao2).setVisibility(View.VISIBLE);
-
-                    ((TextView) findViewById(R.id.text_problema_cliente_valor))
-                            .setText(NumberFormat.getCurrencyInstance().format(negociacaoAprovada.getValor()));
-
-
-                    getDatabase().child("usuarios").child(negociacaoAprovada.getProfissionalUid())
-                            .addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(DataSnapshot dataSnapshot) {
-                                    Usuario cliente = dataSnapshot.getValue(Usuario.class);
-                                    ((TextView) findViewById(R.id.text_problema_cliente_profissional))
-                                            .setText(cliente.getNome());
-                                }
-
-                                @Override
-                                public void onCancelled(DatabaseError databaseError) {
-                                }
-                            });
-
-                    Query query = getDatabase().child("negociacoes").child(negociacaoAprovada.getUid()).child("mensagens");
-
-                    ((RecyclerView) findViewById(R.id.recycler_mensagens_problema)).setAdapter(new MensagemAdapter(ProblemaClienteActivity.this, query));
-
-                } else {
-                    findViewById(R.id.view_problema_cliente_negociacao2).setVisibility(View.GONE);
-
-                    rvNegociacoes.setAdapter(new NegociacaoAdapter(ProblemaClienteActivity.this, negociacoes, getSessao()));
-                }
+                });
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
+
             }
         });
 
@@ -137,8 +157,10 @@ public class ProblemaClienteActivity extends BaseActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.navigation_problema_cliente, menu);
 
-        menu.findItem(R.id.action_aprovar_problema).setVisible(
-                problema.getStatus() == StatusProblema.PENDENTE); // ver se tem negociacao aprovada
+//        menu.findItem(R.id.action_aprovar_problema).setVisible(
+//                problema.getStatus() == StatusProblema.PENDENTE); // ver se tem negociacao aprovada
+
+        this.menu = menu;
         return true;
     }
 

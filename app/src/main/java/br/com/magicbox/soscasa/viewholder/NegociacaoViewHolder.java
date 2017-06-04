@@ -57,33 +57,7 @@ public class NegociacaoViewHolder extends RecyclerView.ViewHolder {
                 tvDescription.setText(format.format(negociacao.getValor()));
 
             mDatabase.child("usuarios").child(negociacao.getProfissionalUid())
-                                            .addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    progress.setVisibility(View.GONE);
-                    Usuario cliente = dataSnapshot.getValue(Usuario.class);
-                    tvTitle.setText(cliente.getNome());
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-                }
-            });
-        }
-
-
-        if (sessao.usuarioEhProfissional()) {
-            progress.setVisibility(View.VISIBLE);
-            mDatabase.child("problemas").child(negociacao.getProblemaUid())
-                                            .addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-
-                    Problema problema = dataSnapshot.getValue(Problema.class);
-
-                    tvDescription.setText(problema.getDescricao());
-                    mDatabase.child("usuarios").child(problema.getClienteUid())
-                                            .addListenerForSingleValueEvent(new ValueEventListener() {
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             progress.setVisibility(View.GONE);
@@ -95,19 +69,45 @@ public class NegociacaoViewHolder extends RecyclerView.ViewHolder {
                         public void onCancelled(DatabaseError databaseError) {
                         }
                     });
-                }
+        }
 
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-                }
-            });
+
+        if (sessao.usuarioEhProfissional()) {
+            progress.setVisibility(View.VISIBLE);
+            mDatabase.child("problemas").child(negociacao.getProblemaUid())
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+
+                            Problema problema = dataSnapshot.getValue(Problema.class);
+
+                            tvDescription.setText(problema.getDescricao());
+                            mDatabase.child("usuarios").child(problema.getClienteUid())
+                                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(DataSnapshot dataSnapshot) {
+                                            progress.setVisibility(View.GONE);
+                                            Usuario cliente = dataSnapshot.getValue(Usuario.class);
+                                            tvTitle.setText(cliente.getNome());
+                                        }
+
+                                        @Override
+                                        public void onCancelled(DatabaseError databaseError) {
+                                        }
+                                    });
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                        }
+                    });
         }
 
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent  = new Intent(activity, NegociacaoActivity.class);
-                intent.putExtra("negociacao", negociacao    );
+                Intent intent = new Intent(activity, NegociacaoActivity.class);
+                intent.putExtra("negociacaoUid", negociacao.getUid());
                 intent.putExtra("sessao", sessao);
                 activity.startActivity(intent);
             }

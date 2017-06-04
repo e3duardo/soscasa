@@ -37,8 +37,10 @@ import br.com.magicbox.soscasa.models.Usuario;
 
 public class NegociacaoActivity extends BaseActivity {
 
-
+    private String negociacaoUid;
     private Negociacao negociacao;
+
+    private Menu menu;
 
     private TextView textTitle;
     private TextView textStatus;
@@ -56,9 +58,7 @@ public class NegociacaoActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_negociacao);
 
-        NumberFormat format = NumberFormat.getCurrencyInstance();
-
-        negociacao = (Negociacao) getIntent().getSerializableExtra("negociacao");
+        negociacaoUid = getIntent().getStringExtra("negociacaoUid");
 
         textTitle = (TextView) findViewById(R.id.text_negociacao_title);
         textStatus = (TextView) findViewById(R.id.text_negociacao_status);
@@ -68,63 +68,10 @@ public class NegociacaoActivity extends BaseActivity {
         labelCliente = (TextView) findViewById(R.id.label_negociacao_cliente);
         buttonEnviarMensagem = (ImageButton) findViewById(R.id.button_enviar_mensagem);
 
-        textStatus.setText(negociacao.getStatus().getI18n());
-
         if (getSessao().usuarioEhProfissional())
             labelCliente.setText(R.string.cliente);
         else
             labelCliente.setText(R.string.profissional);
-
-
-        if (negociacao.getValor() != null) {
-            textValor.setText(format.format(negociacao.getValor()));
-        } else {
-            textValor.setVisibility(View.GONE);
-            findViewById(R.id.label_negociacao_valor).setVisibility(View.GONE);
-        }
-
-        switch (negociacao.getStatus()) {
-            case ABERTA:
-                textData.setText(DateFormat.getDateInstance(DateFormat.SHORT).format(negociacao.getAbertoEm()));
-                break;
-            case ORCADA:
-                textData.setText(DateFormat.getDateInstance(DateFormat.SHORT).format(negociacao.getOrcadaEm()));
-                break;
-            case APROVADA:
-                textData.setText(DateFormat.getDateInstance(DateFormat.SHORT).format(negociacao.getAprovadaEm()));
-                break;
-            case CANCELADA:
-                textData.setText(DateFormat.getDateInstance(DateFormat.SHORT).format(negociacao.getCanceladaEm()));
-                break;
-        }
-
-        getDatabase().child("problemas").child(negociacao.getProblemaUid()).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
-                Problema problema = dataSnapshot.getValue(Problema.class);
-
-                getDatabase().child("usuarios").child(problema.getClienteUid()).addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        Usuario cliente = dataSnapshot.getValue(Usuario.class);
-                        textTitle.setText(cliente.getNome());
-
-                        //todo: loading
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
 
         mManager = new LinearLayoutManager(this);
         mManager.setStackFromEnd(true);
@@ -132,10 +79,6 @@ public class NegociacaoActivity extends BaseActivity {
         mRecycler = (RecyclerView) findViewById(R.id.recycler_mensagens);
         mRecycler.setHasFixedSize(true);
         mRecycler.setLayoutManager(mManager);
-
-        Query query = getDatabase().child("negociacoes").child(negociacao.getUid()).child("mensagens");
-
-        mRecycler.setAdapter(new MensagemAdapter(this, query));
 
         textNovaMensagem.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -152,6 +95,103 @@ public class NegociacaoActivity extends BaseActivity {
                 cadastrarMensagem(textNovaMensagem.getText().toString());
             }
         });
+
+        getDatabase().child("negociacoes").child(negociacaoUid).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                negociacao = dataSnapshot.getValue(Negociacao.class);
+                negociacao.setUid(dataSnapshot.getKey());
+
+                getDatabase().child("problemas").child(negociacao.getProblemaUid()).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot propSnap) {
+
+                        Problema problema = propSnap.getValue(Problema.class);
+                        problema.setUid(propSnap.getKey());
+                        negociacao.setProblema(problema);
+
+
+                        textStatus.setText(negociacao.getStatus().getI18n());
+
+                        if (negociacao.getValor() != null) {
+                            textValor.setText(NumberFormat.getCurrencyInstance().format(negociacao.getValor()));
+                        } else {
+                            textValor.setVisibility(View.GONE);
+                            findViewById(R.id.label_negociacao_valor).setVisibility(View.GONE);
+                        }
+
+                        textData.setText(negociacao.getUltimaInteracaoFormatado(DateFormat.SHORT));
+
+                        getDatabase().child("usuarios").child(negociacao.getProblema().getClienteUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                Usuario cliente = dataSnapshot.getValue(Usuario.class);
+                                textTitle.setText(cliente.getNome());
+
+                                //todo: loading
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+
+//                getDatabase().child("problemas").child(negociacao.getProblemaUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+//                    @Override
+//                    public void onDataChange(DataSnapshot dataSnapshot) {
+//
+//                        Problema problema = dataSnapshot.getValue(Problema.class);
+//
+//                        getDatabase().child("usuarios").child(problema.getClienteUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+//                            @Override
+//                            public void onDataChange(DataSnapshot dataSnapshot) {
+//                                Usuario cliente = dataSnapshot.getValue(Usuario.class);
+//                                textTitle.setText(cliente.getNome());
+//
+//                                //todo: loading
+//                            }
+//
+//                            @Override
+//                            public void onCancelled(DatabaseError databaseError) {
+//
+//                            }
+//                        });
+//                    }
+//
+//                    @Override
+//                    public void onCancelled(DatabaseError databaseError) {
+//
+//                    }
+//                });
+
+
+                        Query query = getDatabase().child("negociacoes").child(negociacao.getUid()).child("mensagens");
+
+                        mRecycler.setAdapter(new MensagemAdapter(NegociacaoActivity.this, query));
+
+                        if (menu != null) {
+                            if (!getSessao().usuarioEhProfissional()) {
+                                menu.findItem(R.id.action_cliente_aprovar_negociacao).setVisible(
+                                        negociacao.getProblema().getStatus() == StatusProblema.SOLICITADO &&
+                                                negociacao.getStatus() == StatusNegociacao.ORCADA);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
     }
 
 
@@ -163,10 +203,11 @@ public class NegociacaoActivity extends BaseActivity {
         } else {
             inflater.inflate(R.menu.navigation_negociacao_cliente, menu);
 
-            menu.findItem(R.id.action_cliente_aprovar_negociacao).setVisible(
-                    negociacao.getProblema().getStatus() == StatusProblema.SOLICITADO &&
-                            negociacao.getStatus() == StatusNegociacao.ORCADA);
+//            menu.findItem(R.id.action_cliente_aprovar_negociacao).setVisible(
+//                    negociacao.getProblema().getStatus() == StatusProblema.SOLICITADO &&
+//                            negociacao.getStatus() == StatusNegociacao.ORCADA);
         }
+        this.menu = menu;
         return true;
     }
 
@@ -195,9 +236,12 @@ public class NegociacaoActivity extends BaseActivity {
                                         Date agora = new Date();
                                         Float valor = Float.valueOf(userInput.getText().toString());
 
-                                        getDatabase().child("negociacoes").child(negociacao.getUid()).child("status").setValue(StatusNegociacao.ORCADA);
-                                        getDatabase().child("negociacoes").child(negociacao.getUid()).child("orcadaEm").setValue(agora);
-                                        getDatabase().child("negociacoes").child(negociacao.getUid()).child("valor").setValue(valor);
+                                        getDatabase().child("negociacoes").child(negociacaoUid)
+                                                .child("status").setValue(StatusNegociacao.ORCADA);
+                                        getDatabase().child("negociacoes").child(negociacaoUid)
+                                                .child("orcadaEm").setValue(agora);
+                                        getDatabase().child("negociacoes").child(negociacaoUid)
+                                                .child("valor").setValue(valor);
 
                                         textData.setText(DateFormat.getDateInstance(DateFormat.SHORT).format(agora));
                                         textValor.setText(NumberFormat.getCurrencyInstance().format(valor));
@@ -219,43 +263,43 @@ public class NegociacaoActivity extends BaseActivity {
 
                 return true;
             case R.id.action_cliente_aprovar_negociacao:
-                    AlertDialog.Builder dialog = new AlertDialog.Builder(NegociacaoActivity.this);
+                AlertDialog.Builder dialog = new AlertDialog.Builder(NegociacaoActivity.this);
 
-                    dialog.setTitle(R.string.atencao)
-                            .setIcon(R.drawable.ic_warning_black_24dp)
-                            .setMessage(R.string.deseja_aprovar_negociacao)
-                            .setNegativeButton(R.string.nao, new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialoginterface, int i) {
-                                    dialoginterface.cancel();
-                                }
-                            })
-                            .setPositiveButton(R.string.sim, new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialoginterface, int i) {
+                dialog.setTitle(R.string.atencao)
+                        .setIcon(R.drawable.ic_warning_black_24dp)
+                        .setMessage(R.string.deseja_aprovar_negociacao)
+                        .setNegativeButton(R.string.nao, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialoginterface, int i) {
+                                dialoginterface.cancel();
+                            }
+                        })
+                        .setPositiveButton(R.string.sim, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialoginterface, int i) {
 
-                                    //StatusNegociacao statusProplemaAntigo = negociacao.getStatus();
-
-
-                                    Date agora = new Date();
-
-                                    DatabaseReference refProblemas = getDatabase().child("problemas").child(negociacao.getProblema().getUid());
-                                    refProblemas.child("status").setValue(StatusProblema.PENDENTE);
-                                    refProblemas.child("pendenteEm").setValue(agora);
-
-                                    DatabaseReference refNegociacoes = getDatabase().child("negociacoes").child(negociacao.getUid());
-                                    refNegociacoes.child("status").setValue(StatusNegociacao.APROVADA);
-                                    refNegociacoes.child("aprovadaEm").setValue(agora);
-
-                                    textData.setText(DateFormat.getDateInstance(DateFormat.SHORT).format(agora));
-                                    textStatus.setText(StatusNegociacao.APROVADA.getI18n());
-
-                                    Intent returnIntent = new Intent();
-                                    returnIntent.putExtra("negociacao", negociacao);
-                                    setResult(ClienteActivity.RESULT_NEGOCIACAO_APROVADA, returnIntent);
-                                    finish();
+                                //StatusNegociacao statusProplemaAntigo = negociacao.getStatus();
 
 
-                                }
-                            }).show();
+                                Date agora = new Date();
+
+                                DatabaseReference refProblemas = getDatabase().child("problemas").child(negociacao.getProblemaUid());
+                                refProblemas.child("status").setValue(StatusProblema.PENDENTE);
+                                refProblemas.child("pendenteEm").setValue(agora);
+
+                                DatabaseReference refNegociacoes = getDatabase().child("negociacoes").child(negociacaoUid);
+                                refNegociacoes.child("status").setValue(StatusNegociacao.APROVADA);
+                                refNegociacoes.child("aprovadaEm").setValue(agora);
+
+                                textData.setText(DateFormat.getDateInstance(DateFormat.SHORT).format(agora));
+                                textStatus.setText(StatusNegociacao.APROVADA.getI18n());
+
+                                Intent returnIntent = new Intent();
+                                returnIntent.putExtra("negociacao", negociacao);
+                                setResult(ClienteActivity.RESULT_NEGOCIACAO_APROVADA, returnIntent);
+                                finish();
+
+
+                            }
+                        }).show();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -263,14 +307,14 @@ public class NegociacaoActivity extends BaseActivity {
     }
 
     private void cadastrarMensagem(String texto) {
-        String key = getDatabase().child("negociacoes").child(negociacao.getUid()).child("mensagens").push().getKey();
+        String key = getDatabase().child("negociacoes").child(negociacaoUid).child("mensagens").push().getKey();
 
         Mensagem mensagem = new Mensagem(key);
         mensagem.setUsuarioUid(getSessao().getUsuarioUid());
         mensagem.setData(new Date());
         mensagem.setMensagem(texto);
 
-        getDatabase().child("negociacoes").child(negociacao.getUid()).child("mensagens").child(key).setValue(mensagem);
+        getDatabase().child("negociacoes").child(negociacaoUid).child("mensagens").child(key).setValue(mensagem);
 
         mRecycler.smoothScrollToPosition(mRecycler.getAdapter().getItemCount());
 

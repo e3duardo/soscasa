@@ -20,7 +20,7 @@ import br.com.magicbox.soscasa.models.Usuario;
 
 public class ProblemaProfissionalActivity extends BaseActivity {
 
-    private Problema problema;
+    private String problemaUid;
 
     private TextView problemaData;
     private TextView problemaDescricao;
@@ -32,32 +32,45 @@ public class ProblemaProfissionalActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_problema_profissional);
 
-        problema = (Problema) getIntent().getSerializableExtra("problema");
+        problemaUid = getIntent().getStringExtra("problemaUid");
 
         problemaData = (TextView) findViewById(R.id.text_problema_profissional_data);
         problemaDescricao = (TextView) findViewById(R.id.text_problema_profissional_descricao);
         problemaCliente = (TextView) findViewById(R.id.text_problema_profissional_cliente);
         negociarBotao = (Button) findViewById(R.id.button_problema_profissional_negociar);
 
-        problemaData.setText(DateFormat.getDateInstance(DateFormat.MEDIUM).format(problema.getSolicitadoEm()));
-        problemaDescricao.setText(problema.getDescricao());
-
-        getDatabase().child("usuarios").child(problema.getClienteUid()).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                problemaCliente.setText(dataSnapshot.getValue(Usuario.class).getNome());
-                //todo: loading
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        });
-
         negociarBotao.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 cadastrarNovoProblema();
+            }
+        });
+
+        getDatabase().child("problemas").child(problemaUid).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Problema problema = dataSnapshot.getValue(Problema.class);
+                problema.setUid(dataSnapshot.getKey());
+
+                problemaData.setText(DateFormat.getDateInstance(DateFormat.MEDIUM).format(problema.getSolicitadoEm()));
+                problemaDescricao.setText(problema.getDescricao());
+
+                getDatabase().child("usuarios").child(problema.getClienteUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        problemaCliente.setText(dataSnapshot.getValue(Usuario.class).getNome());
+                        //todo: loading
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                    }
+                });
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
             }
         });
     }
@@ -66,7 +79,7 @@ public class ProblemaProfissionalActivity extends BaseActivity {
         String key = getDatabase().child("negociacoes").push().getKey();
 
         Negociacao negociacao = new Negociacao(key);
-        negociacao.setProblemaUid(problema.getUid());
+        negociacao.setProblemaUid(problemaUid);
         negociacao.setProfissionalUid(getSessao().getUsuarioUid());
         negociacao.setStatus(StatusNegociacao.ABERTA);
         negociacao.setAbertoEm(new Date());

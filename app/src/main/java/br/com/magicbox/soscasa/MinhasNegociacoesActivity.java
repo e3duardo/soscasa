@@ -14,6 +14,9 @@ import java.util.List;
 
 import br.com.magicbox.soscasa.adapter.NegociacaoAdapter;
 import br.com.magicbox.soscasa.models.Negociacao;
+import br.com.magicbox.soscasa.models.Problema;
+import br.com.magicbox.soscasa.models.StatusProblema;
+import br.com.magicbox.soscasa.models.Usuario;
 
 /**
  * Criado por eduardo em 03/06/17.
@@ -38,18 +41,34 @@ public class MinhasNegociacoesActivity extends BaseActivity {
         mRecycler.setLayoutManager(mManager);
 
         getDatabase().child("negociacoes")
-                .orderByChild("profissional").equalTo(getSessao().getUsuarioUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                .orderByChild("profissional").equalTo(getSessao().getUsuarioUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                List<Negociacao> negociacoes = new ArrayList<>();
+                final List<Negociacao> negociacoes = new ArrayList<>();
 
                 for (DataSnapshot data : dataSnapshot.getChildren()) {
-                    Negociacao negociacao = data.getValue(Negociacao.class);
+                    final Negociacao negociacao = data.getValue(Negociacao.class);
                     negociacao.setUid(data.getKey());
 
-                 //       negociacao.setProblema(problema);
-                        negociacoes.add(negociacao);
+                    getDatabase().child("problemas").child(negociacao.getProblemaUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot data2) {
+
+                            Problema problema = data2.getValue(Problema.class);
+                            problema.setUid(data2.getKey());
+
+
+                            if(!problema.getStatus().equals(StatusProblema.CANCELADO)){
+                                negociacao.setProblema(problema);
+                                negociacoes.add(negociacao);
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                        }
+                    });
                 }
 
                 mRecycler.setAdapter(new NegociacaoAdapter(MinhasNegociacoesActivity.this, negociacoes, getSessao()));

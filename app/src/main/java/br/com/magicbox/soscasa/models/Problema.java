@@ -5,6 +5,7 @@ import com.google.firebase.database.IgnoreExtraProperties;
 import com.google.firebase.database.PropertyName;
 
 import java.io.Serializable;
+import java.text.DateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -163,5 +164,27 @@ public class Problema implements Serializable {
     @Override
     public int hashCode() {
         return uid != null ? uid.hashCode() : 0;
+    }
+
+    public String getUltimaInteracaoFormatado(int format) {
+        switch (this.getStatus()) {
+            case SOLICITADO:
+                if (this.solicitadoEm != null)
+                    return DateFormat.getDateInstance(format).format(this.solicitadoEm);
+                break;
+            case PENDENTE:
+                if (this.pendenteEm != null)
+                    return DateFormat.getDateInstance(format).format(this.pendenteEm);
+                break;
+            case RESOLVIDO:
+                if (this.resolvidoEm != null)
+                    return DateFormat.getDateInstance(format).format(this.resolvidoEm);
+                break;
+            case CANCELADO:
+                if (this.canceladoEm != null)
+                    return DateFormat.getDateInstance(format).format(this.canceladoEm);
+                break;
+        }
+        return "";
     }
 }

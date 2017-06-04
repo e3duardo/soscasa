@@ -25,7 +25,6 @@ public class PerfilActivity extends BaseActivity {
     private Button buttonSalvar;
 
     private View viewProfissional;
-    private MenuItem menuProfissional;
 
 
     @Override
@@ -49,10 +48,8 @@ public class PerfilActivity extends BaseActivity {
         textCelular.setText(usuario.getCelular());
 
         if (usuario.getEhProfissional()) {
-            menuProfissional.setVisible(false);
             viewProfissional.setVisibility(View.VISIBLE);
         } else {
-            menuProfissional.setVisible(true);
             viewProfissional.setVisibility(View.GONE);
         }
 
@@ -92,12 +89,18 @@ public class PerfilActivity extends BaseActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.navigation_perfil, menu);
 
-        menuProfissional = menu.findItem(R.id.action_sou_profissional);
+        MenuItem menuProfissional = menu.findItem(R.id.action_sou_profissional);
+
+        if (getSessao().getUsuario().getEhProfissional()) {
+            menuProfissional.setVisible(false);
+        } else {
+            menuProfissional.setVisible(true);
+        }
         return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(final MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_sou_profissional:
 
@@ -115,7 +118,7 @@ public class PerfilActivity extends BaseActivity {
 
                                         Util.cadastrarUsuario(getDatabase(), usuario.getUid(), usuario);
 
-                                        menuProfissional.setVisible(false);
+                                        item.setVisible(false);
                                         viewProfissional.setVisibility(View.VISIBLE);
                                     }
                                 })

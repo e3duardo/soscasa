@@ -4,6 +4,7 @@ import com.google.firebase.database.Exclude;
 import com.google.firebase.database.PropertyName;
 
 import java.io.Serializable;
+import java.text.DateFormat;
 import java.util.Date;
 
 /**
@@ -125,5 +126,27 @@ public class Negociacao implements Serializable {
 
     public void setCanceladaEm(Date canceladaEm) {
         this.canceladaEm = canceladaEm;
+    }
+
+    public String getUltimaInteracaoFormatado(int format) {
+        switch (this.getStatus()) {
+            case ABERTA:
+                if (this.abertoEm != null)
+                    return DateFormat.getDateInstance(format).format(this.abertoEm);
+                break;
+            case ORCADA:
+                if (this.orcadaEm != null)
+                    return DateFormat.getDateInstance(format).format(this.orcadaEm);
+                break;
+            case APROVADA:
+                if (this.aprovadaEm != null)
+                    return DateFormat.getDateInstance(format).format(this.aprovadaEm);
+                break;
+            case CANCELADA:
+                if (this.canceladaEm != null)
+                    return DateFormat.getDateInstance(format).format(this.canceladaEm);
+                break;
+        }
+        return "";
     }
 }

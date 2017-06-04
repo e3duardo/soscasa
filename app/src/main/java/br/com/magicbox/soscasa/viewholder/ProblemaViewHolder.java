@@ -44,10 +44,7 @@ public class ProblemaViewHolder extends RecyclerView.ViewHolder {
         tvArea.setText(sessao.getAreaBy(problema.getAreaUid()).getNome());
         tvDescricao.setText(problema.getDescricao());
         tvStatus.setText(problema.getStatus().getI18n());
-
-
-        if (problema.getSolicitadoEm() != null)
-            tvLine2.setText(DateFormat.getDateInstance(DateFormat.SHORT).format(problema.getSolicitadoEm()));
+        tvLine2.setText(problema.getUltimaInteracaoFormatado(DateFormat.SHORT));
 
         item.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,11 +57,12 @@ public class ProblemaViewHolder extends RecyclerView.ViewHolder {
                 else
                     intent = new Intent(activity, ProblemaClienteActivity.class);
 
-                intent.putExtra("problema", problema);
+                intent.putExtra("problemaUid", problema.getUid());
                 intent.putExtra("sessao", sessao);
                 activity.startActivityForResult(intent, 1);
 
             }
         });
     }
+
 }

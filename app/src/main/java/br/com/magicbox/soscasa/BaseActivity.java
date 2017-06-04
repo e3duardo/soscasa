@@ -41,7 +41,7 @@ public class BaseActivity extends AppCompatActivity {
 
     protected void editProfile() {
         Intent intent = new Intent(BaseActivity.this, PerfilActivity.class);
-        intent.putExtra("usuario", getSessao());
+        intent.putExtra("sessao", getSessao());
         startActivityForResult(intent, 1);
     }
 
