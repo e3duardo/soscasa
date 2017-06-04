@@ -55,8 +55,10 @@ public class Util {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 List<Area> areas = new ArrayList<>();
 
-                for (DataSnapshot area : dataSnapshot.getChildren()) {
-                    areas.add(area.getValue(Area.class));
+                for (DataSnapshot data : dataSnapshot.getChildren()) {
+                    Area area = data.getValue(Area.class);
+                    area.setUid(data.getKey());
+                    areas.add(area);
                 }
 
                 Sessao sessao = new Sessao();

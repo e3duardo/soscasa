@@ -88,7 +88,7 @@ public class ProblemaProfissionalActivity extends BaseActivity {
 
         Intent intent = new Intent(ProblemaProfissionalActivity.this, NegociacaoActivity.class);
         intent.putExtra("sessao", getSessao());
-        intent.putExtra("negociacao", negociacao);
+        intent.putExtra("negociacaoUid", negociacao.getUid());
         startActivityForResult(intent, 1);
         finish();
     }

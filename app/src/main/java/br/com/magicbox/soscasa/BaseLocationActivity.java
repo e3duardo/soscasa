@@ -12,6 +12,8 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.model.LatLng;
+
 /**
  * Criado por eduardo em 5/20/17.
  */
@@ -29,28 +31,18 @@ public class BaseLocationActivity extends BaseActivity implements LocationListen
 
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
-        if (checkLocationPermission()) {
-            if (ContextCompat.checkSelfPermission(this,
-                    android.Manifest.permission.ACCESS_FINE_LOCATION)
-                    == PackageManager.PERMISSION_GRANTED) {
-
-                requestProvider();
-                locationManager.requestLocationUpdates(provider, 400, 1, this);
-            }
-        }
-    }
-
-    public boolean checkLocationPermission() {
-        if (ContextCompat.checkSelfPermission(this,
-                android.Manifest.permission.ACCESS_FINE_LOCATION)
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
 
             ActivityCompat.requestPermissions(this,
                     new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
                     MY_PERMISSIONS_REQUEST_LOCATION);
-            return false;
         } else {
-            return true;
+
+            requestProvider();
+            locationManager.requestLocationUpdates(provider, 10 * 60 * 1000, 30, this);
+
+            //locationManager.requestSingleUpdate(provider, this, null);
         }
     }
 
@@ -62,12 +54,14 @@ public class BaseLocationActivity extends BaseActivity implements LocationListen
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
-                    if (ContextCompat.checkSelfPermission(this,
-                            android.Manifest.permission.ACCESS_FINE_LOCATION)
+                    if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
                             == PackageManager.PERMISSION_GRANTED) {
 
                         requestProvider();
-                        locationManager.requestLocationUpdates(provider, 400, 1, this);
+
+                        //locationManager.requestLocationUpdates(provider, 10 * 60 * 1000, 30, this);
+
+                        locationManager.requestSingleUpdate(provider, this, null);
                     }
 
                 } else {
@@ -102,4 +96,9 @@ public class BaseLocationActivity extends BaseActivity implements LocationListen
     @Override
     public void onProviderDisabled(String provider) {
     }
+
+    public LatLng getLatLang() {
+        return new LatLng(latitude, longitude);
+    }
+
 }

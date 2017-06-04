@@ -4,6 +4,7 @@
         <item name="colorAccent">@color/primary_color</item>
         <item name="colorPrimary">@color/base_light</item>
         <item name="colorPrimaryDark">@color/base_dark</item>
+        <item name="android:screenOrientation">portrait</item>
     </style>
 
     <style name="SosTheme.NoActionBar">
