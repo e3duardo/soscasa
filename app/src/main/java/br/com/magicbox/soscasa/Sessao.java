@@ -34,7 +34,8 @@ public class Sessao implements Serializable {
 
     public Area getAreaBy(String uid) {
         for (Area area : areas) {
-            return area;
+            if(area.getUid().equals(uid))
+                return area;
         }
         return null;
     }

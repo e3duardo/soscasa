@@ -45,6 +45,7 @@ public class ProblemaClienteActivity extends BaseActivity {
     private RecyclerView rvNegociacoes;
     private LinearLayoutManager mManager;
     private TextView labelNegociacao;
+    private RecyclerView recycleMessagens;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +67,8 @@ public class ProblemaClienteActivity extends BaseActivity {
         mManager.setStackFromEnd(true);
         rvNegociacoes.setLayoutManager(mManager);
 
+        recycleMessagens  = (RecyclerView) findViewById(R.id.recycler_mensagens_problema);
+
 
         getDatabase().child("problemas").child(problemaUid).addValueEventListener(new ValueEventListener() {
             @Override
@@ -78,7 +81,7 @@ public class ProblemaClienteActivity extends BaseActivity {
                 tvArea.setText(getSessao().getAreaBy(problema.getAreaUid()).getNome());
 
                 getDatabase().child("negociacoes")
-                        .orderByChild("problema").equalTo(problema.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                        .orderByChild("problema").equalTo(problema.getUid()).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
 
@@ -102,14 +105,14 @@ public class ProblemaClienteActivity extends BaseActivity {
                             labelNegociacao.setVisibility(View.GONE);
                             rvNegociacoes.setVisibility(View.GONE);
 
-                            findViewById(R.id.view_problema_cliente_negociacao2).setVisibility(View.VISIBLE);
+                            findViewById(R.id.view_problema_cliente_negociacao_aprovada).setVisibility(View.VISIBLE);
 
                             ((TextView) findViewById(R.id.text_problema_cliente_valor))
                                     .setText(NumberFormat.getCurrencyInstance().format(negociacaoAprovada.getValor()));
 
 
                             getDatabase().child("usuarios").child(negociacaoAprovada.getProfissionalUid())
-                                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                                    .addValueEventListener(new ValueEventListener() {
                                         @Override
                                         public void onDataChange(DataSnapshot dataSnapshot) {
                                             Usuario cliente = dataSnapshot.getValue(Usuario.class);
@@ -122,12 +125,8 @@ public class ProblemaClienteActivity extends BaseActivity {
                                         }
                                     });
 
-                            Query query = getDatabase().child("negociacoes").child(negociacaoAprovada.getUid()).child("mensagens");
-
-                            ((RecyclerView) findViewById(R.id.recycler_mensagens_problema)).setAdapter(new MensagemAdapter(ProblemaClienteActivity.this, query));
-
                         } else {
-                            findViewById(R.id.view_problema_cliente_negociacao2).setVisibility(View.GONE);
+                            findViewById(R.id.view_problema_cliente_negociacao_aprovada).setVisibility(View.GONE);
 
                             rvNegociacoes.setAdapter(new NegociacaoAdapter(ProblemaClienteActivity.this, negociacoes, getSessao()));
                         }

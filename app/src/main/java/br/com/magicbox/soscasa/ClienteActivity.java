@@ -15,6 +15,7 @@ import android.view.View;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,47 +67,73 @@ public class ClienteActivity extends BaseLocationActivity {
 
         problemas = new ArrayList<>();
 
-
         getDatabase().child("problemas")
-                .orderByChild("cliente").equalTo(getSessao().getUsuarioUid()).addChildEventListener(new ChildEventListener() {
+                .orderByChild("cliente").equalTo(getSessao().getUsuarioUid()).addValueEventListener(new ValueEventListener() {
             @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                Problema problema = dataSnapshot.getValue(Problema.class);
-                problema.setUid(dataSnapshot.getKey());
-                if (StatusProblema.SOLICITADO.equals(problema.getStatus()) || StatusProblema.PENDENTE.equals(problema.getStatus())) {
-                    if (!problemas.contains(problema)) {
-                        problemas.add(problema);
-                        mRecycler.setAdapter(new ProblemaAdapter(ClienteActivity.this, problemas, getSessao()));
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                for(DataSnapshot data : dataSnapshot.getChildren()){
+                    Problema problema = data.getValue(Problema.class);
+                    problema.setUid(data.getKey());
+                    if (StatusProblema.SOLICITADO.equals(problema.getStatus()) || StatusProblema.PENDENTE.equals(problema.getStatus())) {
+                        if (!problemas.contains(problema)) {
+                            problemas.add(problema);
+                            mRecycler.setAdapter(new ProblemaAdapter(ClienteActivity.this, problemas, getSessao()));
+                        }
                     }
                 }
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                Problema problema = dataSnapshot.getValue(Problema.class);
-                problema.setUid(dataSnapshot.getKey());
-                if (!StatusProblema.SOLICITADO.equals(problema.getStatus()) && !StatusProblema.PENDENTE.equals(problema.getStatus())) {
-                    problemas.remove(problema);
-                } else {
-                    if (!problemas.contains(problema)) {
-                        problemas.add(problema);
-                    }
-                }
-                mRecycler.setAdapter(new ProblemaAdapter(ClienteActivity.this, problemas, getSessao()));
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
+
             }
         });
+
+
+//        getDatabase().child("problemas")
+//                .orderByChild("cliente").equalTo(getSessao().getUsuarioUid()).addChildEventListener(new ChildEventListener() {
+//            @Override
+//            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+//                Problema problema = dataSnapshot.getValue(Problema.class);
+//                problema.setUid(dataSnapshot.getKey());
+//                if (StatusProblema.SOLICITADO.equals(problema.getStatus()) || StatusProblema.PENDENTE.equals(problema.getStatus())) {
+//                    if (!problemas.contains(problema)) {
+//                        problemas.add(problema);
+//                        mRecycler.setAdapter(new ProblemaAdapter(ClienteActivity.this, problemas, getSessao()));
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+//                Problema problema = dataSnapshot.getValue(Problema.class);
+//                problema.setUid(dataSnapshot.getKey());
+//                if (!StatusProblema.SOLICITADO.equals(problema.getStatus()) && !StatusProblema.PENDENTE.equals(problema.getStatus())) {
+//                    problemas.remove(problema);
+//                } else {
+//                    if (!problemas.contains(problema)) {
+//                        problemas.add(problema);
+//                    }else{
+//                        problemas.remove(problema);
+//                        problemas.add(problema);
+//                    }
+//                }
+//                mRecycler.setAdapter(new ProblemaAdapter(ClienteActivity.this, problemas, getSessao()));
+//            }
+//
+//            @Override
+//            public void onChildRemoved(DataSnapshot dataSnapshot) {
+//            }
+//
+//            @Override
+//            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//            }
+//        });
     }
 
     @Override

@@ -53,7 +53,6 @@ public class PerfilActivity extends BaseActivity {
             viewProfissional.setVisibility(View.GONE);
         }
 
-
         ArrayAdapter<Area> adapter = new ArrayAdapter<>(PerfilActivity.this, android.R.layout.simple_spinner_item, getSessao().getAreas());
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerArea.setAdapter(adapter);

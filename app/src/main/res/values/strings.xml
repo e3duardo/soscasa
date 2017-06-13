@@ -67,7 +67,7 @@
     <string name="desfazer">Desfazer</string>
     <string name="nao">Não</string>
     <string name="sim">Sim</string>
-    <string name="deseja_aprovar_negociacao">Deseja aprovar esta negociação, seu problema foi resolvido?</string>
+    <string name="deseja_aprovar_negociacao">Deseja aprovar esta negociação?</string>
     <string name="deseja_cancelar_problema">Deseja cancelar este problema?</string>
     <string name="cliente">Cliente</string>
     <string name="valor">Valor</string>

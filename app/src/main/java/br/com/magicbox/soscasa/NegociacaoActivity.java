@@ -114,6 +114,8 @@ public class NegociacaoActivity extends BaseActivity {
                         textStatus.setText(negociacao.getStatus().getI18n());
 
                         if (negociacao.getValor() != null) {
+                            findViewById(R.id.label_negociacao_valor).setVisibility(View.VISIBLE);
+                            textValor.setVisibility(View.VISIBLE);
                             textValor.setText(NumberFormat.getCurrencyInstance().format(negociacao.getValor()));
                         } else {
                             textValor.setVisibility(View.GONE);
@@ -122,7 +124,13 @@ public class NegociacaoActivity extends BaseActivity {
 
                         textData.setText(negociacao.getUltimaInteracaoFormatado(DateFormat.SHORT));
 
-                        getDatabase().child("usuarios").child(negociacao.getProblema().getClienteUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+
+                        String idUsuarioParaBusca = negociacao.getProfissionalUid();
+                        if(getSessao().getUsuario().getEhProfissional()){
+                            idUsuarioParaBusca = negociacao.getProblema().getClienteUid();
+                        }
+
+                        getDatabase().child("usuarios").child(idUsuarioParaBusca).addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
                                 Usuario cliente = dataSnapshot.getValue(Usuario.class);
@@ -246,9 +254,6 @@ public class NegociacaoActivity extends BaseActivity {
                                         textData.setText(DateFormat.getDateInstance(DateFormat.SHORT).format(agora));
                                         textValor.setText(NumberFormat.getCurrencyInstance().format(valor));
                                         textStatus.setText(StatusNegociacao.ORCADA.getI18n());
-
-                                        textValor.setVisibility(View.VISIBLE);
-                                        findViewById(R.id.label_negociacao_valor).setVisibility(View.VISIBLE);
                                     }
                                 })
                         .setNegativeButton(R.string.cancelar,
