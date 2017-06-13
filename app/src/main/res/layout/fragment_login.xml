@@ -92,6 +92,7 @@
                 android:layout_height="wrap_content"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
+                android:inputType="textPassword"
                 android:hint="@string/senha"
                 android:textColor="#fff"
                 android:maxLines="1"/>
@@ -105,36 +106,35 @@
             android:textColor="#FF0000"
             android:visibility="gone" />
 
-        <Button
-            android:id="@+id/button_login_entrar_email"
-            android:layout_width="150dp"
-            android:layout_height="38dp"
-            android:layout_below="@id/text_login_error"
-            android:text="@string/entrar" />
-
         <com.facebook.login.widget.LoginButton
             android:id="@+id/button_login_entrar_facebook"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentLeft="true"
             android:layout_below="@id/text_login_error"
             android:layout_marginEnd="4dp"
             android:layout_marginRight="4dp"
             android:layout_marginTop="6dp"
             facebook:com_facebook_login_text="Entrar" />
 
+        <Button
+            android:id="@+id/button_login_entrar_email"
+            android:layout_width="150dp"
+            android:layout_height="38dp"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/text_login_error"
+            android:text="@string/entrar" />
 
         <Button
             android:id="@+id/button_login_cadastrar"
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignEnd="@id/button_login_entrar_email"
-            android:layout_alignLeft="@id/button_login_entrar_email"
+            android:layout_alignEnd="@id/button_login_entrar_facebook"
+            android:layout_alignLeft="@id/button_login_entrar_facebook"
             android:layout_alignParentBottom="true"
-            android:layout_alignRight="@id/button_login_entrar_email"
-            android:layout_alignStart="@id/button_login_entrar_email"
+            android:layout_alignRight="@id/button_login_entrar_facebook"
+            android:layout_alignStart="@id/button_login_entrar_facebook"
             android:gravity="center"
             android:text="@string/cadastrar"
             android:textColor="#FFF" />
@@ -144,11 +144,11 @@
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignEnd="@id/button_login_entrar_facebook"
-            android:layout_alignLeft="@id/button_login_entrar_facebook"
+            android:layout_alignEnd="@id/button_login_entrar_email"
+            android:layout_alignLeft="@id/button_login_entrar_email"
             android:layout_alignParentBottom="true"
-            android:layout_alignRight="@id/button_login_entrar_facebook"
-            android:layout_alignStart="@id/button_login_entrar_facebook"
+            android:layout_alignRight="@id/button_login_entrar_email"
+            android:layout_alignStart="@id/button_login_entrar_email"
             android:gravity="center"
             android:text="@string/redefinir_senha"
             android:textColor="#FFF" />
