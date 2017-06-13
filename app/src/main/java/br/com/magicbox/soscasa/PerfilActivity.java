@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 
 import br.com.magicbox.soscasa.models.Area;
@@ -23,6 +24,7 @@ public class PerfilActivity extends BaseActivity {
     private EditText textCelular;
     private Spinner spinnerArea;
     private Button buttonSalvar;
+    private ProgressBar progressBar;
 
     private View viewProfissional;
 
@@ -120,6 +122,9 @@ public class PerfilActivity extends BaseActivity {
 
                                         item.setVisible(false);
                                         viewProfissional.setVisibility(View.VISIBLE);
+
+
+                                        logout();
                                     }
                                 })
                         .setNegativeButton(R.string.cancelar,
@@ -135,4 +140,5 @@ public class PerfilActivity extends BaseActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
 }

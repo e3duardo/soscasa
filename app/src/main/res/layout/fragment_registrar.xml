@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@mipmap/background"
     tools:context="br.com.magicbox.soscasa.fragment.RegistrarFragment">
 
 
@@ -14,7 +15,8 @@
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:textColorHint="#FFF">
 
             <AutoCompleteTextView
                 android:id="@+id/text_registrar_nome"
@@ -23,12 +25,14 @@
                 android:focusable="true"
                 android:focusableInTouchMode="true"
                 android:maxLines="1"
+                android:textColor="#fff"
                 android:hint="@string/nome" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:textColorHint="#FFF">
 
             <AutoCompleteTextView
                 android:id="@+id/text_registrar_email"
@@ -38,12 +42,14 @@
                 android:focusableInTouchMode="true"
                 android:hint="@string/email"
                 android:maxLines="1"
+                android:textColor="#fff"
                 android:inputType="textEmailAddress" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:textColorHint="#FFF">
 
             <AutoCompleteTextView
                 android:id="@+id/text_registrar_celular"
@@ -53,12 +59,14 @@
                 android:focusableInTouchMode="true"
                 android:hint="@string/celular"
                 android:maxLines="1"
+                android:textColor="#fff"
                 android:inputType="phone" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:textColorHint="#FFF">
 
             <AutoCompleteTextView
                 android:id="@+id/text_registrar_senha"
@@ -68,6 +76,7 @@
                 android:focusableInTouchMode="true"
                 android:hint="@string/senha"
                 android:maxLines="1"
+                android:textColor="#fff"
                 android:inputType="textPassword" />
         </android.support.design.widget.TextInputLayout>
 
@@ -76,7 +85,7 @@
             android:id="@+id/text_registrar_error"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="#FF0000"
+            android:textColor="#fff"
             android:visibility="gone" />
 
         <Button
