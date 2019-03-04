@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 /**
  * Criado por eduardo em 5/20/17.
@@ -31,6 +32,9 @@ public class BaseActivity extends AppCompatActivity {
             throw new NullPointerException("Esqueceu de passar o usuário como extra no intent?");
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
+
+
+
     }
 
     protected void logout() {

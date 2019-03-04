@@ -223,34 +223,34 @@ public class LoginFragment extends Fragment {
 
 
         //to exclude
-        Button client = (Button) view.findViewById(R.id.client);
-        client.setOnClickListener(new View.OnClickListener() {
-                                      @Override
-                                      public void onClick(View v) {
-
-                                          lock();
-
-                                          mAuth.signInWithEmailAndPassword("msn@msn.com", "123123")
-                                                  .addOnCompleteListener(getActivity(), fazerLogin());
-
-                                      }
-                                  }
-        );
-
-
-        Button prof = (Button) view.findViewById(R.id.prof);
-        prof.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-
-                                        lock();
-
-                                        mAuth.signInWithEmailAndPassword("yahoo@yahoo.com", "123123")
-                                                .addOnCompleteListener(getActivity(), fazerLogin());
-
-                                    }
-                                }
-        );
+//        Button client = (Button) view.findViewById(R.id.client);
+//        client.setOnClickListener(new View.OnClickListener() {
+//                                      @Override
+//                                      public void onClick(View v) {
+//
+//                                          lock();
+//
+//                                          mAuth.signInWithEmailAndPassword("msn@msn.com", "123123")
+//                                                  .addOnCompleteListener(getActivity(), fazerLogin());
+//
+//                                      }
+//                                  }
+//        );
+//
+//
+//        Button prof = (Button) view.findViewById(R.id.prof);
+//        prof.setOnClickListener(new View.OnClickListener() {
+//                                    @Override
+//                                    public void onClick(View v) {
+//
+//                                        lock();
+//
+//                                        mAuth.signInWithEmailAndPassword("yahoo@yahoo.com", "123123")
+//                                                .addOnCompleteListener(getActivity(), fazerLogin());
+//
+//                                    }
+//                                }
+//        );
         /////end to exclude
 
 

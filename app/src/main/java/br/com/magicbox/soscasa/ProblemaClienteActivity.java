@@ -45,7 +45,6 @@ public class ProblemaClienteActivity extends BaseActivity {
     private RecyclerView rvNegociacoes;
     private LinearLayoutManager mManager;
     private TextView labelNegociacao;
-    private RecyclerView recycleMessagens;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +66,6 @@ public class ProblemaClienteActivity extends BaseActivity {
         mManager.setStackFromEnd(true);
         rvNegociacoes.setLayoutManager(mManager);
 
-        recycleMessagens  = (RecyclerView) findViewById(R.id.recycler_mensagens_problema);
 
 
         getDatabase().child("problemas").child(problemaUid).addValueEventListener(new ValueEventListener() {
